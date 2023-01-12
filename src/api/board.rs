@@ -1,0 +1,11 @@
+// /api/board/game/stream/{gameId}
+// /api/board/game/{gameId}/abort
+// /api/board/game/{gameId}/berserk
+// /api/board/game/{gameId}/chat
+// /api/board/game/{gameId}/claim-victory
+// /api/board/game/{gameId}/draw/{accept}
+// /api/board/game/{gameId}/move/{move}
+// /api/board/game/{gameId}/resign
+// /api/board/game/{gameId}/takeback/{accept}
+// /api/board/seek
+// /api/stream/event

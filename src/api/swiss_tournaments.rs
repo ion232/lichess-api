@@ -1,0 +1,10 @@
+// /api/team/{teamId}/swiss
+// /api/swiss/new/{teamId}
+// /api/swiss/{id}
+// /api/swiss/{id}/edit
+// /api/swiss/{id}/games
+// /api/swiss/{id}/join
+// /api/swiss/{id}/results
+// /api/swiss/{id}/terminate
+// /api/swiss/{id}/withdraw
+// /swiss/{id}.trf

@@ -1,0 +1,11 @@
+// /api/broadcast
+// /api/broadcast/round/{broadcastRoundId}.pgn
+// /api/broadcast/{broadcastTournamentId}.pgn
+// /api/stream/broadcast/round/{broadcastRoundId}.pgn
+// /broadcast/new
+// /broadcast/round/{broadcastRoundId}/edit
+// /broadcast/round/{broadcastRoundId}/push
+// /broadcast/{broadcastTournamentId}/edit
+// /broadcast/{broadcastTournamentId}/new
+// /broadcast/{broadcastTournamentSlug}/{broadcastRoundSlug}/{broadcastRoundId}
+// /broadcast/{slug}/{broadcastTournamentId}

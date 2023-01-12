@@ -1,0 +1,3 @@
+// /antichess
+// /atomic
+// /standard
