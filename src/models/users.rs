@@ -1,0 +1,10 @@
+// /api/crosstable/{user1}/{user2}
+// /api/streamer/live
+// /api/user/{username}
+// /api/user/{username}/activity
+// /api/user/{username}/perf/{perf}
+// /api/user/{username}/rating-history
+// /api/users
+// /api/users/status
+// /api/player
+// /api/player/top/{nb}/{perfType}
