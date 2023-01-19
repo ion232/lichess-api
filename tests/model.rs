@@ -1,5 +1,5 @@
 use lichess_api::error::Result;
-use lichess_api::models::puzzles::*;
+use lichess_api::model::puzzles::*;
 
 use serde::Serialize;
 use serde::de::DeserializeOwned;

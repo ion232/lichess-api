@@ -1,7 +1,7 @@
 use bytes::Bytes;
 
 use crate::client::LichessApi;
-use crate::models::puzzles::{DailyPuzzleQuery, DailyPuzzle};
+use crate::model::puzzles::{DailyPuzzleQuery, DailyPuzzle};
 use crate::error::Result;
 
 impl<'a, HttpClient> LichessApi<'a, HttpClient> {

@@ -1,1 +1,1 @@
-mod models;
+mod model;
