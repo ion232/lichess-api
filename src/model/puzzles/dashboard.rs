@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query;
+pub(crate) struct Query;
 
 pub type GetRequest = crate::model::Request<Query>;
 

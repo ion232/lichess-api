@@ -1,19 +1,19 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query {
+pub(crate) struct Query {
     pub days: u32
 }
 
 pub type GetRequest = crate::model::Request<Query>;
 
 impl GetRequest {
-    pub fn new(username: &str, query: Option<Query>) -> Self {
+    pub fn new(username: &str, days: Option<u32>) -> Self {
         let path = format!("/api/storm/dashboard/{}", username);
         Self {
             method: http::Method::GET,
             path,
-            query,
+            query: days.map(|x| Query{days: x}),
             body: Default::default()
         }
     }

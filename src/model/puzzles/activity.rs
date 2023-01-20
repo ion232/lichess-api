@@ -1,18 +1,18 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query {
+pub(crate) struct Query {
     pub max: u32
 }
 
 pub type GetRequest = crate::model::Request<Query>;
 
 impl GetRequest {
-    pub fn new(query: Option<Query>) -> Self {
+    pub fn new(max_rounds: Option<u32>) -> Self {
         Self {
             method: http::Method::GET,
             path: "/api/puzzle/activity".to_string(),
-            query,
+            query: max_rounds.map(|x| Query{max: x}),
             body: Default::default()
         }
     }

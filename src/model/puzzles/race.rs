@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, serde::Serialize)]
-pub struct Query;
+pub(crate) struct Query;
 
 pub type PostRequest = crate::model::Request<Query>;
 
