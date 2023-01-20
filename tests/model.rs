@@ -1,5 +1,4 @@
-use lichess_api::error::Result;
-use lichess_api::model::puzzles::*;
+use lichess_api::model::*;
 
 use serde::Serialize;
 use serde::de::DeserializeOwned;
@@ -25,6 +24,26 @@ fn test_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
 }
 
 #[test]
-fn daily_puzzle() {
-    test_model::<DailyPuzzle>("puzzle");
+pub fn puzzle() {
+    test_model::<puzzles::PuzzleJson>("puzzle");
+}
+
+#[test]
+pub fn puzzle_round() {
+    test_model::<puzzles::PuzzleRoundJson>("puzzle_round");
+}
+
+#[test]
+pub fn puzzle_race() {
+    test_model::<puzzles::PuzzleRaceJson>("puzzle_race");
+}
+
+#[test]
+pub fn puzzle_dashboard() {
+    test_model::<puzzles::PuzzleDashboardJson>("puzzle_dashboard");
+}
+
+#[test]
+pub fn storm_dashboard() {
+    test_model::<puzzles::StormDashboardJson>("storm_dashboard");
 }
