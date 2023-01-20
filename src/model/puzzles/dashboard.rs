@@ -3,18 +3,16 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query {
-    pub max: u32
-}
+pub struct Query;
 
 pub type GetRequest = crate::model::Request<Query>;
 
 impl GetRequest {
-    pub fn new(max: u32, query: Option<Query>) -> Self {
+    pub fn new(days: u32) -> Self {
         Self {
             method: http::Method::GET,
-            path: format!("/api/puzzle/dashboard/{}", max),
-            query,
+            path: format!("/api/puzzle/dashboard/{}", days),
+            query: Default::default(),
             body: Default::default()
         }
     }
