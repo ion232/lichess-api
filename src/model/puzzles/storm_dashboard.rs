@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub(crate) struct Query {
+pub struct Query {
     pub days: u32
 }
 
