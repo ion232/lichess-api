@@ -2,11 +2,14 @@
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
-    #[error("url serialization error: {0}")]
-    Url(#[from] serde_urlencoded::ser::Error),
+    #[error("urlencoded serde error: {0}")]
+    UrlEncoded(#[from] serde_urlencoded::ser::Error),
 
     #[error("http request builder error: {0}")]
     HttpRequestBuilder(#[from] http::Error),
+
+    #[error("request parameters error: {0}")]
+    RequestParams(String),
 
     #[error("request error: {0}")]
     Request(String),
@@ -17,7 +20,7 @@ pub enum Error {
     #[error("io error: {0}")]
     IO(#[from] std::io::Error),
 
-    #[error("json deserialiation error: {0}")]
+    #[error("json serde error: {0}")]
     Json(#[from] serde_json::Error),
 
     #[error("unknown error: {0}")]
