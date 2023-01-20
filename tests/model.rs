@@ -30,20 +30,20 @@ pub fn puzzle() {
 
 #[test]
 pub fn puzzle_round() {
-    test_model::<puzzles::PuzzleRoundJson>("puzzle_round");
+    test_model::<puzzles::activity::PuzzleRoundJson>("puzzle_round");
 }
 
 #[test]
 pub fn puzzle_race() {
-    test_model::<puzzles::PuzzleRaceJson>("puzzle_race");
+    test_model::<puzzles::race::PuzzleRaceJson>("puzzle_race");
 }
 
 #[test]
 pub fn puzzle_dashboard() {
-    test_model::<puzzles::PuzzleDashboardJson>("puzzle_dashboard");
+    test_model::<puzzles::dashboard::PuzzleDashboardJson>("puzzle_dashboard");
 }
 
 #[test]
 pub fn storm_dashboard() {
-    test_model::<puzzles::StormDashboardJson>("storm_dashboard");
+    test_model::<puzzles::storm_dashboard::StormDashboardJson>("storm_dashboard");
 }

@@ -9,7 +9,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         self.get_single_model(request).await
     }
 
-    pub async fn get_puzzle(&self, request: GetRequest) -> Result<PuzzleResponse> {
+    pub async fn get_puzzle(&self, request: id::GetRequest) -> Result<id::Puzzle> {
         self.get_single_model(request).await
     }
 
