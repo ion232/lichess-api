@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query { days: u32 }
+pub struct Query { pub days: u32 }
 pub type GetRequest = crate::model::Request<Query>;
 
 impl GetRequest {
