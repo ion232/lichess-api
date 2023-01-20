@@ -8,7 +8,7 @@ pub type PostRequest = crate::model::Request<Query>;
 impl PostRequest {
     pub fn new() -> Self {
         Self {
-            method: http::Method::GET,
+            method: http::Method::POST,
             path: "/api/racer".to_string(),
             query: Default::default(),
             body: Default::default()
