@@ -1,26 +1,6 @@
-pub mod account;
-pub mod analysis;
-pub mod arena_tournaments;
 pub(crate) mod base_components;
-pub mod board;
-pub mod bot;
-pub mod broadcasts;
-pub mod bulk_pairings;
-pub mod challenges;
-pub mod external_engine;
-pub mod games;
 pub mod messaging;
-pub mod oauth;
-pub mod opening_explorer;
 pub mod puzzles;
-pub mod relations;
-pub mod simuls;
-pub mod studies;
-pub mod swiss_tournaments;
-pub mod tablebase;
-pub mod teams;
-pub mod tv;
-pub mod users;
 
 use serde::{Serialize, de::DeserializeOwned};
 use crate::error::{Error, Result};
