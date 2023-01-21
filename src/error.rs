@@ -8,6 +8,9 @@ pub enum Error {
     #[error("http request builder error: {0}")]
     HttpRequestBuilder(#[from] http::Error),
 
+    #[error("lichess status error: {0}")]
+    LichessStatus(String),
+
     #[error("request parameters error: {0}")]
     RequestParams(String),
 

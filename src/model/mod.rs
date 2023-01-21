@@ -1,8 +1,9 @@
+pub mod board;
 pub mod messaging;
 pub mod puzzles;
 
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
-use crate::error::{Error, Result};
+use crate::error;
 
 pub trait BodyBounds: Serialize {}
 impl<B: Serialize> BodyBounds for B {}
@@ -36,7 +37,7 @@ impl<B: BodyBounds> Body<B> {
         }
     }
 
-    fn as_encoded_string(&self) -> Result<String> {
+    fn as_encoded_string(&self) -> error::Result<String> {
         let body = match &self {
             Body::Form(form) => to_form_string(&form)?,
             Body::Json(json) => to_json_string(&json)?,
@@ -61,12 +62,12 @@ impl<Q, B> Request<Q, B> where
     Q: QueryBounds,
     B: BodyBounds
 {
-    pub(crate) fn as_http_request(self) -> Result<http::Request<bytes::Bytes>> {
+    pub(crate) fn as_http_request(self) -> error::Result<http::Request<bytes::Bytes>> {
         make_request(self.method, self.path, self.query, self.body)
     }
 }
 
-fn make_request<Q, B>(method: http::Method, path: String, query: Option<Q>, body: Body<B>) -> Result<http::Request<bytes::Bytes>> where
+fn make_request<Q, B>(method: http::Method, path: String, query: Option<Q>, body: Body<B>) -> error::Result<http::Request<bytes::Bytes>> where
     Q: QueryBounds,
     B: BodyBounds
 {
@@ -83,12 +84,12 @@ fn make_request<Q, B>(method: http::Method, path: String, query: Option<Q>, body
         .method(method)
         .uri(url.as_str())
         .body(body)
-        .map_err(|e| Error::HttpRequestBuilder(e))?;
+        .map_err(|e| error::Error::HttpRequestBuilder(e))?;
 
     Ok(request)
 }
 
-fn make_url<Q>(path: String, query: Option<Q>) -> Result<url::Url> where
+fn make_url<Q>(path: String, query: Option<Q>) -> error::Result<url::Url> where
     Q: QueryBounds
 {
     let mut url = url::Url::parse("https://lichess.org").expect("Failed to parse base url.");
@@ -104,23 +105,20 @@ fn make_url<Q>(path: String, query: Option<Q>) -> Result<url::Url> where
     Ok(url)
 }
 
-fn to_json_string<B: BodyBounds>(body: &B) -> Result<String> {
+fn to_json_string<B: BodyBounds>(body: &B) -> error::Result<String> {
     serde_json::to_string(&body)
-        .map_err(|e| Error::Json(e))
+        .map_err(|e| error::Error::Json(e))
 }
 
-fn to_form_string<B: BodyBounds>(body: &B) -> Result<String> {
+fn to_form_string<B: BodyBounds>(body: &B) -> error::Result<String> {
     serde_urlencoded::to_string(&body)
-        .map_err(|e| Error::UrlEncoded(e))
+        .map_err(|e| error::Error::UrlEncoded(e))
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Ok {
-    pub ok: bool
-}
-
-impl Into<Result<bool>> for Ok {
-    fn into(self) -> Result<bool> {
-        Ok(self.ok)
-    }
+#[serde(untagged)]
+pub enum StatusResponse {
+    Ok{ok: bool},
+    Error{error: String},
+    NotFound{error: String}
 }

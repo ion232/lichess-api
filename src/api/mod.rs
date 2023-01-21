@@ -4,10 +4,22 @@ pub mod puzzles;
 use async_std::stream::StreamExt;
 
 use crate::client::LichessApi;
-use crate::model::{Request, BodyBounds, ModelBounds, QueryBounds};
-use crate::error::Result;
+use crate::model::{Request, StatusResponse, BodyBounds, ModelBounds, QueryBounds};
+use crate::error::{Error, Result};
 
 impl<'a> LichessApi<'a, reqwest::Client> {
+    pub async fn get_status_response<Q, B>(&self, request: Request<Q, B>) -> Result<bool> where
+        Q: QueryBounds,
+        B: BodyBounds
+    {
+        let response: StatusResponse = self.get_single_model(request).await?;
+        match response {
+            StatusResponse::Ok { ok } => Result::Ok(ok),
+            StatusResponse::Error { error } => Result::Err(Error::LichessStatus(error)),
+            StatusResponse::NotFound { error } => Result::Err(Error::LichessStatus(error))
+        }
+    }
+
     pub async fn get_single_model<Q, B, M>(&self, request: Request<Q, B>) -> Result<M> where
         Q: QueryBounds,
         B: BodyBounds,
