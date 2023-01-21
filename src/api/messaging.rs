@@ -1,5 +1,5 @@
 use crate::client::LichessApi;
-use crate::model::base_components::Ok;
+use crate::model::Ok;
 use crate::model::messaging::*;
 use crate::error::Result;
 

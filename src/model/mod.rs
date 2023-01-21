@@ -1,8 +1,7 @@
-pub(crate) mod base_components;
 pub mod messaging;
 pub mod puzzles;
 
-use serde::{Serialize, de::DeserializeOwned};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use crate::error::{Error, Result};
 
 pub trait BodyBounds: Serialize {}
@@ -113,4 +112,15 @@ fn to_json_string<B: BodyBounds>(body: &B) -> Result<String> {
 fn to_form_string<B: BodyBounds>(body: &B) -> Result<String> {
     serde_urlencoded::to_string(&body)
         .map_err(|e| Error::UrlEncoded(e))
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Ok {
+    pub ok: bool
+}
+
+impl Into<Result<bool>> for Ok {
+    fn into(self) -> Result<bool> {
+        Ok(self.ok)
+    }
 }
