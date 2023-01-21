@@ -34,13 +34,14 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         if let Some(auth) = &self.bearer_auth {
             let auth_header = http::HeaderValue::from_str(&auth)
                 .map_err(|e| Error::HttpRequestBuilder(http::Error::from(e)))?;
-            http_request
-                .headers_mut()
-                .insert("Authorization", auth_header);
+            let headers = http_request.headers_mut();
+            headers.insert(http::header::AUTHORIZATION, auth_header);
         };
 
         let convert_err = |e: reqwest::Error| Error::Request(e.to_string());
-        let request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
+        let request = reqwest::Request::try_from(http_request)
+            .map_err(convert_err)?;
+
         let stream = self
             .client
             .execute(request)
@@ -52,7 +53,6 @@ impl<'a> LichessApi<'a, reqwest::Client> {
             .lines()
             .map(|l| -> Result<Model> {
                 let line = l?;
-                println!("{}", line);
                 serde_json::from_str(&line)
                     .map_err(|e| crate::error::Error::Json(e))
             });

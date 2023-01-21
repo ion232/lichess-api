@@ -22,18 +22,16 @@ pub mod tv;
 pub mod users;
 
 use async_std::stream::StreamExt;
-use serde::Serialize;
-use serde::de::DeserializeOwned;
 
 use crate::client::LichessApi;
-use crate::model::Request;
+use crate::model::{Request, BodyBounds, ModelBounds, QueryBounds};
 use crate::error::Result;
 
 impl<'a> LichessApi<'a, reqwest::Client> {
     pub async fn get_single_model<Q, B, M>(&self, request: Request<Q, B>) -> Result<M> where
-        Q: Serialize + Default,
-        B: Serialize + ToString,
-        M: DeserializeOwned
+        Q: QueryBounds,
+        B: BodyBounds,
+        M: ModelBounds
     {
         let request = request.as_http_request()?;
         let mut stream = self.send(request).await?;
@@ -41,10 +39,10 @@ impl<'a> LichessApi<'a, reqwest::Client> {
     }
 
     pub async fn get_streamed_models<Q, B, M>(&self, request: Request<Q, B>)
-        -> Result<impl StreamExt<Item = Result<M>>> where
-        Q: Serialize + Default,
-        B: Serialize + ToString,
-        M: DeserializeOwned
+    -> Result<impl StreamExt<Item = Result<M>>> where
+        Q: QueryBounds,
+        B: BodyBounds,
+        M: ModelBounds
     {
         let request = request.as_http_request()?;
         self.send(request).await

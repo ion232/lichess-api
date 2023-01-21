@@ -8,9 +8,9 @@ edition = "2021"
 actix-web = { version = "4.2.1", optional = true }
 awc = { version = "3.0.1", features = ["rustls"], optional = true }
 webpki-roots = { version = "0.22.6", optional = true }
-mime = { version = "0.3.16", optional = true }
+# mime = { version = "0.3.16", optional = true }
 rustls = { version = "0.20.8", optional = true }
-
+mime = "0.3.16"
 # Dependencies for reqwest lichess client.
 reqwest = { version = "0.11.13", features = ["json", "stream"]}
 
@@ -30,5 +30,5 @@ url = "2.3.1"
 [dev-dependencies]
 tokio = { version = "1.24.2" , features = ["macros", "rt-multi-thread"] }
 
-[features]
-awc = ["dep:actix-web", "dep:awc", "dep:webpki-roots", "dep:mime", "dep:rustls"]
+# [features]
+# awc = ["dep:actix-web", "dep:awc", "dep:webpki-roots", "dep:mime", "dep:rustls"]
