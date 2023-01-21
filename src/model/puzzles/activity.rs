@@ -12,7 +12,7 @@ impl GetRequest {
         Self {
             method: http::Method::GET,
             path: "/api/puzzle/activity".to_string(),
-            query: max_rounds.map(|x| Query{max: x}),
+            query: max_rounds.map(|max| Query{max}),
             body: Default::default()
         }
     }
