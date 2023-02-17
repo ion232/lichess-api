@@ -1,9 +1,9 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, serde::Serialize)]
-pub struct Query;
+pub struct PostQuery;
 
-pub type PostRequest = crate::model::Request<Query>;
+pub type PostRequest = crate::model::Request<PostQuery>;
 
 impl PostRequest {
     pub fn new() -> Self {
@@ -11,7 +11,7 @@ impl PostRequest {
             method: http::Method::POST,
             path: "/api/racer".to_string(),
             query: Default::default(),
-            body: Default::default()
+            body: Default::default(),
         }
     }
 }

@@ -1,9 +1,9 @@
 use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query;
+pub struct GetQuery;
 
-pub type GetRequest = crate::model::Request<Query>;
+pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new() -> Self {
@@ -11,7 +11,7 @@ impl GetRequest {
             method: http::Method::GET,
             path: "/api/puzzle/daily".to_string(),
             query: Default::default(),
-            body: Default::default()
+            body: Default::default(),
         }
     }
 }

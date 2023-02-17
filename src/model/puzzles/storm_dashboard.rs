@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query {
-    pub days: u32
+pub struct GetQuery {
+    pub days: u32,
 }
 
-pub type GetRequest = crate::model::Request<Query>;
+pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(username: &str, days: Option<u32>) -> Self {
@@ -13,8 +13,8 @@ impl GetRequest {
         Self {
             method: http::Method::GET,
             path,
-            query: days.map(|x| Query{days: x}),
-            body: Default::default()
+            query: days.map(|x| GetQuery { days: x }),
+            body: Default::default(),
         }
     }
 }

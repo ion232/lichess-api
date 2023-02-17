@@ -3,9 +3,9 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 #[derive(Default, Clone, Debug, Serialize)]
-pub struct Query;
+pub struct GetQuery;
 
-pub type GetRequest = crate::model::Request<Query>;
+pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(days: u32) -> Self {
@@ -13,7 +13,7 @@ impl GetRequest {
             method: http::Method::GET,
             path: format!("/api/puzzle/dashboard/{}", days),
             query: Default::default(),
-            body: Default::default()
+            body: Default::default(),
         }
     }
 }
@@ -24,7 +24,7 @@ pub type Dashboard = PuzzleDashboardJson;
 pub struct PuzzleDashboardJson {
     days: i64,
     global: Results,
-    themes: HashMap<String, Theme>
+    themes: HashMap<String, Theme>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
