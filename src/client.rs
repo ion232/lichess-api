@@ -11,26 +11,34 @@ use crate::error::{Error, Result};
 
 pub struct LichessApi<'a, HttpClient> {
     pub client: &'a HttpClient,
-    bearer_auth: Option<String>
+    bearer_auth: Option<String>,
 }
 
 impl<'a, HttpClient> LichessApi<'a, HttpClient> {
     pub fn new(client: &'a HttpClient, auth_token: Option<String>) -> Self {
         let bearer_auth = auth_token.map(|token| format!("Bearer {}", token));
-        Self { client, bearer_auth }
+        Self {
+            client,
+            bearer_auth,
+        }
     }
 
     pub(crate) async fn expect_one_model<Model, G>(&self, stream: &mut G) -> Result<Model>
-    where G: StreamExt<Item = Result<Model>> + std::marker::Unpin
+    where
+        G: StreamExt<Item = Result<Model>> + std::marker::Unpin,
     {
-        stream.next()
+        stream
+            .next()
             .await
             .ok_or(Error::Response("empty response stream".to_string()))?
     }
 }
 
 impl<'a> LichessApi<'a, reqwest::Client> {
-    pub(crate) async fn send<Model: DeserializeOwned>(&self, mut http_request: http::Request<Bytes>) -> Result<impl StreamExt<Item = Result<Model>>> {
+    pub(crate) async fn send<Model: DeserializeOwned>(
+        &self,
+        mut http_request: http::Request<Bytes>,
+    ) -> Result<impl StreamExt<Item = Result<Model>>> {
         if let Some(auth) = &self.bearer_auth {
             let auth_header = http::HeaderValue::from_str(&auth)
                 .map_err(|e| Error::HttpRequestBuilder(http::Error::from(e)))?;
@@ -39,8 +47,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         };
 
         let convert_err = |e: reqwest::Error| Error::Request(e.to_string());
-        let request = reqwest::Request::try_from(http_request)
-            .map_err(convert_err)?;
+        let request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
 
         let stream = self
             .client
@@ -53,8 +60,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
             .lines()
             .map(|l| -> Result<Model> {
                 let line = l?;
-                serde_json::from_str(&line)
-                    .map_err(|e| crate::error::Error::Json(e))
+                serde_json::from_str(&line).map_err(|e| crate::error::Error::Json(e))
             });
 
         Ok(stream)
