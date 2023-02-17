@@ -27,7 +27,7 @@ pub enum Error {
     Json(#[from] serde_json::Error),
 
     #[error("unknown error: {0}")]
-    Unknown(String)
+    Unknown(String),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;
