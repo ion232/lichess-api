@@ -8,7 +8,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         self.get_single_model(request).await
     }
 
-    pub async fn create_challenge(&self, request: create::PostRequest) -> Result<ChallengeJson> {
+    pub async fn create_challenge(&self, request: create::PostRequest) -> Result<ChallengeCreated> {
         self.get_model_or_error_response(request).await
     }
 

@@ -27,9 +27,8 @@ pub struct CreateChallenge {
     #[serde(flatten)]
     pub base: ChallengeBase,
     pub rated: bool,
-    pub name: String,
     pub keep_alive_stream: bool,
-    pub accept_by_token: String,
+    pub accept_by_token: Option<String>,
     pub message: Option<String>,
     pub rules: String,
 }
@@ -51,15 +50,16 @@ pub struct AIChallenge {
     pub color: Color,
 }
 
+#[skip_serializing_none]
 #[derive(Clone, Debug, Serialize)]
 pub struct ChallengeBase {
     #[serde(rename = "clock.limit")]
-    pub clock_limit: u32,
+    pub clock_limit: Option<u32>,
     #[serde(rename = "clock.increment")]
-    pub clock_increment: u32,
-    pub days: Days,
+    pub clock_increment: Option<u32>,
+    pub days: Option<Days>,
     pub variant: VariantKey,
-    pub fen: String,
+    pub fen: Option<String>,
 }
 
 #[skip_serializing_none]
@@ -70,6 +70,12 @@ pub struct ChallengeOpenJson {
     pub base: ChallengeJsonBase,
     pub url_white: String,
     pub url_black: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ChallengeCreated {
+    pub challenge: ChallengeJson,
 }
 
 #[skip_serializing_none]

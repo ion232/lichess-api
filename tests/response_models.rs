@@ -12,9 +12,9 @@ pub fn ok() {
 
 #[test]
 pub fn error_response() {
-    test_response_model::<ErrorResponse>("not_found");
-    test_response_model::<ErrorResponse>("error");
-    test_response_model::<ErrorResponse>("empty");
+    test_response_model::<ErrorResponse<()>>("not_found");
+    test_response_model::<ErrorResponse<()>>("error");
+    test_response_model::<ErrorResponse<()>>("empty");
 }
 
 #[test]

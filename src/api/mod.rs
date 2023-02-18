@@ -31,13 +31,13 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         B: BodyBounds,
         M: ModelBounds,
     {
-        let response: ErrorResponse = self.get_single_model(request).await?;
-        match response {
-            ErrorResponse::Error { error } => Result::Err(Error::LichessStatus(error)),
-            ErrorResponse::NotFound { error } => Result::Err(Error::LichessStatus(error)),
-            ErrorResponse::Other {} => {
-                Result::Err(Error::LichessStatus("Unknown lichess status".to_string()))
-            }
+        let request = request.as_http_request()?;
+        let mut stream = self.send(request).await?;
+        let res: ErrorResponse<M> = self.expect_one_model(&mut stream).await?;
+        match res {
+            ErrorResponse::Model(m) => Ok(m),
+            ErrorResponse::Error { error } => Err(Error::LichessStatus(error)),
+            ErrorResponse::NotFound { error } => Err(Error::LichessStatus(error))
         }
     }
 

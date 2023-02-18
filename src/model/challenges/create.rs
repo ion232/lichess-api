@@ -9,7 +9,7 @@ pub struct PostQuery;
 pub type PostRequest = Request<PostQuery, CreateChallenge>;
 
 impl PostRequest {
-    pub fn new(username: String, challenge: CreateChallenge) -> Self {
+    pub fn new(username: &str, challenge: CreateChallenge) -> Self {
         let path = format!("/api/challenge/{}", username);
         Self {
             method: http::Method::POST,

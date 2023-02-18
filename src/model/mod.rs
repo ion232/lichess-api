@@ -135,10 +135,10 @@ pub struct Ok {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ErrorResponse {
+pub enum ErrorResponse<M> {
+    Model(M),
     Error { error: String },
     NotFound { error: String },
-    Other {},
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
