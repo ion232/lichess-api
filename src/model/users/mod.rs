@@ -3,15 +3,19 @@ pub mod status;
 
 use crate::model::Title;
 use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
 
+#[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct UserExtended {
+    #[serde(flatten)]
+    pub user: User,
     pub url: String,
-    pub playing: String,
-    pub completion_rate: u32,
+    pub playing: Option<String>,
+    pub completion_rate: Option<u32>,
     pub count: Count,
-    pub streaming: bool,
+    pub streaming: Option<bool>,
     pub followable: bool,
     pub following: bool,
     pub blocking: bool,
@@ -43,32 +47,33 @@ pub struct User {
     pub username: String,
     pub perfs: Perfs,
     pub created_at: i64,
-    pub disabled: bool,
-    pub tos_violation: bool,
-    pub profile: Profile,
+    pub disabled: Option<bool>,
+    pub tos_violation: Option<bool>,
+    pub profile: Option<Profile>,
     pub seen_at: i64,
-    pub patron: bool,
-    pub verified: bool,
+    pub patron: Option<bool>,
+    pub verified: Option<bool>,
     pub play_time: PlayTime,
-    pub title: Title,
+    pub title: Option<Title>,
 }
 
+#[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Perfs {
-    pub chess960: Perf,
-    pub atomic: Perf,
-    pub racing_kings: Perf,
-    pub ultra_bullet: Perf,
-    pub blitz: Perf,
-    pub king_of_the_hill: Perf,
-    pub bullet: Perf,
-    pub correspondence: Perf,
-    pub horde: Perf,
-    pub puzzle: Perf,
-    pub classical: Perf,
-    pub rapid: Perf,
-    pub storm: Storm,
+    pub chess960: Option<Perf>,
+    pub atomic: Option<Perf>,
+    pub racing_kings: Option<Perf>,
+    pub ultra_bullet: Option<Perf>,
+    pub blitz: Option<Perf>,
+    pub king_of_the_hill: Option<Perf>,
+    pub bullet: Option<Perf>,
+    pub correspondence: Option<Perf>,
+    pub horde: Option<Perf>,
+    pub puzzle: Option<Perf>,
+    pub classical: Option<Perf>,
+    pub rapid: Option<Perf>,
+    pub streak: Option<Storm>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -77,7 +82,7 @@ pub struct Perf {
     pub rating: u32,
     pub rd: u32,
     pub prog: i32,
-    pub prov: bool,
+    pub prov: Option<bool>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -95,13 +100,13 @@ pub struct PlayTime {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Profile {
-    pub country: String,
-    pub location: String,
-    pub bio: String,
-    pub first_name: String,
-    pub last_name: String,
-    pub fide_rating: u32,
-    pub uscf_rating: u32,
-    pub ecf_rating: u32,
-    pub links: String,
+    pub country: Option<String>,
+    pub location: Option<String>,
+    pub bio: Option<String>,
+    pub first_name: Option<String>,
+    pub last_name: Option<String>,
+    pub fide_rating: Option<u32>,
+    pub uscf_rating: Option<u32>,
+    pub ecf_rating: Option<u32>,
+    pub links: Option<String>,
 }

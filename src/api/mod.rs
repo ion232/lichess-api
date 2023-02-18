@@ -11,7 +11,7 @@ use async_std::stream::StreamExt;
 
 use crate::client::LichessApi;
 use crate::error::{Error, Result};
-use crate::model::{BodyBounds, ErrorResponse, ModelBounds, QueryBounds, Request};
+use crate::model::{BodyBounds, Response, ModelBounds, QueryBounds, Request};
 
 impl<'a> LichessApi<'a, reqwest::Client> {
     pub async fn get_ok_or_error_response<Q, B>(&self, request: Request<Q, B>) -> Result<bool>
@@ -33,11 +33,10 @@ impl<'a> LichessApi<'a, reqwest::Client> {
     {
         let request = request.as_http_request()?;
         let mut stream = self.send(request).await?;
-        let res: ErrorResponse<M> = self.expect_one_model(&mut stream).await?;
+        let res: Response<M> = self.expect_one_model(&mut stream).await?;
         match res {
-            ErrorResponse::Model(m) => Ok(m),
-            ErrorResponse::Error { error } => Err(Error::LichessStatus(error)),
-            ErrorResponse::NotFound { error } => Err(Error::LichessStatus(error))
+            Response::Model(m) => Ok(m),
+            Response::Error { error } => Err(Error::LichessStatus(error)),
         }
     }
 
