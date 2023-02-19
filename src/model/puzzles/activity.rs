@@ -21,10 +21,10 @@ impl GetRequest {
 pub type Round = PuzzleRoundJson;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PuzzleRoundJson {
     pub id: String,
     pub date: u64,
     pub win: bool,
-    #[serde(rename = "puzzleRating")]
     pub puzzle_rating: u32,
 }
