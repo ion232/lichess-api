@@ -48,7 +48,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         &self,
         request: stream::add_ids::PostRequest,
     ) -> Result<bool> {
-        self.get_ok_or_error_response(request).await
+        self.get_ok(request).await
     }
 
     pub async fn get_my_ongoing_games(

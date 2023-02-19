@@ -24,7 +24,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         &self,
         request: dashboard::GetRequest,
     ) -> Result<dashboard::Dashboard> {
-        self.get_model_or_error_response(request).await
+        self.get_single_model(request).await
     }
 
     pub async fn get_puzzle_storm_dashboard(

@@ -23,6 +23,6 @@ impl<'a> LichessApi<'a, reqwest::Client> {
     }
 
     pub async fn set_kid_mode_status(&self, request: kid::PostRequest) -> Result<bool> {
-        self.get_ok_or_error_response(request).await
+        self.get_ok(request).await
     }
 }

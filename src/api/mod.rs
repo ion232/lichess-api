@@ -14,18 +14,18 @@ use crate::error::{Error, Result};
 use crate::model::{BodyBounds, Response, ModelBounds, QueryBounds, Request};
 
 impl<'a> LichessApi<'a, reqwest::Client> {
-    pub async fn get_ok_or_error_response<Q, B>(&self, request: Request<Q, B>) -> Result<bool>
+    pub async fn get_ok<Q, B>(&self, request: Request<Q, B>) -> Result<bool>
     where
         Q: QueryBounds,
         B: BodyBounds,
     {
         let result = self
-            .get_model_or_error_response::<Q, B, crate::model::Ok>(request)
+            .get_single_model::<Q, B, crate::model::Ok>(request)
             .await;
         return Ok(result?.ok);
     }
 
-    pub async fn get_model_or_error_response<Q, B, M>(&self, request: Request<Q, B>) -> Result<M>
+    pub async fn get_single_model<Q, B, M>(&self, request: Request<Q, B>) -> Result<M>
     where
         Q: QueryBounds,
         B: BodyBounds,
@@ -38,17 +38,6 @@ impl<'a> LichessApi<'a, reqwest::Client> {
             Response::Model(m) => Ok(m),
             Response::Error { error } => Err(Error::LichessStatus(error)),
         }
-    }
-
-    pub async fn get_single_model<Q, B, M>(&self, request: Request<Q, B>) -> Result<M>
-    where
-        Q: QueryBounds,
-        B: BodyBounds,
-        M: ModelBounds,
-    {
-        let request = request.as_http_request()?;
-        let mut stream = self.send(request).await?;
-        self.expect_one_model(&mut stream).await
     }
 
     pub async fn get_streamed_models<Q, B, M>(
