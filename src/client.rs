@@ -60,6 +60,9 @@ impl<'a> LichessApi<'a, reqwest::Client> {
             .lines()
             .map(|l| -> Result<Model> {
                 let line = l?;
+                if line.starts_with("<!DOCTYPE html>") {
+                    return Err(crate::error::Error::PageNotFound());
+                }
                 serde_json::from_str(&line).map_err(|e| crate::error::Error::Json(e))
             });
 

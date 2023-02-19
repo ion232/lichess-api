@@ -11,6 +11,9 @@ pub enum Error {
     #[error("lichess status error: {0}")]
     LichessStatus(String),
 
+    #[error("page not found error")]
+    PageNotFound(),
+
     #[error("request parameters error: {0}")]
     RequestParams(String),
 
