@@ -1,4 +1,6 @@
 use crate::model::Variant;
+use crate::model::games::Players;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]
@@ -20,7 +22,7 @@ impl GetRequest {
 
 pub type Move = MoveStream;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum MoveStream {
     #[serde(rename_all = "camelCase")]
@@ -30,7 +32,7 @@ pub enum MoveStream {
         speed: String,
         perf: String,
         rated: bool,
-        initial_fen: String,
+        initial_fen: Option<String>,
         fen: String,
         player: String,
         turns: u32,
@@ -38,23 +40,21 @@ pub enum MoveStream {
         source: String,
         status: Status,
         created_at: u64,
-        last_move: String,
+        last_move: Option<String>,
+        players: Players
     },
     Move {
         fen: String,
         #[serde(rename = "lm")]
-        last_move: String,
+        last_move: Option<String>,
         #[serde(rename = "wc")]
-        white_centipawns: u32,
+        white_centipawns: Option<u32>,
         #[serde(rename = "bc")]
-        black_centipawns: u32,
-    },
-    End {
-        description: String,
-    },
+        black_centipawns: Option<u32>,
+    }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Status {
     pub id: u64,
     pub name: String,

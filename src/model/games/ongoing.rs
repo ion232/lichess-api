@@ -11,7 +11,7 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 impl GetRequest {
     pub fn new(max_games: u8) -> Self {
         Self {
-            method: http::Method::POST,
+            method: http::Method::GET,
             path: "/api/account/playing".to_string(),
             query: Some(GetQuery { max_games }),
             body: Default::default(),
@@ -19,8 +19,8 @@ impl GetRequest {
     }
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Games {
-    pub now_playing: GameEventInfo,
+    pub now_playing: Vec<GameEventInfo>,
 }

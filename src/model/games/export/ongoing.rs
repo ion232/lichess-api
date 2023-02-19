@@ -3,6 +3,7 @@ use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct GetQuery {
+    #[serde(flatten)]
     pub base: Base,
 }
 

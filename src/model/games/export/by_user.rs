@@ -4,9 +4,10 @@ use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct GetQuery {
+    #[serde(flatten)]
     pub base: Base,
-    pub since: u64,
-    pub until: u64,
+    pub since: Option<u64>,
+    pub until: Option<u64>,
     pub max: u64,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vs: Option<String>,

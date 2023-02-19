@@ -4,7 +4,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct PostQuery;
 
-pub type PostRequest = crate::model::Request<PostQuery, String>;
+#[derive(Default, Clone, Debug, Serialize)]
+pub struct Game {
+    pgn: String
+}
+
+pub type PostRequest = crate::model::Request<PostQuery, Game>;
 
 impl PostRequest {
     pub fn new(pgn: String) -> Self {
@@ -12,12 +17,12 @@ impl PostRequest {
             method: http::Method::POST,
             path: "/api/import".to_string(),
             query: Default::default(),
-            body: Body::Form(pgn),
+            body: Body::Form(Game {pgn}),
         }
     }
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ImportData {
     pub id: String,
     pub url: String,

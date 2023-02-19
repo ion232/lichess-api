@@ -31,7 +31,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         B: BodyBounds,
         M: ModelBounds,
     {
-        let request = request.as_http_request()?;
+        let request = request.as_http_request("application/json")?;
         let mut stream = self.send(request).await?;
         let res: Response<M> = self.expect_one_model(&mut stream).await?;
         match res {
@@ -49,7 +49,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         B: BodyBounds,
         M: ModelBounds,
     {
-        let request = request.as_http_request()?;
+        let request = request.as_http_request("application/x-ndjson")?;
         self.send(request).await
     }
 }

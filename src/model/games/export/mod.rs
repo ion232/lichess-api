@@ -5,6 +5,7 @@ pub mod ongoing;
 
 use serde::Serialize;
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Base {
@@ -16,7 +17,6 @@ pub struct Base {
     pub accuracy: bool,
     pub opening: bool,
     pub literate: bool,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub players: Option<String>,
 }
 

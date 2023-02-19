@@ -62,7 +62,7 @@ where
     pub(crate) method: http::Method,
     pub(crate) path: String,
     pub(crate) query: Option<Q>,
-    pub(crate) body: Body<B>,
+    pub(crate) body: Body<B>
 }
 
 impl<Q, B> Request<Q, B>
@@ -70,8 +70,8 @@ where
     Q: QueryBounds,
     B: BodyBounds,
 {
-    pub(crate) fn as_http_request(self) -> error::Result<http::Request<bytes::Bytes>> {
-        make_request(self.method, self.path, self.query, self.body)
+    pub(crate) fn as_http_request(self, accept: &str) -> error::Result<http::Request<bytes::Bytes>> {
+        make_request(self.method, self.path, self.query, self.body, accept)
     }
 }
 
@@ -80,6 +80,7 @@ fn make_request<Q, B>(
     path: String,
     query: Option<Q>,
     body: Body<B>,
+    accept: &str
 ) -> error::Result<http::Request<bytes::Bytes>>
 where
     Q: QueryBounds,
@@ -90,6 +91,9 @@ where
     if let Some(mime) = body.as_mime() {
         builder = builder.header(http::header::CONTENT_TYPE, mime.to_string());
     }
+    let accept_header = http::HeaderValue::from_str(accept)
+        .map_err(|e| error::Error::HttpRequestBuilder(http::Error::from(e)))?;
+    builder = builder.header(http::header::ACCEPT, accept_header);
 
     let url = make_url(path, query)?;
     let body = bytes::Bytes::from(body.as_encoded_string()?);

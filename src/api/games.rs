@@ -33,14 +33,14 @@ impl<'a> LichessApi<'a, reqwest::Client> {
     pub async fn stream_games_of_users(
         &self,
         request: stream::by_users::PostRequest,
-    ) -> Result<impl StreamExt<Item = Result<GameJson>>> {
+    ) -> Result<impl StreamExt<Item = Result<GameStream>>> {
         self.get_streamed_models(request).await
     }
 
     pub async fn stream_games_by_ids(
         &self,
         request: stream::by_ids::PostRequest,
-    ) -> Result<impl StreamExt<Item = Result<GameJson>>> {
+    ) -> Result<impl StreamExt<Item = Result<GameStream>>> {
         self.get_streamed_models(request).await
     }
 

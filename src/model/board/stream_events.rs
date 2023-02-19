@@ -36,20 +36,20 @@ pub enum Event {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GameEventInfo {
-    pub game_id: String,
     pub full_id: String,
-    pub color: Color,
+    pub game_id: String,
     pub fen: String,
-    pub has_moved: bool,
-    pub is_my_turn: bool,
+    pub color: Color,
     pub last_move: String,
-    pub opponent: Opponent,
+    pub source: Source,
+    pub variant: Variant,
+    pub speed: Speed,
     pub perf: String,
     pub rated: bool,
-    pub seconds_left: u64,
-    pub source: Source,
-    pub speed: Speed,
-    pub variant: Variant,
+    pub has_moved: bool,
+    pub opponent: Opponent,
+    pub is_my_turn: bool,
+    pub seconds_left: Option<u64>,
     pub compat: Option<Compat>,
 }
 
@@ -70,11 +70,13 @@ pub enum Source {
     Swiss,
 }
 
+#[skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Opponent {
-    pub id: String,
-    pub rating: u32,
+    pub id: Option<String>,
     pub username: String,
+    pub rating: Option<u32>,
+    pub ai: Option<u32>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

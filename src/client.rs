@@ -42,8 +42,7 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         if let Some(auth) = &self.bearer_auth {
             let auth_header = http::HeaderValue::from_str(&auth)
                 .map_err(|e| Error::HttpRequestBuilder(http::Error::from(e)))?;
-            let headers = http_request.headers_mut();
-            headers.insert(http::header::AUTHORIZATION, auth_header);
+            http_request.headers_mut().insert(http::header::AUTHORIZATION, auth_header);
         };
 
         let convert_err = |e: reqwest::Error| Error::Request(e.to_string());

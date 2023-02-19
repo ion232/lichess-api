@@ -4,6 +4,7 @@ use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct PostQuery {
+    #[serde(flatten)]
     pub base: Base,
 }
 
