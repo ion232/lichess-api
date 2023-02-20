@@ -46,7 +46,8 @@ impl<'a> LichessApi<'a, reqwest::Client> {
         };
 
         let convert_err = |e: reqwest::Error| Error::Request(e.to_string());
-        let request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
+        let mut request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
+        *request.timeout_mut() = None;
 
         let stream = self
             .client
@@ -57,11 +58,16 @@ impl<'a> LichessApi<'a, reqwest::Client> {
             .map_err(|e| futures::io::Error::new(futures::io::ErrorKind::Other, e))
             .into_async_read()
             .lines()
+            .filter(|l| {
+                // To avoid trying to serialize blank keep alive lines.
+                !l.as_ref().unwrap().is_empty()
+            })
             .map(|l| -> Result<Model> {
                 let line = l?;
                 if line.starts_with("<!DOCTYPE html>") {
                     return Err(crate::error::Error::PageNotFound());
                 }
+                println!("Line: {}", line);
                 serde_json::from_str(&line).map_err(|e| crate::error::Error::Json(e))
             });
 
