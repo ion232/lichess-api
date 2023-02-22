@@ -17,4 +17,4 @@ impl GetRequest {
     }
 }
 
-pub type Event = crate::model::board::stream_game::Event;
+pub type Event = crate::model::board::stream::game::Event;

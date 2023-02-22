@@ -18,22 +18,22 @@ pub fn response() {
 
 #[test]
 pub fn board_event_stream() {
-    test_response_model::<board::stream_events::Event>("challenge");
-    test_response_model::<board::stream_events::Event>("challenge_canceled");
-    test_response_model::<board::stream_events::Event>("challenge_declined");
-    test_response_model::<board::stream_events::Event>("game_start");
-    test_response_model::<board::stream_events::Event>("game_finish");
+    test_response_model::<board::stream::events::Event>("challenge");
+    test_response_model::<board::stream::events::Event>("challenge_canceled");
+    test_response_model::<board::stream::events::Event>("challenge_declined");
+    test_response_model::<board::stream::events::Event>("game_start");
+    test_response_model::<board::stream::events::Event>("game_finish");
 }
 
 #[test]
 pub fn board_game_stream() {
-    test_response_model::<board::stream_game::Event>("game_full");
-    test_response_model::<board::stream_game::Event>("game_state");
-    test_response_model::<board::stream_game::Event>("game_state_resign");
-    test_response_model::<board::stream_game::Event>("chat_line");
-    test_response_model::<board::stream_game::Event>("chat_line_spectator");
-    test_response_model::<board::stream_game::Event>("opponent_gone_false");
-    test_response_model::<board::stream_game::Event>("opponent_gone_true");
+    test_response_model::<board::stream::game::Event>("game_full");
+    test_response_model::<board::stream::game::Event>("game_state");
+    test_response_model::<board::stream::game::Event>("game_state_resign");
+    test_response_model::<board::stream::game::Event>("chat_line");
+    test_response_model::<board::stream::game::Event>("chat_line_spectator");
+    test_response_model::<board::stream::game::Event>("opponent_gone_false");
+    test_response_model::<board::stream::game::Event>("opponent_gone_true");
 }
 
 #[test]
