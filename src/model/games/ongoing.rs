@@ -1,4 +1,4 @@
-use crate::model::board::stream_events::GameEventInfo;
+use crate::model::board::stream::events::GameEventInfo;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]

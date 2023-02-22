@@ -49,15 +49,15 @@ impl<'a> LichessApi<'a, reqwest::Client> {
 
     pub async fn board_stream_incoming_events(
         &self,
-        request: stream_events::GetRequest,
-    ) -> Result<impl StreamExt<Item = Result<stream_events::Event>>> {
+        request: stream::events::GetRequest,
+    ) -> Result<impl StreamExt<Item = Result<stream::events::Event>>> {
         self.get_streamed_models(request).await
     }
 
     pub async fn board_stream_board_state(
         &self,
-        request: stream_game::GetRequest,
-    ) -> Result<impl StreamExt<Item = Result<stream_game::Event>>> {
+        request: stream::game::GetRequest,
+    ) -> Result<impl StreamExt<Item = Result<stream::game::Event>>> {
         self.get_streamed_models(request).await
     }
 
