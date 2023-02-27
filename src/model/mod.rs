@@ -144,7 +144,7 @@ pub enum Response<M> {
     Error { error: String },
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Color {
     White,
@@ -152,7 +152,7 @@ pub enum Color {
     Random,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Speed {
     UltraBullet,
@@ -163,7 +163,7 @@ pub enum Speed {
     Correspondence,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum PerfType {
     UltraBullet,
@@ -190,7 +190,7 @@ pub struct LightUser {
     pub patron: Option<bool>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum Title {
     Gm,
@@ -215,7 +215,7 @@ pub struct Variant {
     pub short: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum VariantKey {
     Standard,
@@ -236,7 +236,7 @@ impl Default for VariantKey {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, PartialEq, Eq, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Room {
     Player,
@@ -255,7 +255,7 @@ pub struct Compat {
     pub board: bool,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub enum Days {
     One,
     Two,
