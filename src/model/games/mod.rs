@@ -41,7 +41,7 @@ pub struct GameJson {
     winner: Option<String>
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum GameStatus {
     Created,

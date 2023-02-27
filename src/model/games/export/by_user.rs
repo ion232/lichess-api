@@ -29,7 +29,7 @@ pub struct GetQuery {
     pub sort: Option<Sort>,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Sort {
     DateAsc,

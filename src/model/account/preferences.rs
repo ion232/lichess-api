@@ -56,7 +56,7 @@ pub struct UserPreferences {
     pub rook_castle: u32,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Theme {
     Blue,
@@ -85,7 +85,7 @@ pub enum Theme {
     Ic,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum PieceSet {
     Cburnett,
@@ -116,7 +116,7 @@ pub enum PieceSet {
     Letter,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 pub enum Theme3D {
     #[serde(rename = "Black-White-Aluminium")]
     BlackWhiteAluminium,
@@ -145,7 +145,7 @@ pub enum Theme3D {
     Woodi,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 pub enum PieceSet3D {
     Basic,
     Wood,
@@ -160,7 +160,7 @@ pub enum PieceSet3D {
     CubesAndPi,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum SoundSet {
     Silent,

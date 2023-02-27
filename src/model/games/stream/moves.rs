@@ -22,7 +22,7 @@ impl GetRequest {
 
 pub type Move = MoveStream;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(untagged)]
 pub enum MoveStream {
     #[serde(rename_all = "camelCase")]

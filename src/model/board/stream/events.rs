@@ -53,7 +53,7 @@ pub struct GameEventInfo {
     pub compat: Option<Compat>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Source {
     Lobby,
