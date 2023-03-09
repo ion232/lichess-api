@@ -21,7 +21,12 @@ pub enum Reason {
     OnlyBot,
 }
 
-pub type PostRequest = Request<PostQuery, Reason>;
+#[derive(Clone, Debug, Serialize)]
+pub struct DeclineReason {
+    pub reason: Reason
+}
+
+pub type PostRequest = Request<PostQuery, DeclineReason>;
 
 impl PostRequest {
     pub fn new(challenge_id: String, reason: Reason) -> Self {
@@ -30,7 +35,7 @@ impl PostRequest {
             method: http::Method::POST,
             path,
             query: Default::default(),
-            body: Body::Form(reason),
+            body: Body::Form(DeclineReason {reason}),
         }
     }
 }
