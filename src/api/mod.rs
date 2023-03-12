@@ -13,7 +13,7 @@ use crate::client::LichessApi;
 use crate::error::{Error, Result};
 use crate::model::{BodyBounds, Response, ModelBounds, QueryBounds, Request};
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub async fn get_ok<Q, B>(&self, request: Request<Q, B>) -> Result<bool>
     where
         Q: QueryBounds,

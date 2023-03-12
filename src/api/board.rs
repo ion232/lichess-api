@@ -4,7 +4,7 @@ use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::board::*;
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub async fn board_abort_game(&self, request: abort::PostRequest) -> Result<bool> {
         self.get_ok(request).await
     }

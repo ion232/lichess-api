@@ -4,7 +4,7 @@ use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::games::*;
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub async fn export_one_game(&self, request: export::one::GetRequest) -> Result<GameJson> {
         self.get_single_model(request).await
     }
