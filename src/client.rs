@@ -9,13 +9,13 @@ use serde::de::DeserializeOwned;
 
 use crate::error::{Error, Result};
 
-pub struct LichessApi<'a, HttpClient> {
-    pub client: &'a HttpClient,
+pub struct LichessApi<HttpClient> {
+    pub client: HttpClient,
     bearer_auth: Option<String>,
 }
 
-impl<'a, HttpClient> LichessApi<'a, HttpClient> {
-    pub fn new(client: &'a HttpClient, auth_token: Option<String>) -> Self {
+impl<HttpClient> LichessApi<HttpClient> {
+    pub fn new(client: HttpClient, auth_token: Option<String>) -> Self {
         let bearer_auth = auth_token.map(|token| format!("Bearer {}", token));
         Self {
             client,
@@ -34,7 +34,7 @@ impl<'a, HttpClient> LichessApi<'a, HttpClient> {
     }
 }
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub(crate) async fn send<Model: DeserializeOwned>(
         &self,
         mut http_request: http::Request<Bytes>,

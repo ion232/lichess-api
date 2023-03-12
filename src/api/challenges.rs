@@ -3,7 +3,7 @@ use crate::error::Result;
 use crate::model::challenges::*;
 use crate::model::games::GameJson;
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub async fn list_challenges(&self, request: list::GetRequest) -> Result<list::Challenges> {
         self.get_single_model(request).await
     }

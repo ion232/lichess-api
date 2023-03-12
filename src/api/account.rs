@@ -2,7 +2,7 @@ use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::account::*;
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub async fn get_profile(&self, request: profile::GetRequest) -> Result<profile::Profile> {
         self.get_single_model(request).await
     }

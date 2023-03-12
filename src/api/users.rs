@@ -2,7 +2,7 @@ use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::users::*;
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub async fn get_public_user_data(&self, request: public::GetRequest) -> Result<UserExtended> {
         self.get_single_model(request).await
     }

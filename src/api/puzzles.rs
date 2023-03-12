@@ -4,7 +4,7 @@ use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::puzzles::*;
 
-impl<'a> LichessApi<'a, reqwest::Client> {
+impl LichessApi<reqwest::Client> {
     pub async fn get_daily_puzzle(&self, request: daily::GetRequest) -> Result<daily::Puzzle> {
         self.get_single_model(request).await
     }
