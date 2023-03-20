@@ -9,6 +9,7 @@ use serde::de::DeserializeOwned;
 
 use crate::error::{Error, Result};
 
+#[derive(Clone)]
 pub struct LichessApi<HttpClient> {
     pub client: HttpClient,
     bearer_auth: Option<String>,
@@ -60,7 +61,7 @@ impl LichessApi<reqwest::Client> {
             .lines()
             .filter(|l| {
                 // To avoid trying to serialize blank keep alive lines.
-                !l.as_ref().unwrap().is_empty()
+                !l.as_ref().unwrap_or(&"".to_string()).is_empty()
             })
             .map(|l| -> Result<Model> {
                 let line = l?;
