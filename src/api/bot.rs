@@ -3,6 +3,7 @@ use async_std::stream::StreamExt;
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::bot::*;
+use crate::model::bot::online::OnlineBot;
 
 impl LichessApi<reqwest::Client> {
     pub async fn bot_abort_game(&self, request: abort::PostRequest) -> Result<bool> {
@@ -20,8 +21,16 @@ impl LichessApi<reqwest::Client> {
         self.get_ok(request).await
     }
 
+    pub async fn bot_draw_game(&self, request: draw::PostRequest) -> Result<bool> {
+        self.get_ok(request).await
+    }
+
     pub async fn bot_make_move(&self, request: r#move::PostRequest) -> Result<bool> {
         self.get_ok(request).await
+    }
+
+    pub async fn bot_get_online(&self, request: online::GetRequest) -> Result<impl StreamExt<Item = Result<OnlineBot>>> {
+        self.get_streamed_models(request).await
     }
 
     pub async fn bot_resign_game(&self, request: resign::PostRequest) -> Result<bool> {
