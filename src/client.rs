@@ -9,6 +9,7 @@ use serde::de::DeserializeOwned;
 
 use crate::error::{Error, Result};
 
+#[derive(Clone)]
 pub struct LichessApi<HttpClient> {
     pub client: HttpClient,
     bearer_auth: Option<String>,
