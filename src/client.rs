@@ -60,7 +60,7 @@ impl LichessApi<reqwest::Client> {
             .lines()
             .filter(|l| {
                 // To avoid trying to serialize blank keep alive lines.
-                !l.as_ref().unwrap().is_empty()
+                !l.as_ref().unwrap_or(&"".to_string()).is_empty()
             })
             .map(|l| -> Result<Model> {
                 let line = l?;
