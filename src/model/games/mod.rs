@@ -3,7 +3,7 @@ pub mod import;
 pub mod ongoing;
 pub mod stream;
 
-use crate::model::{LightUser, Speed, VariantKey};
+use crate::model::{LightUser, Speed, Variant, VariantKey};
 use serde::{Deserialize, Serialize};
 
 #[serde_with::skip_serializing_none]
@@ -28,17 +28,21 @@ pub struct GameStream {
 pub struct GameJson {
     id: String,
     rated: bool,
-    variant: VariantKey,
+    variant: Variant,
     speed: Speed,
     perf: String,
     created_at: u64,
     last_move_at: Option<u64>,
-    status: GameStatus,
-    players: Players,
+    status: GameStatusJson,
+    players: Option<Players>,
+    player: Option<String>,
     opening: Option<Opening>,
-    moves: String,
+    moves: Option<String>,
     clock: Option<Clock>,
     winner: Option<String>,
+    fen: Option<String>,
+    turns: Option<u32>,
+    source: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
@@ -57,6 +61,12 @@ pub enum GameStatus {
     NoStart,
     UnknownFinish,
     VariantEnd,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+pub struct GameStatusJson {
+    pub id: u32,
+    pub name: GameStatus,
 }
 
 #[serde_with::skip_serializing_none]
