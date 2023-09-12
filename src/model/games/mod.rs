@@ -33,7 +33,7 @@ pub struct GameJson {
     perf: String,
     created_at: u64,
     last_move_at: Option<u64>,
-    status_name: GameStatus,
+    status: GameStatus,
     players: Players,
     opening: Option<Opening>,
     moves: String,
