@@ -9,7 +9,7 @@ impl GetRequest {
     pub fn new() -> Self {
         Self {
             method: http::Method::GET,
-            path: "/api/account/profile".to_string(),
+            path: "/api/account".to_string(),
             query: Default::default(),
             body: Default::default(),
         }
