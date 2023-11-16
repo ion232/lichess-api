@@ -6,6 +6,8 @@ use futures::StreamExt;
 use lichess_api::client::LichessApi;
 use lichess_api::model::puzzles::*;
 use reqwest;
+use tracing::level_filters::LevelFilter;
+use tracing_subscriber::EnvFilter;
 
 const HELP_STYLES: Styles = Styles::styled()
     .header(AnsiColor::Blue.on_default().bold())
@@ -19,8 +21,13 @@ struct Cli {
     /// A personal API token for lichess (https://lichess.org/account/oauth/token)
     #[arg(long, short)]
     api_token: Option<String>,
+
     #[clap(subcommand)]
     command: Command,
+
+    /// Enable verbose logging
+    #[arg(long, short)]
+    verbose: bool,
 }
 
 #[derive(Debug, Subcommand)]
@@ -40,10 +47,29 @@ struct App {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    color_eyre::install()?;
     let args = Cli::parse();
+    let level = if args.verbose {
+        LevelFilter::DEBUG
+    } else {
+        LevelFilter::INFO
+    };
+    init_tracing(level)?;
+    color_eyre::install()?;
     let app = App::new(args.api_token.clone());
     app.run(args).await
+}
+
+fn init_tracing(directive: LevelFilter) -> Result<()> {
+    let filter = EnvFilter::builder()
+        .from_env()?
+        .add_directive(directive.into())
+        // remove hyper noise
+        .add_directive("hyper::proto=info".parse()?);
+    tracing_subscriber::fmt()
+        .with_env_filter(filter)
+        .compact()
+        .init();
+    Ok(())
 }
 
 impl App {

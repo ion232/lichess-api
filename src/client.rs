@@ -6,6 +6,7 @@ use bytes::Bytes;
 use futures::TryStreamExt;
 
 use serde::de::DeserializeOwned;
+use tracing::debug;
 
 use crate::error::{Error, Result};
 
@@ -41,8 +42,10 @@ impl LichessApi<reqwest::Client> {
         mut http_request: http::Request<Bytes>,
     ) -> Result<impl StreamExt<Item = Result<Model>>> {
         if let Some(auth) = &self.bearer_auth {
-            let auth_header = http::HeaderValue::from_str(&auth)
+            let mut auth_header = http::HeaderValue::from_str(&auth)
                 .map_err(|e| Error::HttpRequestBuilder(http::Error::from(e)))?;
+            // exclude the auth header from being logged
+            auth_header.set_sensitive(true);
             http_request
                 .headers_mut()
                 .insert(http::header::AUTHORIZATION, auth_header);
@@ -51,11 +54,10 @@ impl LichessApi<reqwest::Client> {
         let convert_err = |e: reqwest::Error| Error::Request(e.to_string());
         let mut request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
         *request.timeout_mut() = None;
-
-        let stream = self
-            .client
-            .execute(request)
-            .await
+        debug!(?request, "sending");
+        let response = self.client.execute(request).await;
+        debug!(?response, "received");
+        let stream = response
             .map_err(convert_err)?
             .bytes_stream()
             .map_err(|e| futures::io::Error::new(futures::io::ErrorKind::Other, e))
