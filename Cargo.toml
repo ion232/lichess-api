@@ -19,7 +19,7 @@ webpki-roots = { version = "0.22.6", optional = true }
 rustls = { version = "0.20.8", optional = true }
 mime = "0.3.16"
 # Dependencies for reqwest lichess client.
-reqwest = { version = "0.11.13", features = ["json", "stream"]}
+reqwest = { version = "0.11.13", features = ["json", "stream"] }
 
 # Other dependencies.
 async-std = "1.12.0"
@@ -35,7 +35,9 @@ thiserror = "1.0.38"
 url = "2.3.1"
 
 [dev-dependencies]
-tokio = { version = "1.24.2" , features = ["macros", "rt-multi-thread"] }
+clap = { version = "4.4.8", features = ["derive"] }
+color-eyre = "0.6.2"
+tokio = { version = "1.24.2", features = ["macros", "rt-multi-thread"] }
 
 # [features]
 # awc = ["dep:actix-web", "dep:awc", "dep:webpki-roots", "dep:mime", "dep:rustls"]

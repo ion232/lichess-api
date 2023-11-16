@@ -20,6 +20,7 @@ impl<Q: Serialize + Default> QueryBounds for Q {}
 pub trait ModelBounds: DeserializeOwned {}
 impl<M: DeserializeOwned> ModelBounds for M {}
 
+#[derive(Debug)]
 pub enum Body<B: BodyBounds> {
     Form(B),
     Json(B),
@@ -54,6 +55,7 @@ impl<B: BodyBounds> Body<B> {
     }
 }
 
+#[derive(Debug)]
 pub struct Request<Q, B = ()>
 where
     Q: QueryBounds,
