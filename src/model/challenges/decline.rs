@@ -23,7 +23,7 @@ pub enum Reason {
 
 #[derive(Clone, Debug, Serialize)]
 pub struct DeclineReason {
-    pub reason: Reason
+    pub reason: Reason,
 }
 
 pub type PostRequest = Request<PostQuery, DeclineReason>;
@@ -35,7 +35,7 @@ impl PostRequest {
             method: http::Method::POST,
             path,
             query: Default::default(),
-            body: Body::Form(DeclineReason {reason}),
+            body: Body::Form(DeclineReason { reason }),
         }
     }
 }

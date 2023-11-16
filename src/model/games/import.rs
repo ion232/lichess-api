@@ -6,7 +6,7 @@ pub struct PostQuery;
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct Game {
-    pgn: String
+    pgn: String,
 }
 
 pub type PostRequest = crate::model::Request<PostQuery, Game>;
@@ -17,7 +17,7 @@ impl PostRequest {
             method: http::Method::POST,
             path: "/api/import".to_string(),
             query: Default::default(),
-            body: Body::Form(Game {pgn}),
+            body: Body::Form(Game { pgn }),
         }
     }
 }

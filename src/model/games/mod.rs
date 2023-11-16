@@ -38,7 +38,7 @@ pub struct GameJson {
     opening: Option<Opening>,
     moves: String,
     clock: Option<Clock>,
-    winner: Option<String>
+    winner: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
