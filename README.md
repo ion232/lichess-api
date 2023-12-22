@@ -1,13 +1,60 @@
 # lichess-api
-A Rust client for [v2.0.0 of the lichess.org API](https://lichess.org/api)
 
-## Status 🚧
+[![Crates.io][crates-badge]][crates-url]
+[![Dependencies][deps-badge]][deps-url]
+[![Documentation][docs-badge]][docs-url]
+[![Apache 2.0 licensed][apache-badge]][apache-url]
 
-This crate is currently under construction and testing, and should therefore be considered unstable for the time being.
-Many of the main endpoints have been implemented and tested, but more required work is in progress. 
+[crates-badge]: https://img.shields.io/crates/v/lichess-api.svg
+[crates-url]: https://crates.io/crates/lichess-api
+[deps-badge]: https://deps.rs/repo/github/ion232/lichess-api/status.svg
+[deps-url]: https://deps.rs/repo/github/ion232/lichess-api
+[docs-badge]: https://docs.rs/lichess-api/badge.svg
+[docs-url]: https://docs.rs/lichess-api
+[apache-badge]: https://img.shields.io/badge/license-Apache%202.0-blue.svg
+[apache-url]: LICENSE
 
-There are four goals for this crate:
-- Support the minimum endpoints required for implementing a lichess bot.
-- Support all lichess api endpoints.
-- Make a major version release once all endpoints are supported and considered reliable.
-- Keep dependencies up to date and continue to support any future updates to the lichess api.
+A Rust API client library for [the current lichess.org API](https://lichess.org/api).
+
+The goal of this crate is to fully support the latest lichess API - a major version release will be made once all endpoints are supported.
+
+The lichess endpoints will often change without an OpenAPI version or even schema change, so please raise an issue with relevant output if one of the endpoints is failing.
+
+## Endpoints
+
+- ✅ = Fully supported at the time of the most recent release crate.
+- 🚧 = Work to support this category is currently in progress.
+- ❌ = Not currently supported.
+
+The following table shows the current level of support for each category of endpoints.
+
+| Category              | Status  |
+|-----------------------|:-------:|
+| Account               |   ✅    |
+| Analysis              |   ❌    |
+| Arena tournaments     |   ❌    |
+| Board                 |   ✅    |
+| Bot                   |   ✅    |
+| Broadcasts            |   ❌    |
+| Bulk pairings         |   ❌    |
+| Challenges            |   ✅    |
+| External engine       |   🚧    |
+| Games                 |   ✅    |
+| Messaging             |   ✅    |
+| Opening Explorer      |   ❌    |
+| OAuth                 |   ❌    |
+| Puzzles               |   ✅    |
+| Relations             |   ❌    |
+| Simuls                |   ❌    |
+| Studies               |   ❌    |
+| Swiss tournaments     |   ❌    |
+| Tablebase             |   ❌    |
+| Teams                 |   ❌    |
+| TV                    |   ❌    |
+| Users                 |   ✅    |
+
+## Contributing
+
+Contributions are much appreciated - especially if you can add support for a category of endpoints. Otherwise, if you have any ideas, bug reports, feature requests, or fixes, please make an issue or submit a pull request.
+
+Thanks.
