@@ -23,6 +23,7 @@ The lichess endpoints will often change without an OpenAPI version or even schem
 ## Endpoints
 
 - ✅ = Fully supported at the time of the most recent release crate.
+- 🔶 = Partially supported.
 - 🚧 = Work to support this category is currently in progress.
 - ❌ = Not currently supported.
 
@@ -32,13 +33,13 @@ The following table shows the current level of support for each category of endp
 |-----------------------|:-------:|
 | Account               |   ✅    |
 | Analysis              |   ❌    |
-| Arena tournaments     |   ❌    |
+| Arena Tournaments     |   ❌    |
 | Board                 |   ✅    |
 | Bot                   |   ✅    |
 | Broadcasts            |   ❌    |
-| Bulk pairings         |   ❌    |
+| Bulk Pairings         |   ❌    |
 | Challenges            |   ✅    |
-| External engine       |   🚧    |
+| External Engine       |   🚧    |
 | Games                 |   ✅    |
 | Messaging             |   ✅    |
 | Opening Explorer      |   ❌    |
@@ -47,7 +48,7 @@ The following table shows the current level of support for each category of endp
 | Relations             |   ❌    |
 | Simuls                |   ❌    |
 | Studies               |   ❌    |
-| Swiss tournaments     |   ❌    |
+| Swiss Tournaments     |   ❌    |
 | Tablebase             |   ❌    |
 | Teams                 |   ❌    |
 | TV                    |   ❌    |
