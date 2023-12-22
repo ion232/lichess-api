@@ -11,7 +11,7 @@ use async_std::stream::StreamExt;
 
 use crate::client::LichessApi;
 use crate::error::{Error, Result};
-use crate::model::{BodyBounds, Response, ModelBounds, QueryBounds, Request};
+use crate::model::{BodyBounds, ModelBounds, QueryBounds, Request, Response};
 
 impl LichessApi<reqwest::Client> {
     pub async fn get_ok<Q, B>(&self, request: Request<Q, B>) -> Result<bool>

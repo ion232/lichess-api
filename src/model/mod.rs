@@ -20,6 +20,7 @@ impl<Q: Serialize + Default> QueryBounds for Q {}
 pub trait ModelBounds: DeserializeOwned {}
 impl<M: DeserializeOwned> ModelBounds for M {}
 
+#[derive(Debug)]
 pub enum Body<B: BodyBounds> {
     Form(B),
     Json(B),
@@ -54,6 +55,7 @@ impl<B: BodyBounds> Body<B> {
     }
 }
 
+#[derive(Debug)]
 pub struct Request<Q, B = ()>
 where
     Q: QueryBounds,
@@ -62,7 +64,7 @@ where
     pub(crate) method: http::Method,
     pub(crate) path: String,
     pub(crate) query: Option<Q>,
-    pub(crate) body: Body<B>
+    pub(crate) body: Body<B>,
 }
 
 impl<Q, B> Request<Q, B>
@@ -70,7 +72,10 @@ where
     Q: QueryBounds,
     B: BodyBounds,
 {
-    pub(crate) fn as_http_request(self, accept: &str) -> error::Result<http::Request<bytes::Bytes>> {
+    pub(crate) fn as_http_request(
+        self,
+        accept: &str,
+    ) -> error::Result<http::Request<bytes::Bytes>> {
         make_request(self.method, self.path, self.query, self.body, accept)
     }
 }
@@ -80,7 +85,7 @@ fn make_request<Q, B>(
     path: String,
     query: Option<Q>,
     body: Body<B>,
-    accept: &str
+    accept: &str,
 ) -> error::Result<http::Request<bytes::Bytes>>
 where
     Q: QueryBounds,

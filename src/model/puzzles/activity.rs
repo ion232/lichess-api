@@ -23,8 +23,17 @@ pub type Round = PuzzleRoundJson;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PuzzleRoundJson {
-    pub id: String,
     pub date: u64,
     pub win: bool,
-    pub puzzle_rating: u32,
+    pub puzzle: Puzzle,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Puzzle {
+    pub id: String,
+    pub fen: String,
+    pub plays: i32,
+    pub rating: i32,
+    pub solution: Vec<String>,
+    pub themes: Vec<String>,
 }

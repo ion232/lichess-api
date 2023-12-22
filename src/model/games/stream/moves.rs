@@ -1,5 +1,5 @@
-use crate::model::Variant;
 use crate::model::games::Players;
+use crate::model::Variant;
 
 use serde::{Deserialize, Serialize};
 
@@ -41,7 +41,7 @@ pub enum MoveStream {
         status: Status,
         created_at: u64,
         last_move: Option<String>,
-        players: Players
+        players: Players,
     },
     Move {
         fen: String,
@@ -51,7 +51,7 @@ pub enum MoveStream {
         white_centipawns: Option<u32>,
         #[serde(rename = "bc")]
         black_centipawns: Option<u32>,
-    }
+    },
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

@@ -26,7 +26,7 @@ impl GetRequest {
 pub enum Event {
     GameFull {
         #[serde(flatten)]
-        game_full: GameFull
+        game_full: GameFull,
     },
     GameState {
         #[serde(flatten)]
