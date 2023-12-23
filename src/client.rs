@@ -69,6 +69,7 @@ impl LichessApi<reqwest::Client> {
             })
             .map(|l| -> Result<Model> {
                 let line = l?;
+                debug!(line, "model line");
                 if line.starts_with("<!DOCTYPE html>") {
                     return Err(crate::error::Error::PageNotFound());
                 }
