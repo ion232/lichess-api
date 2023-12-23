@@ -1,20 +1,18 @@
-use super::Base;
 use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct GetQuery {
-    #[serde(flatten)]
-    pub base: Base,
+    fen: String,
 }
 
 pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
-    pub fn new(game_id: &str, query: GetQuery) -> Self {
-        let path = format!("/game/export/{}", game_id);
+    pub fn new(fen: &str) -> Self {
         Self {
-            path,
-            query: Some(query),
+            domain: crate::model::Domain::Tablebase,
+            path: "/standard".to_string(),
+            query: Some(GetQuery { fen: fen.to_string() }),
             ..Default::default()
         }
     }

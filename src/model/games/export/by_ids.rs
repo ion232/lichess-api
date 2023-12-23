@@ -17,6 +17,7 @@ impl PostRequest {
             path: "/api/games/export/_ids".to_string(),
             query: Some(query),
             body: Body::PlainText(game_ids.join(",")),
+            ..Default::default()
         }
     }
 }

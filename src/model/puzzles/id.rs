@@ -8,10 +8,8 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 impl GetRequest {
     pub fn new(id: &str) -> Self {
         Self {
-            method: http::Method::GET,
             path: format!("/api/puzzle/{}", id),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

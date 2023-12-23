@@ -19,8 +19,8 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path: format!("/inbox/{}", username).to_string(),
-            query: Default::default(),
             body: Body::Form(message),
+            ..Default::default()
         }
     }
 }

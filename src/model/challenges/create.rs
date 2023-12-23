@@ -14,8 +14,8 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path,
-            query: Default::default(),
             body: Body::Form(challenge),
+            ..Default::default()
         }
     }
 }

@@ -8,10 +8,8 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 impl GetRequest {
     pub fn new() -> Self {
         Self {
-            method: http::Method::GET,
             path: "/api/account/kid".to_string(),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }
@@ -29,7 +27,7 @@ impl PostRequest {
             method: http::Method::POST,
             path: "/api/account/kid".to_string(),
             query: Some(PostQuery { v: on }),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

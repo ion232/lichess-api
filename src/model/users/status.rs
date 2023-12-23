@@ -13,13 +13,12 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 impl GetRequest {
     pub fn new(user_ids: Vec<String>, with_game_ids: bool) -> Self {
         Self {
-            method: http::Method::GET,
             path: "/api/users/status".to_string(),
             query: Some(GetQuery {
                 ids: user_ids.join(","),
                 with_game_ids,
             }),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

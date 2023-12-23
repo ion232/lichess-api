@@ -15,6 +15,7 @@ impl PostRequest {
             path: "/api/stream/games-by-users".to_string(),
             query: Some(PostQuery { with_current_games }),
             body: Body::PlainText(user_ids.join(",")),
+            ..Default::default()
         }
     }
 }

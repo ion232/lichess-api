@@ -12,8 +12,8 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path,
-            query: Default::default(),
             body: Body::PlainText(game_ids.join(",")),
+            ..Default::default()
         }
     }
 }

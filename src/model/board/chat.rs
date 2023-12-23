@@ -10,10 +10,8 @@ impl GetRequest {
     pub fn new(game_id: &str) -> Self {
         let path = format!("/api/board/game/{}/chat", game_id);
         Self {
-            method: http::Method::GET,
             path,
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }
@@ -39,8 +37,8 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path,
-            query: Default::default(),
             body: Body::Form(message),
+            ..Default::default()
         }
     }
 }

@@ -5,6 +5,7 @@ pub mod challenges;
 pub mod games;
 pub mod messaging;
 pub mod puzzles;
+pub mod tablebase;
 pub mod users;
 
 use crate::error;
@@ -56,15 +57,49 @@ impl<B: BodyBounds> Body<B> {
 }
 
 #[derive(Debug)]
+pub enum Domain {
+    Lichess,
+    Tablebase,
+}
+
+impl Default for Domain {
+    fn default() -> Self {
+        Domain::Lichess
+    }
+}
+
+impl AsRef<str> for Domain {
+    fn as_ref(&self) -> &str {
+        match self {
+            Domain::Lichess => "lichess.org",
+            Domain::Tablebase => "tablebase.lichess.ovh",
+        }
+    }
+}
+
+#[derive(Debug)]
 pub struct Request<Q, B = ()>
 where
     Q: QueryBounds,
     B: BodyBounds,
 {
+    pub(crate) domain: Domain,
     pub(crate) method: http::Method,
     pub(crate) path: String,
     pub(crate) query: Option<Q>,
     pub(crate) body: Body<B>,
+}
+
+impl<Q, B> Default for Request<Q, B> where Q: QueryBounds + Default, B: BodyBounds {
+    fn default() -> Self {
+        Self {
+            domain: Domain::default(),
+            method: http::Method::default(),
+            path: "/".to_string(),
+            query: None,
+            body: Body::Empty,
+        }
+    }
 }
 
 impl<Q, B> Request<Q, B>
@@ -76,11 +111,12 @@ where
         self,
         accept: &str,
     ) -> error::Result<http::Request<bytes::Bytes>> {
-        make_request(self.method, self.path, self.query, self.body, accept)
+        make_request(self.domain, self.method, self.path, self.query, self.body, accept)
     }
 }
 
 fn make_request<Q, B>(
+    domain: Domain,
     method: http::Method,
     path: String,
     query: Option<Q>,
@@ -100,7 +136,7 @@ where
         .map_err(|e| error::Error::HttpRequestBuilder(http::Error::from(e)))?;
     builder = builder.header(http::header::ACCEPT, accept_header);
 
-    let url = make_url(path, query)?;
+    let url = make_url(domain, path, query)?;
     let body = bytes::Bytes::from(body.as_encoded_string()?);
 
     let request = builder
@@ -112,11 +148,12 @@ where
     Ok(request)
 }
 
-fn make_url<Q>(path: String, query: Option<Q>) -> error::Result<url::Url>
+fn make_url<Q>(domain: Domain, path: String, query: Option<Q>) -> error::Result<url::Url>
 where
     Q: QueryBounds,
 {
-    let mut url = url::Url::parse("https://lichess.org").expect("Failed to parse base url.");
+    let base_url = format!("https://{}", domain.as_ref());
+    let mut url = url::Url::parse(&base_url).expect("invalid base url");
 
     if let Some(query) = query {
         let mut query_pairs = url.query_pairs_mut();

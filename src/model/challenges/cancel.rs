@@ -16,7 +16,7 @@ impl PostRequest {
             method: http::Method::POST,
             path,
             query: opponent_token.map(|t| PostQuery { opponent_token: t }),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

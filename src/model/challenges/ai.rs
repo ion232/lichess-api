@@ -12,8 +12,8 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path: "/api/challenge/ai".to_string(),
-            query: Default::default(),
             body: Body::Form(challenge),
+            ..Default::default()
         }
     }
 }

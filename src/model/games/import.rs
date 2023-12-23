@@ -16,8 +16,8 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path: "/api/import".to_string(),
-            query: Default::default(),
             body: Body::Form(Game { pgn }),
+            ..Default::default()
         }
     }
 }

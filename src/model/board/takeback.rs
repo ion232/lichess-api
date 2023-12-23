@@ -13,8 +13,7 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path,
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

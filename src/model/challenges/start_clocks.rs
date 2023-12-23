@@ -16,7 +16,7 @@ impl PostRequest {
             method: http::Method::POST,
             path,
             query: Some(PostQuery { token1, token2 }),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }
