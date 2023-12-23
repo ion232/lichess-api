@@ -49,7 +49,7 @@ The following table shows the current level of support for each category of endp
 | Simuls                |   ❌    |
 | Studies               |   ❌    |
 | Swiss Tournaments     |   ❌    |
-| Tablebase             |   ❌    |
+| Tablebase             |   ✅    |
 | Teams                 |   ❌    |
 | TV                    |   ❌    |
 | Users                 |   ✅    |
