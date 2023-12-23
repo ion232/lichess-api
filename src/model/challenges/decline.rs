@@ -34,8 +34,8 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path,
-            query: Default::default(),
             body: Body::Form(DeclineReason { reason }),
+            ..Default::default()
         }
     }
 }

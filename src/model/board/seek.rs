@@ -41,8 +41,7 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path: "/api/board/seek".to_string(),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

@@ -15,7 +15,7 @@ impl PostRequest {
             method: http::Method::POST,
             path,
             query: Some(PostQuery { offering_draw }),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

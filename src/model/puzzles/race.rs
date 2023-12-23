@@ -10,8 +10,7 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path: "/api/racer".to_string(),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

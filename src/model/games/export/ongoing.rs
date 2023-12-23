@@ -13,10 +13,9 @@ impl GetRequest {
     pub fn new(username: &str, query: GetQuery) -> Self {
         let path = format!("/api/user/{}/current-game", username);
         Self {
-            method: http::Method::GET,
             path,
             query: Some(query),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

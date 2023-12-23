@@ -11,10 +11,9 @@ impl GetRequest {
     pub fn new(username: &str, days: Option<u32>) -> Self {
         let path = format!("/api/storm/dashboard/{}", username);
         Self {
-            method: http::Method::GET,
             path,
             query: days.map(|x| GetQuery { days: x }),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

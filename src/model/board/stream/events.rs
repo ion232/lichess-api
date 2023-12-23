@@ -11,10 +11,8 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 impl GetRequest {
     pub fn new() -> Self {
         Self {
-            method: http::Method::GET,
             path: "/api/stream/event".to_string(),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

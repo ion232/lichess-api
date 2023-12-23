@@ -10,10 +10,8 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 impl GetRequest {
     pub fn new(days: u32) -> Self {
         Self {
-            method: http::Method::GET,
             path: format!("/api/puzzle/dashboard/{}", days),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

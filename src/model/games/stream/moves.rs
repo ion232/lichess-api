@@ -12,10 +12,8 @@ impl GetRequest {
     pub fn new(id: &str) -> Self {
         let path = format!("/api/stream/game/{}", id);
         Self {
-            method: http::Method::GET,
             path,
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

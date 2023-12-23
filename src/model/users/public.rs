@@ -11,12 +11,11 @@ impl GetRequest {
     pub fn new(username: &str, with_trophies: bool) -> Self {
         let path = format!("/api/user/{}", username);
         Self {
-            method: http::Method::GET,
             path,
             query: Some(GetQuery {
                 trophies: with_trophies,
             }),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

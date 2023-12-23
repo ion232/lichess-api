@@ -11,8 +11,7 @@ impl PostRequest {
         Self {
             method: http::Method::POST,
             path: "/api/bot/account/upgrade".to_string(),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }
