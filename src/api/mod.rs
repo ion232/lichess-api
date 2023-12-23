@@ -5,6 +5,7 @@ pub mod challenges;
 pub mod games;
 pub mod messaging;
 pub mod puzzles;
+pub mod tablebase;
 pub mod users;
 
 use async_std::stream::StreamExt;

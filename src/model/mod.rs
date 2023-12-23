@@ -5,6 +5,7 @@ pub mod challenges;
 pub mod games;
 pub mod messaging;
 pub mod puzzles;
+pub mod tablebase;
 pub mod users;
 
 use crate::error;
@@ -70,8 +71,8 @@ impl Default for Domain {
 impl AsRef<str> for Domain {
     fn as_ref(&self) -> &str {
         match self {
-            Domain::Lichess => "https://lichess.org",
-            Domain::Tablebase => "https://tablebase.lichess.ovh",
+            Domain::Lichess => "lichess.org",
+            Domain::Tablebase => "tablebase.lichess.ovh",
         }
     }
 }
@@ -151,7 +152,8 @@ fn make_url<Q>(domain: Domain, path: String, query: Option<Q>) -> error::Result<
 where
     Q: QueryBounds,
 {
-    let mut url = url::Url::parse(domain.as_ref()).expect("Failed to parse domain.");
+    let base_url = format!("https://{}", domain.as_ref());
+    let mut url = url::Url::parse(&base_url).expect("invalid base url");
 
     if let Some(query) = query {
         let mut query_pairs = url.query_pairs_mut();
