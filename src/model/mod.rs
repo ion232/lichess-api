@@ -55,6 +55,7 @@ impl<B: BodyBounds> Body<B> {
     }
 }
 
+#[derive(Debug)]
 pub enum Domain {
     Lichess,
     Tablebase,
@@ -86,6 +87,18 @@ where
     pub(crate) path: String,
     pub(crate) query: Option<Q>,
     pub(crate) body: Body<B>,
+}
+
+impl<Q, B> Default for Request<Q, B> where Q: QueryBounds + Default, B: BodyBounds {
+    fn default() -> Self {
+        Self {
+            domain: Domain::default(),
+            method: http::Method::default(),
+            path: "/".to_string(),
+            query: None,
+            body: Body::Empty,
+        }
+    }
 }
 
 impl<Q, B> Request<Q, B>
@@ -138,7 +151,7 @@ fn make_url<Q>(domain: Domain, path: String, query: Option<Q>) -> error::Result<
 where
     Q: QueryBounds,
 {
-    let mut url = url::Url::parse(&domain).expect("Failed to parse domain.");
+    let mut url = url::Url::parse(domain.as_ref()).expect("Failed to parse domain.");
 
     if let Some(query) = query {
         let mut query_pairs = url.query_pairs_mut();
