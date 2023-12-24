@@ -14,4 +14,4 @@ impl GetRequest {
     }
 }
 
-pub type Puzzle = super::PuzzleJson;
+pub type Puzzle = super::PuzzleAndGame;

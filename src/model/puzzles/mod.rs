@@ -8,7 +8,7 @@ pub mod storm_dashboard;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct PuzzleJson {
+pub struct PuzzleAndGame {
     pub game: Game,
     pub puzzle: Puzzle,
 }
@@ -40,10 +40,11 @@ pub struct Perf {
     pub name: String,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Player {
     pub color: String,
     pub name: String,
     #[serde(rename = "userId")]
-    pub user_id: String,
+    pub user_id: Option<String>,
 }

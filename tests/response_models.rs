@@ -38,7 +38,7 @@ pub fn board_game_stream() {
 
 #[test]
 pub fn puzzle() {
-    test_response_model::<puzzles::PuzzleJson>("puzzle");
+    test_response_model::<puzzles::PuzzleAndGame>("puzzle");
 }
 
 #[test]
