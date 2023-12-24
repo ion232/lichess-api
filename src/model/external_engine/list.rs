@@ -1,5 +1,4 @@
-// use crate::model::external_engine::ExternalEngineJson;;
-use crate::model::{Domain, Request};
+use crate::model::Request;
 use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
@@ -10,11 +9,8 @@ pub type GetRequest = Request<GetQuery>;
 impl GetRequest {
     pub fn new() -> Self {
         Self {
-            domain: Domain::Engine,
-            method: http::Method::GET,
             path: "/api/external-engine".to_string(),
-            query: Default::default(),
-            body: Default::default(),
+            ..Default::default()
         }
     }
 }

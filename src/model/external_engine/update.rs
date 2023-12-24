@@ -1,4 +1,4 @@
-use crate::model::{Body, Domain, Request};
+use crate::model::{Body, Request};
 use serde::Serialize;
 
 use super::UpdateExternalEngine;
@@ -12,11 +12,10 @@ pub type PutRequest = Request<PutQuery, UpdateExternalEngine>;
 impl PutRequest {
     pub fn new(id: &str, engine: UpdateExternalEngine) -> Self {
         Self {
-            domain: Domain::Engine,
             method: http::Method::PUT,
             path: format!("/api/external-engine/{}", id),
-            query: Default::default(),
             body: Body::Json(engine),
+            ..Default::default()
         }
     }
 }

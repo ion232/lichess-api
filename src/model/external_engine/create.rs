@@ -1,5 +1,5 @@
 use crate::model::external_engine::CreateExternalEngine;
-use crate::model::{Body, Domain, Request};
+use crate::model::{Body, Request};
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]
@@ -11,11 +11,10 @@ pub type PostRequest = Request<PostQuery, CreateExternalEngine>;
 impl PostRequest {
     pub fn new(engine: CreateExternalEngine) -> Self {
         Self {
-            domain: Domain::Engine,
             method: http::Method::POST,
             path: "/api/external-engine".to_string(),
-            query: Default::default(),
             body: Body::Json(engine),
+            ..Default::default()
         }
     }
 }
