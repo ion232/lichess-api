@@ -1,7 +1,7 @@
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::challenges::*;
-use crate::model::games::GameJson;
+use crate::model::games::stream::moves::Move;
 
 impl LichessApi<reqwest::Client> {
     pub async fn list_challenges(&self, request: list::GetRequest) -> Result<list::Challenges> {
@@ -24,7 +24,7 @@ impl LichessApi<reqwest::Client> {
         self.get_ok(request).await
     }
 
-    pub async fn challenge_ai(&self, request: ai::PostRequest) -> Result<GameJson> {
+    pub async fn challenge_ai(&self, request: ai::PostRequest) -> Result<Move> {
         self.get_single_model(request).await
     }
 
