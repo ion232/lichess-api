@@ -1,0 +1,20 @@
+{
+    "id": "0PBNxATa",
+    "variant": {
+        "key": "standard",
+        "name": "Standard",
+        "short": "Std"
+    },
+    "speed": "blitz",
+    "perf": "blitz",
+    "rated": false,
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "turns": 0,
+    "source": "ai",
+    "status": {
+        "id": 20,
+        "name": "started"
+    },
+    "createdAt": 1704320123711,
+    "player": "white"
+}
