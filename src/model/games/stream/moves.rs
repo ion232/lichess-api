@@ -30,24 +30,31 @@ pub enum MoveStream {
         speed: String,
         perf: String,
         rated: bool,
+        #[serde(skip_serializing_if = "Option::is_none")]
         initial_fen: Option<String>,
         fen: String,
         player: String,
         turns: u32,
-        started_at_turn: u64,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        started_at_turn: Option<u64>,
         source: String,
         status: Status,
         created_at: u64,
+        #[serde(skip_serializing_if = "Option::is_none")]
         last_move: Option<String>,
-        players: Players,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        players: Option<Players>,
     },
     Move {
         fen: String,
         #[serde(rename = "lm")]
+        #[serde(skip_serializing_if = "Option::is_none")]
         last_move: Option<String>,
         #[serde(rename = "wc")]
+        #[serde(skip_serializing_if = "Option::is_none")]
         white_centipawns: Option<u32>,
         #[serde(rename = "bc")]
+        #[serde(skip_serializing_if = "Option::is_none")]
         black_centipawns: Option<u32>,
     },
 }

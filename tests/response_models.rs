@@ -37,6 +37,11 @@ pub fn board_game_stream() {
 }
 
 #[test]
+pub fn challenge_ai() {
+    test_response_model::<games::stream::moves::Move>("challenge_ai");
+}
+
+#[test]
 pub fn puzzle() {
     test_response_model::<puzzles::PuzzleAndGame>("puzzle");
 }
@@ -79,12 +84,6 @@ fn test_model<Model: Serialize + DeserializeOwned>(path: String) {
 
     let model_value =
         serde_json::to_value(&model).expect("Unable to serialize model to json value.");
-
-    // let x = serde_json::to_string(&model_value).unwrap();
-    // let y = serde_json::to_string(&file_model_value).unwrap();
-
-    // println!("{}", x);
-    // println!("{}", y);
 
     assert_eq!(model_value, file_model_value);
 }
