@@ -10,39 +10,39 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GameStream {
-    id: String,
-    rated: bool,
-    variant: VariantKey,
-    speed: Speed,
-    perf: String,
-    created_at: u64,
-    status: u32,
-    status_name: GameStatus,
-    players: Players,
-    clock: Option<Clock>,
+    pub id: String,
+    pub rated: bool,
+    pub variant: VariantKey,
+    pub speed: Speed,
+    pub perf: String,
+    pub created_at: u64,
+    pub status: u32,
+    pub status_name: GameStatus,
+    pub players: Players,
+    pub clock: Option<Clock>,
 }
 
 #[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GameJson {
-    id: String,
-    rated: bool,
-    variant: Variant,
-    speed: Speed,
-    perf: String,
-    created_at: u64,
-    last_move_at: Option<u64>,
-    status: GameStatusJson,
-    players: Option<Players>,
-    player: Option<String>,
-    opening: Option<Opening>,
-    moves: Option<String>,
-    clock: Option<Clock>,
-    winner: Option<String>,
-    fen: Option<String>,
-    turns: Option<u32>,
-    source: Option<String>,
+    pub id: String,
+    pub rated: bool,
+    pub variant: Variant,
+    pub speed: Speed,
+    pub perf: String,
+    pub created_at: u64,
+    pub last_move_at: Option<u64>,
+    pub status: GameStatusJson,
+    pub players: Option<Players>,
+    pub player: Option<String>,
+    pub opening: Option<Opening>,
+    pub moves: Option<String>,
+    pub clock: Option<Clock>,
+    pub winner: Option<String>,
+    pub fen: Option<String>,
+    pub turns: Option<u32>,
+    pub source: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
