@@ -1,4 +1,5 @@
 pub mod account;
+pub mod analysis;
 pub mod board;
 pub mod bot;
 pub mod challenges;

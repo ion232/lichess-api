@@ -1,4 +1,5 @@
 pub mod account;
+pub mod analysis;
 pub mod board;
 pub mod bot;
 pub mod challenges;
@@ -90,7 +91,11 @@ where
     pub(crate) body: Body<B>,
 }
 
-impl<Q, B> Default for Request<Q, B> where Q: QueryBounds + Default, B: BodyBounds {
+impl<Q, B> Default for Request<Q, B>
+where
+    Q: QueryBounds + Default,
+    B: BodyBounds,
+{
     fn default() -> Self {
         Self {
             domain: Domain::default(),
@@ -111,7 +116,14 @@ where
         self,
         accept: &str,
     ) -> error::Result<http::Request<bytes::Bytes>> {
-        make_request(self.domain, self.method, self.path, self.query, self.body, accept)
+        make_request(
+            self.domain,
+            self.method,
+            self.path,
+            self.query,
+            self.body,
+            accept,
+        )
     }
 }
 
@@ -257,9 +269,10 @@ pub struct Variant {
     pub short: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[derive(Default, Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum VariantKey {
+    #[default]
     Standard,
     Chess960,
     Crazyhouse,
@@ -272,23 +285,12 @@ pub enum VariantKey {
     FromPosition,
 }
 
-impl Default for VariantKey {
-    fn default() -> Self {
-        VariantKey::Standard
-    }
-}
-
-#[derive(Clone, Debug, Serialize, PartialEq, Eq, Deserialize)]
+#[derive(Default, Clone, Debug, Serialize, PartialEq, Eq, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Room {
+    #[default]
     Player,
     Spectator,
-}
-
-impl Default for Room {
-    fn default() -> Self {
-        Room::Player
-    }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

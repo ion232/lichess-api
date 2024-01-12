@@ -12,7 +12,9 @@ impl GetRequest {
         Self {
             domain: crate::model::Domain::Tablebase,
             path: "/standard".to_string(),
-            query: Some(GetQuery { fen: fen.to_string() }),
+            query: Some(GetQuery {
+                fen: fen.to_string(),
+            }),
             ..Default::default()
         }
     }
