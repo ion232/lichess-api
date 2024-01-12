@@ -32,7 +32,7 @@ The following table shows the current level of support for each category of endp
 | Category              | Status  |
 |-----------------------|:-------:|
 | Account               |   ✅    |
-| Analysis              |   ❌    |
+| Analysis              |   ✅    |
 | Arena Tournaments     |   ❌    |
 | Board                 |   ✅    |
 | Bot                   |   ✅    |
