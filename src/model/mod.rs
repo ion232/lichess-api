@@ -5,6 +5,7 @@ pub mod bot;
 pub mod challenges;
 pub mod games;
 pub mod messaging;
+pub mod opening;
 pub mod puzzles;
 pub mod tablebase;
 pub mod users;
@@ -61,6 +62,7 @@ impl<B: BodyBounds> Body<B> {
 pub enum Domain {
     Lichess,
     Tablebase,
+    Explorer,
 }
 
 impl Default for Domain {
@@ -74,6 +76,7 @@ impl AsRef<str> for Domain {
         match self {
             Domain::Lichess => "lichess.org",
             Domain::Tablebase => "tablebase.lichess.ovh",
+            Domain::Explorer => "explorer.lichess.ovh",
         }
     }
 }

@@ -5,6 +5,7 @@ pub mod bot;
 pub mod challenges;
 pub mod games;
 pub mod messaging;
+pub mod opening;
 pub mod puzzles;
 pub mod tablebase;
 pub mod users;
