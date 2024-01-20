@@ -1,5 +1,6 @@
 pub mod lichess;
 pub mod masters;
+pub mod otb;
 
 use serde::{Deserialize, Serialize};
 
@@ -63,4 +64,3 @@ pub struct History {
     pub draws: u32,
     pub white: u32,
 }
-
