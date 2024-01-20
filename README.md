@@ -42,7 +42,7 @@ The following table shows the current level of support for each category of endp
 | External Engine       |   🚧    |
 | Games                 |   ✅    |
 | Messaging             |   ✅    |
-| Opening Explorer      |   ❌    |
+| Opening Explorer      |   ✅    |
 | OAuth                 |   ❌    |
 | Puzzles               |   ✅    |
 | Relations             |   ❌    |
