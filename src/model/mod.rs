@@ -5,7 +5,7 @@ pub mod bot;
 pub mod challenges;
 pub mod games;
 pub mod messaging;
-pub mod opening;
+pub mod openings;
 pub mod puzzles;
 pub mod tablebase;
 pub mod users;
@@ -201,9 +201,10 @@ pub enum Response<M> {
     Error { error: String },
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[derive(Default, Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Color {
+    #[default]
     White,
     Black,
     Random,
