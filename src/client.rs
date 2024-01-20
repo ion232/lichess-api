@@ -37,10 +37,24 @@ impl<HttpClient> LichessApi<HttpClient> {
 }
 
 impl LichessApi<reqwest::Client> {
-    pub(crate) async fn send<Model: DeserializeOwned>(
+    pub(crate) async fn make_request<Model: DeserializeOwned>(
+        &self,
+        http_request: http::Request<Bytes>,
+    ) -> Result<impl StreamExt<Item = Result<Model>>> {
+        let stream =
+            self.make_request_as_raw_lines(http_request)
+                .await?
+                .map(|l| -> Result<Model> {
+                    serde_json::from_str(&l?).map_err(|e| crate::error::Error::Json(e))
+                });
+
+        Ok(stream)
+    }
+
+    pub(crate) async fn make_request_as_raw_lines(
         &self,
         mut http_request: http::Request<Bytes>,
-    ) -> Result<impl StreamExt<Item = Result<Model>>> {
+    ) -> Result<impl StreamExt<Item = Result<String>>> {
         if let Some(auth) = &self.bearer_auth {
             let mut auth_header = http::HeaderValue::from_str(&auth)
                 .map_err(|e| Error::HttpRequestBuilder(http::Error::from(e)))?;
@@ -67,13 +81,13 @@ impl LichessApi<reqwest::Client> {
                 // To avoid trying to serialize blank keep alive lines.
                 !l.as_ref().unwrap_or(&"".to_string()).is_empty()
             })
-            .map(|l| -> Result<Model> {
+            .map(|l| -> Result<String> {
                 let line = l?;
                 debug!(line, "model line");
                 if line.starts_with("<!DOCTYPE html>") {
                     return Err(crate::error::Error::PageNotFound());
                 }
-                serde_json::from_str(&line).map_err(|e| crate::error::Error::Json(e))
+                Ok(line)
             });
 
         Ok(stream)

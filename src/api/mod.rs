@@ -5,6 +5,7 @@ pub mod bot;
 pub mod challenges;
 pub mod games;
 pub mod messaging;
+pub mod openings;
 pub mod puzzles;
 pub mod tablebase;
 pub mod users;
@@ -27,6 +28,19 @@ impl LichessApi<reqwest::Client> {
         return Ok(result?.ok);
     }
 
+    pub async fn get_pgn<Q, B>(
+        &self,
+        request: Request<Q, B>,
+    ) -> Result<impl StreamExt<Item = Result<String>>>
+    where
+        Q: QueryBounds,
+        B: BodyBounds,
+    {
+        let request = request.as_http_request("application/x-chess-pgn")?;
+        let stream = self.make_request_as_raw_lines(request).await?;
+        Ok(stream)
+    }
+
     pub async fn get_single_model<Q, B, M>(&self, request: Request<Q, B>) -> Result<M>
     where
         Q: QueryBounds,
@@ -34,7 +48,7 @@ impl LichessApi<reqwest::Client> {
         M: ModelBounds,
     {
         let request = request.as_http_request("application/json")?;
-        let mut stream = self.send(request).await?;
+        let mut stream = self.make_request(request).await?;
         let res: Response<M> = self.expect_one_model(&mut stream).await?;
         match res {
             Response::Model(m) => Ok(m),
@@ -52,6 +66,6 @@ impl LichessApi<reqwest::Client> {
         M: ModelBounds,
     {
         let request = request.as_http_request("application/x-ndjson")?;
-        self.send(request).await
+        self.make_request(request).await
     }
 }
