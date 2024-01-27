@@ -1,10 +1,12 @@
 pub mod account;
+pub mod analysis;
 pub mod board;
 pub mod bot;
 pub mod challenges;
 pub mod external_engine;
 pub mod games;
 pub mod messaging;
+pub mod openings;
 pub mod puzzles;
 pub mod tablebase;
 pub mod users;
@@ -63,6 +65,7 @@ pub enum Domain {
     Lichess,
     Tablebase,
     Engine,
+    Explorer,
 }
 
 impl AsRef<str> for Domain {
@@ -71,6 +74,7 @@ impl AsRef<str> for Domain {
             Domain::Lichess => "lichess.org",
             Domain::Tablebase => "tablebase.lichess.ovh",
             Domain::Engine => "engine.lichess.ovh",
+            Domain::Explorer => "explorer.lichess.ovh",
         }
     }
 }
@@ -195,9 +199,10 @@ pub enum Response<M> {
     Error { error: String },
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[derive(Default, Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Color {
+    #[default]
     White,
     Black,
     Random,
@@ -266,9 +271,10 @@ pub struct Variant {
     pub short: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[derive(Default, Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum VariantKey {
+    #[default]
     Standard,
     Chess960,
     Crazyhouse,
@@ -281,23 +287,12 @@ pub enum VariantKey {
     FromPosition,
 }
 
-impl Default for VariantKey {
-    fn default() -> Self {
-        VariantKey::Standard
-    }
-}
-
-#[derive(Clone, Debug, Serialize, PartialEq, Eq, Deserialize)]
+#[derive(Default, Clone, Debug, Serialize, PartialEq, Eq, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Room {
+    #[default]
     Player,
     Spectator,
-}
-
-impl Default for Room {
-    fn default() -> Self {
-        Room::Player
-    }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

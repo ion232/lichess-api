@@ -32,7 +32,7 @@ The following table shows the current level of support for each category of endp
 | Category              | Status  |
 |-----------------------|:-------:|
 | Account               |   ✅    |
-| Analysis              |   ❌    |
+| Analysis              |   ✅    |
 | Arena Tournaments     |   ❌    |
 | Board                 |   ✅    |
 | Bot                   |   ✅    |
@@ -42,7 +42,7 @@ The following table shows the current level of support for each category of endp
 | External Engine       |   🚧    |
 | Games                 |   ✅    |
 | Messaging             |   ✅    |
-| Opening Explorer      |   ❌    |
+| Opening Explorer      |   ✅    |
 | OAuth                 |   ❌    |
 | Puzzles               |   ✅    |
 | Relations             |   ❌    |
@@ -52,7 +52,7 @@ The following table shows the current level of support for each category of endp
 | Tablebase             |   ✅    |
 | Teams                 |   ❌    |
 | TV                    |   ❌    |
-| Users                 |   ✅    |
+| Users                 |   🔶    |
 
 ## Contributing
 

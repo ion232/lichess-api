@@ -1,6 +1,6 @@
 [package]
 name = "lichess-api"
-version = "0.1.0"
+version = "0.3.0"
 edition = "2021"
 license = "Apache-2.0"
 description = "A Rust client for Lichess API v2.0.0"
@@ -16,20 +16,20 @@ reqwest = { version = "0.11.23", features = ["json", "stream"] }
 # Other dependencies.
 async-std = "1.12.0"
 bytes = "1.5.0"
-futures = "0.3.29"
-futures-core = "0.3.29"
+futures = "0.3.30"
+futures-core = "0.3.30"
 http = "0.2"
 mime = "0.3.17"
-serde = { version = "1.0.193", features = ["derive"] }
-serde_json = "1.0.108"
+serde = { version = "1.0.195", features = ["derive"] }
+serde_json = "1.0.111"
 serde_with = { version = "2.3.3", features = ["chrono"] }
 serde_urlencoded = "0.7.1"
-thiserror = "1.0.51"
+thiserror = "1.0.56"
 tracing = "0.1.40"
 url = "2.5.0"
 
 [dev-dependencies]
-clap = { version = "4.4.11", features = ["derive"] }
+clap = { version = "4.4.18", features = ["derive"] }
 color-eyre = "0.6.2"
 tokio = { version = "1.35.1", features = ["macros", "rt-multi-thread"] }
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
