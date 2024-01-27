@@ -97,10 +97,10 @@ pub struct OpponentGone {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GameEventPlayer {
-    pub id: String,
+    pub id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ai_level: Option<u32>,
-    pub name: String,
+    pub name: Option<String>,
     // This field can be null according to the openapi spec.
     pub title: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
