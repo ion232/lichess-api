@@ -43,7 +43,7 @@ impl LichessApi<reqwest::Client> {
         self.get_streamed_models(request).await
     }
 
-    pub async fn aquire_analysis_request(
+    pub async fn acquire_analysis_request(
         &self,
         request: acquire_analysis::PostRequest,
     ) -> Result<Option<acquire_analysis::AcquireAnalysisResponse>> {
