@@ -216,21 +216,6 @@ struct UpdateExternalEngineArgs {
     provider_data: Option<String>,
 }
 
-// {
-//     "clientSecret": "ees_mdF2hK0hlKGSPeC6",
-//       "sessionId": "abcd1234",
-//       "threads": 4,
-//       "hash": 128,
-//       "infinite": false,
-//       "multiPv": 1,
-//       "variant": "chess",
-//       "initialFen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-//       "moves": [
-//         "e2e4",
-//         "g8f6"
-//       ]
-//   }
-
 #[derive(Debug, Parser)]
 struct AnalyseArgs {
     /// The external engine id
