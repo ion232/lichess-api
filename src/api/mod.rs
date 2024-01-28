@@ -3,6 +3,7 @@ pub mod analysis;
 pub mod board;
 pub mod bot;
 pub mod challenges;
+pub mod external_engine;
 pub mod games;
 pub mod messaging;
 pub mod openings;

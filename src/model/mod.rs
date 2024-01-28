@@ -3,6 +3,7 @@ pub mod analysis;
 pub mod board;
 pub mod bot;
 pub mod challenges;
+pub mod external_engine;
 pub mod games;
 pub mod messaging;
 pub mod openings;
@@ -23,7 +24,7 @@ impl<Q: Serialize + Default> QueryBounds for Q {}
 pub trait ModelBounds: DeserializeOwned {}
 impl<M: DeserializeOwned> ModelBounds for M {}
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub enum Body<B: BodyBounds> {
     Form(B),
     Json(B),
@@ -58,17 +59,13 @@ impl<B: BodyBounds> Body<B> {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, Default)]
 pub enum Domain {
+    #[default]
     Lichess,
     Tablebase,
+    Engine,
     Explorer,
-}
-
-impl Default for Domain {
-    fn default() -> Self {
-        Domain::Lichess
-    }
 }
 
 impl AsRef<str> for Domain {
@@ -76,12 +73,13 @@ impl AsRef<str> for Domain {
         match self {
             Domain::Lichess => "lichess.org",
             Domain::Tablebase => "tablebase.lichess.ovh",
+            Domain::Engine => "engine.lichess.ovh",
             Domain::Explorer => "explorer.lichess.ovh",
         }
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Request<Q, B = ()>
 where
     Q: QueryBounds,
