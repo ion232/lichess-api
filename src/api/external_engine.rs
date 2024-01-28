@@ -17,7 +17,6 @@ impl LichessApi<reqwest::Client> {
         &self,
         request: create::PostRequest,
     ) -> Result<ExternalEngine> {
-        debug!("Creating external engine: {:?}", request);
         self.get_single_model(request).await
     }
 
