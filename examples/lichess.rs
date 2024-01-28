@@ -333,10 +333,10 @@ impl ExternalEngineCommand {
             } => {
                 let acquire_analysis = acquire_analysis::AcquireAnalysis { provider_secret };
                 let request = acquire_analysis::PostRequest::new(acquire_analysis);
-                let mut analysis = lichess.aquire_analysis_request(request.clone()).await?;
+                let mut analysis = lichess.acquire_analysis_request(request.clone()).await?;
                 while wait && analysis.is_none() {
                     tracing::debug!("No analysis request available");
-                    analysis = lichess.aquire_analysis_request(request.clone()).await?;
+                    analysis = lichess.acquire_analysis_request(request.clone()).await?;
                 }
                 println!("{:#?}", analysis);
                 Ok(())
