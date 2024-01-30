@@ -27,7 +27,7 @@ pub fn board_event_stream() {
 
 #[test]
 pub fn board_game_stream() {
-    test_response_model::<board::stream::game::Event>("game_full");
+    test_response_model::<board::stream::game::Event>("game_full_humans");
     test_response_model::<board::stream::game::Event>("game_state");
     test_response_model::<board::stream::game::Event>("game_state_resign");
     test_response_model::<board::stream::game::Event>("chat_line");
@@ -39,6 +39,7 @@ pub fn board_game_stream() {
 #[test]
 pub fn challenge_ai() {
     test_response_model::<games::stream::moves::Move>("challenge_ai");
+    test_response_model::<board::stream::game::Event>("game_full_ai");
 }
 
 #[test]
