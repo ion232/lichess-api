@@ -27,7 +27,7 @@ pub fn board_event_stream() {
 
 #[test]
 pub fn board_game_stream() {
-    test_response_model::<board::stream::game::Event>("game_full_humans");
+    test_response_model::<board::stream::game::Event>("game_full_human");
     test_response_model::<board::stream::game::Event>("game_state");
     test_response_model::<board::stream::game::Event>("game_state_resign");
     test_response_model::<board::stream::game::Event>("chat_line");
@@ -73,18 +73,13 @@ fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
 }
 
 fn test_model<Model: Serialize + DeserializeOwned>(path: String) {
-    let file_model_string = fs::read_to_string(path).expect("Unable to read file.");
-
-    // println!("{}", file_model_string);
-
-    let file_model_value: serde_json::Value = serde_json::from_str(&file_model_string)
-        .expect("Unable to serialize model into json value.");
-
-    let model: Model = serde_json::from_str(&file_model_string)
-        .expect("Unable to deserialize json string to model.");
-
-    let model_value =
+    let model_string = fs::read_to_string(path).expect("Unable to read file.");
+    let model_json: serde_json::Value =
+        serde_json::from_str(&model_string).expect("Unable to serialize model into json value.");
+    let model: Model =
+        serde_json::from_str(&model_string).expect("Unable to deserialize json string to model.");
+    let reserialized_model_json: serde_json::Value =
         serde_json::to_value(&model).expect("Unable to serialize model to json value.");
 
-    assert_eq!(model_value, file_model_value);
+    assert_eq!(model_json, reserialized_model_json);
 }

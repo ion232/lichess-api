@@ -1,5 +1,4 @@
 use async_std::stream::StreamExt;
-use tracing::debug;
 
 use crate::client::LichessApi;
 use crate::error::Result;

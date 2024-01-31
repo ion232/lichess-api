@@ -94,14 +94,33 @@ pub struct OpponentGone {
     pub claim_win_in_seconds: Option<u32>,
 }
 
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(untagged)]
+#[serde(rename_all = "camelCase")]
+pub enum GameEventPlayer {
+    AI {
+        #[serde(flatten)]
+        ai: GameEventAI,
+    },
+    Human {
+        #[serde(flatten)]
+        human: GameEventHuman,
+    },
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct GameEventPlayer {
-    pub id: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub ai_level: Option<u32>,
-    pub name: Option<String>,
-    // This field can be null according to the openapi spec.
+pub struct GameEventAI {
+    pub ai_level: u32,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct GameEventHuman {
+    pub id: String,
+    pub name: String,
+    // This is one of the few fields that can sometimes be null.
+    // Usually values that could be null are omitted from the response.
     pub title: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rating: Option<u32>,
