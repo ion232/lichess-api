@@ -47,7 +47,7 @@ The following table shows the current level of support for each category of endp
 | Puzzles               |   ✅    |
 | Relations             |   ❌    |
 | Simuls                |   ❌    |
-| Studies               |   ❌    |
+| Studies               |   🔶    |
 | Swiss Tournaments     |   ❌    |
 | Tablebase             |   ✅    |
 | Teams                 |   ❌    |
