@@ -1,0 +1,33 @@
+{
+  "id": "TtAx77HD",
+  "variant": {
+    "key": "antichess",
+    "name": "Antichess",
+    "short": "Anti"
+  },
+  "speed": "correspondence",
+  "perf": {
+    "name": "Antichess"
+  },
+  "rated": false,
+  "createdAt": 1696590464597,
+  "white": {},
+  "black": {
+    "id": "tarr3n",
+    "name": "Tarr3n",
+    "title": null,
+    "rating": 1925,
+    "provisional": false
+  },
+  "initialFen": "startpos",
+  "type": "gameFull",
+  "state": {
+    "type": "gameState",
+    "moves": "",
+    "wtime": 2147483647,
+    "btime": 2147483647,
+    "winc": 0,
+    "binc": 0,
+    "status": "started"
+  }
+}

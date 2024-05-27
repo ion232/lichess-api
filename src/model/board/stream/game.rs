@@ -107,6 +107,7 @@ pub enum GameEventPlayer {
         #[serde(flatten)]
         human: GameEventHuman,
     },
+    Anonymous {},
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
