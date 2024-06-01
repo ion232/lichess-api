@@ -43,6 +43,12 @@ pub fn challenge_ai() {
 }
 
 #[test]
+pub fn challenge_anonymous() {
+    test_response_model::<board::stream::events::Event>("challenge_anonymous");
+    test_response_model::<board::stream::game::Event>("game_full_anonymous");
+}
+
+#[test]
 pub fn puzzle() {
     test_response_model::<puzzles::PuzzleAndGame>("puzzle");
 }

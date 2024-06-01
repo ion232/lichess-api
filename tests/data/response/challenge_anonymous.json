@@ -1,0 +1,39 @@
+{
+  "type": "challenge",
+  "challenge": {
+    "id": "7pGLxJ4F",
+    "url": "https://lichess.org/VU0nyvsW",
+    "status": "created",
+    "compat": {
+      "bot": false,
+      "board": true
+    },
+    "destUser": {
+      "id": "thibot",
+      "name": "thibot",
+      "title": null,
+      "rating": 1500,
+      "provisional": true,
+      "online": true,
+      "lag": 45
+    },
+    "variant": {
+      "key": "standard",
+      "name": "Standard",
+      "short": "Std"
+    },
+    "rated": true,
+    "timeControl": {
+      "type": "clock",
+      "limit": 300,
+      "increment": 25,
+      "show": "5+25"
+    },
+    "color": "random",
+    "speed": "rapid",
+    "perf": {
+      "icon": "#",
+      "name": "Rapid"
+    }
+  }
+}
