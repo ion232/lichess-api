@@ -39,8 +39,8 @@ pub enum Sort {
 pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
-    pub fn new(game_id: &str, query: GetQuery) -> Self {
-        let path = format!("/api/games/user/{}", game_id);
+    pub fn new(user_id: &str, query: GetQuery) -> Self {
+        let path = format!("/api/games/user/{}", user_id);
         Self {
             path,
             query: Some(query),
