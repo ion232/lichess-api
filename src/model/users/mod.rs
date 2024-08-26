@@ -40,6 +40,7 @@ pub struct Count {
     pub me: u32,
 }
 
+#[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct User {
