@@ -1,4 +1,4 @@
-use crate::model::{Room, Speed, Variant};
+use crate::model::{Clock, Room, Speed, Variant};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
@@ -116,23 +116,14 @@ pub struct GameEventAI {
     pub ai_level: u32,
 }
 
+#[skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct GameEventHuman {
     pub id: String,
     pub name: String,
-    // This is one of the few fields that can sometimes be null.
-    // Usually values that could be null are omitted from the response.
     pub title: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub rating: Option<u32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub provisional: Option<bool>,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Clock {
-    pub initial: u32,
-    pub increment: u32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

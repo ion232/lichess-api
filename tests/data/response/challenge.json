@@ -20,7 +20,6 @@
         "destUser": {
             "id": "thibot",
             "name": "thibot",
-            "title": null,
             "rating": 1500,
             "provisional": true,
             "online": true,

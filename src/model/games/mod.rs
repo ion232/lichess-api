@@ -3,7 +3,7 @@ pub mod import;
 pub mod ongoing;
 pub mod stream;
 
-use crate::model::{LightUser, Speed, Variant, VariantKey};
+use crate::model::{Clock, LightUser, PlayerColor, Speed, VariantKey};
 use serde::{Deserialize, Serialize};
 
 #[serde_with::skip_serializing_none]
@@ -28,21 +28,25 @@ pub struct GameStream {
 pub struct GameJson {
     pub id: String,
     pub rated: bool,
-    pub variant: Variant,
+    pub variant: VariantKey,
     pub speed: Speed,
     pub perf: String,
     pub created_at: u64,
     pub last_move_at: Option<u64>,
-    pub status: GameStatusJson,
+    pub status: GameStatus,
     pub players: Option<Players>,
-    pub player: Option<String>,
+    pub initial_fen: Option<String>,
+    pub winner: Option<PlayerColor>,
     pub opening: Option<Opening>,
     pub moves: Option<String>,
+    pub pgn: Option<String>,
+    pub days_per_turn: Option<u64>,
+    pub analysis: Option<GameMoveAnalysis>,
+    pub tournament: Option<String>,
+    pub swiss: Option<String>,
     pub clock: Option<Clock>,
-    pub winner: Option<String>,
-    pub fen: Option<String>,
-    pub turns: Option<u32>,
-    pub source: Option<String>,
+    pub clocks: Option<Vec<u64>>,
+    pub division: Option<Division>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
@@ -81,10 +85,10 @@ pub struct Players {
 #[serde(rename_all = "camelCase")]
 pub struct GameUser {
     pub user: Option<LightUser>,
-    pub provisional: Option<bool>,
     pub rating: Option<u32>,
     pub rating_diff: Option<i32>,
     pub name: Option<String>,
+    pub provisional: Option<bool>,
     pub ai_level: Option<u32>,
     pub analysis: Option<Analysis>,
     pub team: Option<String>,
@@ -105,10 +109,35 @@ pub struct Opening {
     pub ply: u32,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Clock {
-    pub initial: u32,
-    pub increment: u32,
-    pub total_time: Option<u64>,
+pub struct Division {
+    pub middle: Option<u32>,
+    pub end: Option<u32>,
+}
+
+#[serde_with::skip_serializing_none]
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct GameMoveAnalysis {
+    pub eval: Option<u32>,
+    pub mate: Option<u32>,
+    pub best: Option<String>,
+    pub variation: Option<String>,
+    // ion232: Incorrect spelling here is expected.
+    pub judgment: Option<Judgement>,
+}
+
+#[serde_with::skip_serializing_none]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Judgement {
+    pub name: JudgementName,
+    pub comment: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum JudgementName {
+    // ion232: These are expected to be uppercase.
+    Inaccuracy,
+    Mistake,
+    Blunder,
 }
