@@ -209,6 +209,14 @@ pub enum Color {
     Random,
 }
 
+#[derive(Default, Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum PlayerColor {
+    #[default]
+    White,
+    Black,
+}
+
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Speed {
@@ -238,12 +246,12 @@ pub enum PerfType {
     ThreeCheck,
 }
 
+#[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct LightUser {
     pub id: String,
     pub name: String,
     pub title: Option<Title>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub patron: Option<bool>,
 }
 
@@ -300,6 +308,15 @@ pub enum Room {
 pub struct Compat {
     pub bot: bool,
     pub board: bool,
+}
+
+#[serde_with::skip_serializing_none]
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Clock {
+    pub initial: u32,
+    pub increment: u32,
+    pub total_time: Option<u32>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]

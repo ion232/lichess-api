@@ -49,6 +49,11 @@ pub fn challenge_anonymous() {
 }
 
 #[test]
+pub fn games_export() {
+    test_response_model::<games::GameJson>("game_json");
+}
+
+#[test]
 pub fn puzzle() {
     test_response_model::<puzzles::PuzzleAndGame>("puzzle");
 }
