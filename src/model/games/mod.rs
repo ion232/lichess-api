@@ -41,7 +41,7 @@ pub struct GameJson {
     pub moves: Option<String>,
     pub pgn: Option<String>,
     pub days_per_turn: Option<u64>,
-    pub analysis: Option<GameMoveAnalysis>,
+    pub analysis: Option<Vec<GameMoveAnalysis>>,
     pub tournament: Option<String>,
     pub swiss: Option<String>,
     pub clock: Option<Clock>,
