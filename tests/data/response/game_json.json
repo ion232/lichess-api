@@ -58,6 +58,15 @@
                 "name": "Inaccuracy",
                 "comment": "Inaccuracy. d5 was best."
             }
+        },
+        {
+            "eval": -37,
+            "best": "d3e4",
+            "variation": "Be4 Bxc3",
+            "judgment": {
+                "name": "Mistake",
+                "comment": "Mistake. Be4 was best."
+            }
         }
     ],
     "division": {
