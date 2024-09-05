@@ -1,0 +1,27 @@
+{
+  "t": "featured",
+  "d": {
+    "id": "Z1D1mDnU",
+    "orientation": "black",
+    "players": [
+      {
+        "color": "white",
+        "user": {
+          "name": "Kex09",
+          "flair": "nature.cat-face",
+          "patron": true,
+          "id": "kex09"
+        },
+        "rating": 2354,
+        "seconds": 60
+      },
+      {
+        "color": "black",
+        "user": { "name": "antiltchess", "id": "antiltchess" },
+        "rating": 2368,
+        "seconds": 60
+      }
+    ],
+    "fen": "1n2k3/6P1/6p1/1p2p3/3p4/1p4K1/8/r7 w - - 3 28"
+  }
+}

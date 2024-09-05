@@ -1,4 +1,5 @@
 pub mod channels;
+pub mod stream;
 
 use crate::model::{Color, LightUser};
 use serde::{Deserialize, Serialize};
@@ -32,4 +33,54 @@ pub struct Channels {
     chess960: Champion,
     king_of_the_hill: Champion,
     best: Champion,
+}
+
+#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ChannelName {
+    Bot,
+    Blitz,
+    RacingKings,
+    UltraBullet,
+    Bullet,
+    Classical,
+    ThreeCheck,
+    Antichess,
+    Computer,
+    Horde,
+    Rapid,
+    Atomic,
+    Crazyhouse,
+    Chess960,
+    KingOfTheHill,
+    Best,
+}
+
+impl ChannelName {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            ChannelName::Bot => "bot",
+            ChannelName::Blitz => "blitz",
+            ChannelName::RacingKings => "racingKings",
+            ChannelName::UltraBullet => "ultraBullet",
+            ChannelName::Bullet => "bullet",
+            ChannelName::Classical => "classical",
+            ChannelName::ThreeCheck => "threeCheck",
+            ChannelName::Antichess => "antichess",
+            ChannelName::Computer => "computer",
+            ChannelName::Horde => "horde",
+            ChannelName::Rapid => "rapid",
+            ChannelName::Atomic => "atomic",
+            ChannelName::Crazyhouse => "crazyhouse",
+            ChannelName::Chess960 => "chess960",
+            ChannelName::KingOfTheHill => "kingOfTheHill",
+            ChannelName::Best => "best",
+        }
+    }
+}
+
+impl std::fmt::Display for ChannelName {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(self.as_str())
+    }
 }
