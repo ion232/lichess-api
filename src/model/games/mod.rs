@@ -119,7 +119,7 @@ pub struct Division {
 #[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct GameMoveAnalysis {
-    pub eval: Option<u32>,
+    pub eval: Option<i32>,
     pub mate: Option<u32>,
     pub best: Option<String>,
     pub variation: Option<String>,
