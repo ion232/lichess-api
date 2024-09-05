@@ -1,4 +1,5 @@
 pub mod channels;
+pub mod games;
 pub mod stream;
 
 use crate::model::{Color, LightUser};
