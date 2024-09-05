@@ -253,6 +253,7 @@ pub struct LightUser {
     pub id: String,
     pub name: String,
     pub title: Option<Title>,
+    pub flair: Option<String>,
     pub patron: Option<bool>,
 }
 
