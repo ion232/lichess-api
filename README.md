@@ -51,7 +51,7 @@ The following table shows the current level of support for each category of endp
 | Swiss Tournaments     |   ❌    |
 | Tablebase             |   ✅    |
 | Teams                 |   ❌    |
-| TV                    |   ❌    |
+| TV                    |   ✅    |
 | Users                 |   🔶    |
 
 ## Contributing

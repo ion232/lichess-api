@@ -10,6 +10,7 @@ pub mod openings;
 pub mod puzzles;
 pub mod studies;
 pub mod tablebase;
+pub mod tv;
 pub mod users;
 
 use async_std::stream::StreamExt;

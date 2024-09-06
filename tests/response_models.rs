@@ -78,6 +78,14 @@ pub fn storm_dashboard() {
     test_response_model::<puzzles::storm_dashboard::StormDashboardJson>("storm_dashboard");
 }
 
+#[test]
+pub fn tv() {
+    test_response_model::<tv::Channels>("tv_channels");
+    test_response_model::<tv::stream::Event>("tv_stream_featured");
+    test_response_model::<tv::stream::Event>("tv_stream_featured_untitled");
+    test_response_model::<tv::stream::Event>("tv_stream_fen");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);
