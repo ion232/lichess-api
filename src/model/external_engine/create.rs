@@ -10,12 +10,13 @@ pub type PostRequest = Request<PostQuery, CreateExternalEngine>;
 
 impl PostRequest {
     pub fn new(engine: CreateExternalEngine) -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/external-engine".to_string(),
-            body: Body::Json(engine),
-            ..Default::default()
-        }
+        Self::post("/api/external-engine", None, Body::Json(engine), None)
+    }
+}
+
+impl From<CreateExternalEngine> for PostRequest {
+    fn from(engine: CreateExternalEngine) -> Self {
+        Self::new(engine)
     }
 }
 

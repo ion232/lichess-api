@@ -9,10 +9,13 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(days: u32) -> Self {
-        Self {
-            path: format!("/api/puzzle/dashboard/{}", days),
-            ..Default::default()
-        }
+        Self::get(format!("/api/puzzle/dashboard/{days}"), None, None)
+    }
+}
+
+impl From<u32> for GetRequest {
+    fn from(days: u32) -> Self {
+        Self::new(days)
     }
 }
 

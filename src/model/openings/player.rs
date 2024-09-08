@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::model::{Color, VariantKey};
+use crate::model::{Color, Domain, VariantKey};
 
 #[derive(Default, Clone, Debug, Deserialize, Serialize)]
 #[serde_with::skip_serializing_none]
@@ -22,11 +22,12 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(query: GetQuery) -> Self {
-        Self {
-            domain: crate::model::Domain::Explorer,
-            path: "/player".to_string(),
-            query: Some(query),
-            ..Default::default()
-        }
+        Self::get("/player", Some(query), Some(Domain::Explorer))
+    }
+}
+
+impl From<GetQuery> for GetRequest {
+    fn from(query: GetQuery) -> Self {
+        Self::new(query)
     }
 }

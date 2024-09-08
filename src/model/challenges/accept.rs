@@ -7,12 +7,14 @@ pub struct PostQuery;
 pub type PostRequest = Request<PostQuery>;
 
 impl PostRequest {
-    pub fn new(challenge_id: String) -> Self {
-        let path = format!("/api/challenge/{}/accept", challenge_id);
-        Self {
-            method: http::Method::POST,
-            path,
-            ..Default::default()
-        }
+    pub fn new(challenge_id: &str) -> Self {
+        let path = format!("/api/challenge/{challenge_id}/accept");
+        Self::post(path, None, None, None)
+    }
+}
+
+impl<S: AsRef<str>> From<S> for PostRequest {
+    fn from(s: S) -> Self {
+        Self::new(s.as_ref())
     }
 }

@@ -30,12 +30,7 @@ pub type PostRequest = Request<PostQuery, DeclineReason>;
 
 impl PostRequest {
     pub fn new(challenge_id: String, reason: Reason) -> Self {
-        let path = format!("/api/challenge/{}/decline", challenge_id);
-        Self {
-            method: http::Method::POST,
-            path,
-            body: Body::Form(DeclineReason { reason }),
-            ..Default::default()
-        }
+        let path = format!("/api/challenge/{challenge_id}/decline");
+        Self::post(path, None, Body::Form(DeclineReason { reason }), None)
     }
 }

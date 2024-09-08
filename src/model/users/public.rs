@@ -9,13 +9,10 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(username: &str, with_trophies: bool) -> Self {
-        let path = format!("/api/user/{}", username);
-        Self {
-            path,
-            query: Some(GetQuery {
-                trophies: with_trophies,
-            }),
-            ..Default::default()
-        }
+        let query = GetQuery {
+            trophies: with_trophies,
+        };
+
+        Self::get(format!("/api/user/{}", username), query, None)
     }
 }

@@ -11,11 +11,7 @@ pub type PutRequest = Request<PutQuery, UpdateExternalEngine>;
 
 impl PutRequest {
     pub fn new(id: &str, engine: UpdateExternalEngine) -> Self {
-        Self {
-            method: http::Method::PUT,
-            path: format!("/api/external-engine/{}", id),
-            body: Body::Json(engine),
-            ..Default::default()
-        }
+        let path = format!("/api/external-engine/{id}");
+        Self::put(path, None, Body::Json(engine), None)
     }
 }

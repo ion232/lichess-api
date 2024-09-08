@@ -10,11 +10,13 @@ pub type GetRequest = Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(bot_count: u32) -> Self {
-        Self {
-            path: "/api/bot/online".to_string(),
-            query: Some(GetQuery { nb: bot_count }),
-            ..Default::default()
-        }
+        Self::get("/api/bot/online", GetQuery { nb: bot_count }, None)
+    }
+}
+
+impl From<u32> for GetRequest {
+    fn from(bot_count: u32) -> Self {
+        Self::new(bot_count)
     }
 }
 

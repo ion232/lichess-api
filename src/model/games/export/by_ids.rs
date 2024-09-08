@@ -12,12 +12,11 @@ pub type PostRequest = crate::model::Request<PostQuery, String>;
 
 impl PostRequest {
     pub fn new(game_ids: Vec<String>, query: PostQuery) -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/games/export/_ids".to_string(),
-            query: Some(query),
-            body: Body::PlainText(game_ids.join(",")),
-            ..Default::default()
-        }
+        Self::post(
+            "/api/games/export/_ids",
+            query,
+            Body::PlainText(game_ids.join(",")),
+            None,
+        )
     }
 }

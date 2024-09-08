@@ -11,11 +11,6 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(game_id: &str, query: GetQuery) -> Self {
-        let path = format!("/game/export/{}", game_id);
-        Self {
-            path,
-            query: Some(query),
-            ..Default::default()
-        }
+        Self::get(format!("/game/export/{game_id}"), query, None)
     }
 }

@@ -8,11 +8,7 @@ pub type PostRequest = Request<PostQuery>;
 
 impl PostRequest {
     pub fn new(game_id: String, seconds: u32) -> Self {
-        let path = format!("/api/round/{}/add-time/{}", game_id, seconds);
-        Self {
-            method: http::Method::POST,
-            path,
-            ..Default::default()
-        }
+        let path = format!("/api/round/{game_id}/add-time/{seconds}");
+        Self::post(path, None, None, None)
     }
 }

@@ -8,10 +8,12 @@ pub type PostRequest = Request<PostQuery>;
 
 impl PostRequest {
     pub fn new() -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/bot/account/upgrade".to_string(),
-            ..Default::default()
-        }
+        Self::post("/api/bot/account/upgrade", None, None, None)
+    }
+}
+
+impl Default for PostRequest {
+    fn default() -> Self {
+        Self::new()
     }
 }

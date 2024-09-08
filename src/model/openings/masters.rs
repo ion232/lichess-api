@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::model::{Domain, Request};
+
 #[derive(Default, Clone, Debug, Deserialize, Serialize)]
 #[serde_with::skip_serializing_none]
 pub struct GetQuery {
@@ -11,15 +13,16 @@ pub struct GetQuery {
     pub top_games: Option<u32>,
 }
 
-pub type GetRequest = crate::model::Request<GetQuery>;
+pub type GetRequest = Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(query: GetQuery) -> Self {
-        Self {
-            domain: crate::model::Domain::Explorer,
-            path: "/masters".to_string(),
-            query: Some(query),
-            ..Default::default()
-        }
+        Self::get("/masters", query, Domain::Explorer)
+    }
+}
+
+impl From<GetQuery> for GetRequest {
+    fn from(query: GetQuery) -> Self {
+        Self::new(query)
     }
 }

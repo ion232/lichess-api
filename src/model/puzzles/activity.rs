@@ -9,11 +9,20 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(max_rounds: Option<u32>) -> Self {
-        Self {
-            path: "/api/puzzle/activity".to_string(),
-            query: max_rounds.map(|max| GetQuery { max }),
-            ..Default::default()
-        }
+        let query = max_rounds.map(|max| GetQuery { max });
+        Self::get("/api/puzzle/activity", query, None)
+    }
+}
+
+impl Default for GetRequest {
+    fn default() -> Self {
+        Self::new(None)
+    }
+}
+
+impl From<u32> for GetRequest {
+    fn from(max: u32) -> Self {
+        Self::new(Some(max))
     }
 }
 

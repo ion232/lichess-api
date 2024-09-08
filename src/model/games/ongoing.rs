@@ -10,11 +10,19 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(max_games: u8) -> Self {
-        Self {
-            path: "/api/account/playing".to_string(),
-            query: Some(GetQuery { max_games }),
-            ..Default::default()
-        }
+        Self::get("/api/account/playing", GetQuery { max_games }, None)
+    }
+}
+
+impl From<u8> for GetRequest {
+    fn from(max_games: u8) -> Self {
+        Self::new(max_games)
+    }
+}
+
+impl Default for GetRequest {
+    fn default() -> Self {
+        Self::new(9)
     }
 }
 

@@ -7,11 +7,13 @@ pub type PostRequest = crate::model::Request<PostQuery>;
 
 impl PostRequest {
     pub fn new() -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/racer".to_string(),
-            ..Default::default()
-        }
+        Self::post("/api/racer", None, None, None)
+    }
+}
+
+impl Default for PostRequest {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

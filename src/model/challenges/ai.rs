@@ -9,11 +9,12 @@ pub type PostRequest = Request<PostQuery, AIChallenge>;
 
 impl PostRequest {
     pub fn new(challenge: AIChallenge) -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/challenge/ai".to_string(),
-            body: Body::Form(challenge),
-            ..Default::default()
-        }
+        Self::post("/api/challenge/ai", None, Body::Form(challenge), None)
+    }
+}
+
+impl From<AIChallenge> for PostRequest {
+    fn from(challenge: AIChallenge) -> Self {
+        Self::new(challenge)
     }
 }

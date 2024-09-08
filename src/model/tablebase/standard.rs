@@ -1,3 +1,4 @@
+use crate::model::{Domain, Request};
 use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
@@ -5,17 +6,20 @@ pub struct GetQuery {
     fen: String,
 }
 
-pub type GetRequest = crate::model::Request<GetQuery>;
+pub type GetRequest = Request<GetQuery>;
 
 impl GetRequest {
-    pub fn new(fen: &str) -> Self {
-        Self {
-            domain: crate::model::Domain::Tablebase,
-            path: "/standard".to_string(),
-            query: Some(GetQuery {
-                fen: fen.to_string(),
-            }),
-            ..Default::default()
-        }
+    pub fn new(fen: impl Into<String>) -> Self {
+        Self::get(
+            "/standard",
+            GetQuery { fen: fen.into() },
+            Some(Domain::Tablebase),
+        )
+    }
+}
+
+impl<S: Into<String>> From<S> for GetRequest {
+    fn from(fen: S) -> Self {
+        Self::new(fen)
     }
 }

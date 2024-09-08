@@ -8,11 +8,13 @@ pub type GetRequest = Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(game_id: &str) -> Self {
-        let path = format!("/api/board/game/{}/chat", game_id);
-        Self {
-            path,
-            ..Default::default()
-        }
+        Self::get(format!("/api/board/game/{game_id}/chat"), None, None)
+    }
+}
+
+impl<S: AsRef<str>> From<S> for GetRequest {
+    fn from(s: S) -> Self {
+        Self::new(s.as_ref())
     }
 }
 
@@ -33,13 +35,8 @@ impl PostRequest {
             room,
             text: message.to_string(),
         };
-        let path = format!("/api/board/game/{}/chat", game_id);
-        Self {
-            method: http::Method::POST,
-            path,
-            body: Body::Form(message),
-            ..Default::default()
-        }
+        let path = format!("/api/board/game/{game_id}/chat");
+        Self::post(path, None, Body::Form(message), None)
     }
 }
 
