@@ -111,8 +111,7 @@ impl PuzzleCommand {
     async fn run(self, lichess: Lichess) -> Result<()> {
         match self {
             PuzzleCommand::Daily => {
-                let request = daily::GetRequest::new();
-                let puzzle = lichess.get_daily_puzzle(request).await?;
+                let puzzle = lichess.get_daily_puzzle().await?;
                 println!("{puzzle:#?}");
                 Ok(())
             }
@@ -253,8 +252,7 @@ impl ExternalEngineCommand {
     async fn run(self, lichess: Lichess) -> Result<()> {
         match self {
             ExternalEngineCommand::List => {
-                let request = list::GetRequest::new();
-                let engines = lichess.list_external_engines(request).await?;
+                let engines = lichess.list_external_engines().await?;
                 println!("{:#?}", engines);
                 Ok(())
             }

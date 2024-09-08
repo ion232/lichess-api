@@ -5,8 +5,8 @@ use crate::model::analysis::*;
 impl LichessApi<reqwest::Client> {
     pub async fn get_cloud_evaluation(
         &self,
-        request: cloud::GetRequest,
+        request: impl Into<cloud::GetRequest>,
     ) -> Result<cloud::Evaluation> {
-        self.get_single_model(request).await
+        self.get_single_model(request.into()).await
     }
 }
