@@ -51,7 +51,7 @@ struct App {
     lichess: Lichess,
 }
 
-#[tokio::main]
+#[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     let args = Cli::parse();
     let level = if args.verbose {

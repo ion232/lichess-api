@@ -3,7 +3,7 @@ use lichess_api::model::puzzles::daily;
 use reqwest;
 use tokio;
 
-#[tokio::test]
+#[tokio::test(flavor = "current_thread")]
 pub async fn daily_puzzle() {
     let api = make_api(None);
     let request = daily::GetRequest::new();

@@ -66,8 +66,7 @@ impl LichessApi<reqwest::Client> {
         };
 
         let convert_err = |e: reqwest::Error| Error::Request(e.to_string());
-        let mut request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
-        *request.timeout_mut() = None;
+        let request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
         debug!(?request, "sending");
         let response = self.client.execute(request).await;
         debug!(?response, "received");
