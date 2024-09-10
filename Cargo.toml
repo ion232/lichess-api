@@ -31,8 +31,8 @@ url = "2.5.2"
 [dev-dependencies]
 clap = { version = "4.5.17", features = ["derive"] }
 color-eyre = "0.6.3"
+getrandom = { version = "0.2.3", features = ["js"] }
+rand = "0.8.5"
 tokio = { version = "1.40.0", features = ["macros", "rt"] }
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-rand = "0.8.5"
-getrandom = { version = "0.2.3", features = ["js"] }
 
