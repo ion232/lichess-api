@@ -7,10 +7,13 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new() -> Self {
-        Self {
-            path: "/api/account/kid".to_string(),
-            ..Default::default()
-        }
+        Self::get("/api/account/kid", None, None)
+    }
+}
+
+impl Default for GetRequest {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -23,12 +26,13 @@ pub type PostRequest = crate::model::Request<PostQuery>;
 
 impl PostRequest {
     pub fn new(on: bool) -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/account/kid".to_string(),
-            query: Some(PostQuery { v: on }),
-            ..Default::default()
-        }
+        Self::get("/api/account/kid", PostQuery { v: on }, None)
+    }
+}
+
+impl From<bool> for PostRequest {
+    fn from(on: bool) -> Self {
+        Self::new(on)
     }
 }
 

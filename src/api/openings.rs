@@ -7,29 +7,29 @@ use crate::model::openings::*;
 impl LichessApi<reqwest::Client> {
     pub async fn openings_masters(
         &self,
-        request: masters::GetRequest,
+        request: impl Into<masters::GetRequest>,
     ) -> Result<OpeningExplorerJson> {
-        self.get_single_model(request).await
+        self.get_single_model(request.into()).await
     }
 
     pub async fn openings_lichess(
         &self,
-        request: lichess::GetRequest,
+        request: impl Into<lichess::GetRequest>,
     ) -> Result<OpeningExplorerJson> {
-        self.get_single_model(request).await
+        self.get_single_model(request.into()).await
     }
 
     pub async fn openings_player(
         &self,
-        request: player::GetRequest,
+        request: impl Into<player::GetRequest>,
     ) -> Result<OpeningExplorerJson> {
-        self.get_single_model(request).await
+        self.get_single_model(request.into()).await
     }
 
     pub async fn openings_otb(
         &self,
-        request: otb::GetRequest,
+        request: impl Into<otb::GetRequest>,
     ) -> Result<impl StreamExt<Item = Result<String>>> {
-        self.get_pgn(request).await
+        self.get_pgn(request.into()).await
     }
 }

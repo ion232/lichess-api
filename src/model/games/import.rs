@@ -13,12 +13,13 @@ pub type PostRequest = crate::model::Request<PostQuery, Game>;
 
 impl PostRequest {
     pub fn new(pgn: String) -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/import".to_string(),
-            body: Body::Form(Game { pgn }),
-            ..Default::default()
-        }
+        Self::post("/api/import", None, Body::Form(Game { pgn }), None)
+    }
+}
+
+impl<S: Into<String>> From<S> for PostRequest {
+    fn from(pgn: S) -> Self {
+        Self::new(pgn.into())
     }
 }
 

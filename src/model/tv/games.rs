@@ -18,12 +18,12 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(channel: ChannelName, query: Option<GetQuery>) -> Self {
-        let path = format!("/api/tv/{channel}");
+        Self::get(format!("/api/tv/{channel}"), query, None)
+    }
+}
 
-        Self {
-            path,
-            query,
-            ..Default::default()
-        }
+impl From<ChannelName> for GetRequest {
+    fn from(channel: ChannelName) -> Self {
+        Self::new(channel, None)
     }
 }

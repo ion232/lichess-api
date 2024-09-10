@@ -16,11 +16,12 @@ impl PostRequest {
         let message = Message {
             text: message.to_string(),
         };
-        Self {
-            method: http::Method::POST,
-            path: format!("/inbox/{}", username).to_string(),
-            body: Body::Form(message),
-            ..Default::default()
-        }
+
+        Self::post(
+            format!("/inbox/{username}"),
+            None,
+            Body::Form(message),
+            None,
+        )
     }
 }

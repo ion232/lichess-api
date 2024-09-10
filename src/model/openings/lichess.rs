@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::model::VariantKey;
+use crate::model::{Domain, Request, VariantKey};
 
 #[derive(Default, Clone, Debug, Deserialize, Serialize)]
 #[serde_with::skip_serializing_none]
@@ -18,15 +18,16 @@ pub struct GetQuery {
     pub history: Option<bool>,
 }
 
-pub type GetRequest = crate::model::Request<GetQuery>;
+pub type GetRequest = Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(query: GetQuery) -> Self {
-        Self {
-            domain: crate::model::Domain::Explorer,
-            path: "/lichess".to_string(),
-            query: Some(query),
-            ..Default::default()
-        }
+        Self::get("/lichess", query, Domain::Explorer)
+    }
+}
+
+impl From<GetQuery> for GetRequest {
+    fn from(query: GetQuery) -> Self {
+        Self::new(query)
     }
 }

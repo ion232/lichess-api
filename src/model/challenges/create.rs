@@ -10,12 +10,7 @@ pub type PostRequest = Request<PostQuery, CreateChallenge>;
 
 impl PostRequest {
     pub fn new(username: &str, challenge: CreateChallenge) -> Self {
-        let path = format!("/api/challenge/{}", username);
-        Self {
-            method: http::Method::POST,
-            path,
-            body: Body::Form(challenge),
-            ..Default::default()
-        }
+        let path = format!("/api/challenge/{username}");
+        Self::post(path, None, Body::Form(challenge), None)
     }
 }

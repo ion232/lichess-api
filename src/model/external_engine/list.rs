@@ -8,9 +8,12 @@ pub type GetRequest = Request<GetQuery>;
 
 impl GetRequest {
     pub fn new() -> Self {
-        Self {
-            path: "/api/external-engine".to_string(),
-            ..Default::default()
-        }
+        Self::get("/api/external-engine", None, None)
+    }
+}
+
+impl Default for GetRequest {
+    fn default() -> Self {
+        Self::new()
     }
 }

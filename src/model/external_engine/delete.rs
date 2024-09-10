@@ -9,10 +9,12 @@ pub type DeleteRequest = Request<DeleteQuery>;
 
 impl DeleteRequest {
     pub fn new(id: &str) -> Self {
-        Self {
-            method: http::Method::DELETE,
-            path: format!("/api/external-engine/{}", id),
-            ..Default::default()
-        }
+        Self::delete(format!("/api/external-engine/{id}"), None, None, None)
+    }
+}
+
+impl<S: AsRef<str>> From<S> for DeleteRequest {
+    fn from(s: S) -> Self {
+        Self::new(s.as_ref())
     }
 }

@@ -29,11 +29,7 @@ pub type PostRequest = Request<PostQuery, ImportPgnBody>;
 
 impl PostRequest {
     pub fn new(study_id: String, import_pgn_body: ImportPgnBody) -> Self {
-        Self {
-            method: http::Method::POST,
-            path: format!("/api/study/{}/import-pgn", study_id),
-            body: Body::Form(import_pgn_body),
-            ..Default::default()
-        }
+        let path = format!("/api/study/{study_id}/import-pgn");
+        Self::post(path, None, Body::Form(import_pgn_body), None)
     }
 }

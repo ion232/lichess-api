@@ -8,12 +8,7 @@ pub type PostRequest = crate::model::Request<PostQuery, Vec<String>>;
 
 impl PostRequest {
     pub fn new(stream_id: &str, game_ids: Vec<String>) -> Self {
-        let path = format!("/api/stream/games/{}", stream_id);
-        Self {
-            method: http::Method::POST,
-            path,
-            body: Body::PlainText(game_ids.join(",")),
-            ..Default::default()
-        }
+        let path = format!("/api/stream/games/{stream_id}");
+        Self::post(path, None, Body::PlainText(game_ids.join(",")), None)
     }
 }

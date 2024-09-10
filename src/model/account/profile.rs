@@ -7,10 +7,13 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new() -> Self {
-        Self {
-            path: "/api/account".to_string(),
-            ..Default::default()
-        }
+        Self::get("/api/account", None, None)
+    }
+}
+
+impl Default for GetRequest {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

@@ -10,11 +10,13 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(id: &str) -> Self {
-        let path = format!("/api/stream/game/{}", id);
-        Self {
-            path,
-            ..Default::default()
-        }
+        Self::get(format!("/api/stream/game/{id}"), None, None)
+    }
+}
+
+impl<S: AsRef<str>> From<S> for GetRequest {
+    fn from(s: S) -> Self {
+        Self::new(s.as_ref())
     }
 }
 

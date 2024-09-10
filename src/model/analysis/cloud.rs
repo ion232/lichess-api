@@ -16,11 +16,13 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(query: GetQuery) -> Self {
-        Self {
-            path: "/api/cloud-eval".to_string(),
-            query: Some(query),
-            ..Default::default()
-        }
+        Self::get("/api/cloud-eval", query, None)
+    }
+}
+
+impl From<GetQuery> for GetRequest {
+    fn from(query: GetQuery) -> Self {
+        Self::new(query)
     }
 }
 

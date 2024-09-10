@@ -11,11 +11,6 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 
 impl GetRequest {
     pub fn new(username: &str, query: GetQuery) -> Self {
-        let path = format!("/api/user/{}/current-game", username);
-        Self {
-            path,
-            query: Some(query),
-            ..Default::default()
-        }
+        Self::get(format!("/api/user/{username}/current-game"), query, None)
     }
 }

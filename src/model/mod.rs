@@ -26,18 +26,13 @@ impl<Q: Serialize + Default> QueryBounds for Q {}
 pub trait ModelBounds: DeserializeOwned {}
 impl<M: DeserializeOwned> ModelBounds for M {}
 
-#[derive(Clone, Debug)]
+#[derive(Default, Clone, Debug)]
 pub enum Body<B: BodyBounds> {
     Form(B),
     Json(B),
     PlainText(String),
+    #[default]
     Empty,
-}
-
-impl Default for Body<()> {
-    fn default() -> Self {
-        Body::Empty
-    }
 }
 
 impl<B: BodyBounds> Body<B> {
@@ -94,19 +89,60 @@ where
     pub(crate) body: Body<B>,
 }
 
-impl<Q, B> Default for Request<Q, B>
+impl<Q, B> Request<Q, B>
 where
     Q: QueryBounds + Default,
     B: BodyBounds,
 {
-    fn default() -> Self {
+    pub(crate) fn create(
+        path: impl Into<String>,
+        query: impl Into<Option<Q>>,
+        body: impl Into<Option<Body<B>>>,
+        domain: impl Into<Option<Domain>>,
+        method: http::Method,
+    ) -> Self {
         Self {
-            domain: Domain::default(),
-            method: http::Method::default(),
-            path: "/".to_string(),
-            query: None,
-            body: Body::Empty,
+            domain: domain.into().unwrap_or_default(),
+            method,
+            path: path.into(),
+            query: query.into(),
+            body: body.into().unwrap_or_default(),
         }
+    }
+
+    pub(crate) fn get(
+        path: impl Into<String>,
+        query: impl Into<Option<Q>>,
+        domain: impl Into<Option<Domain>>,
+    ) -> Self {
+        Self::create(path, query, None, domain, http::Method::GET)
+    }
+
+    pub(crate) fn post(
+        path: impl Into<String>,
+        query: impl Into<Option<Q>>,
+        body: impl Into<Option<Body<B>>>,
+        domain: impl Into<Option<Domain>>,
+    ) -> Self {
+        Self::create(path, query, body, domain, http::Method::POST)
+    }
+
+    pub(crate) fn put(
+        path: impl Into<String>,
+        query: impl Into<Option<Q>>,
+        body: impl Into<Option<Body<B>>>,
+        domain: impl Into<Option<Domain>>,
+    ) -> Self {
+        Self::create(path, query, body, domain, http::Method::PUT)
+    }
+
+    pub(crate) fn delete(
+        path: impl Into<String>,
+        query: impl Into<Option<Q>>,
+        body: impl Into<Option<Body<B>>>,
+        domain: Option<Domain>,
+    ) -> Self {
+        Self::create(path, query, body, domain, http::Method::DELETE)
     }
 }
 

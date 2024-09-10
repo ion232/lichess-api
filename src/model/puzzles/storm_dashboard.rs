@@ -10,11 +10,14 @@ pub type GetRequest = crate::model::Request<GetQuery>;
 impl GetRequest {
     pub fn new(username: &str, days: Option<u32>) -> Self {
         let path = format!("/api/storm/dashboard/{}", username);
-        Self {
-            path,
-            query: days.map(|x| GetQuery { days: x }),
-            ..Default::default()
-        }
+        let query = days.map(|x| GetQuery { days: x });
+        Self::get(path, query, None)
+    }
+}
+
+impl<S: AsRef<str>> From<S> for GetRequest {
+    fn from(s: S) -> Self {
+        Self::new(s.as_ref(), None)
     }
 }
 

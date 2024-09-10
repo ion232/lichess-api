@@ -10,12 +10,11 @@ pub type PostRequest = crate::model::Request<PostQuery, Vec<String>>;
 
 impl PostRequest {
     pub fn new(user_ids: Vec<String>, with_current_games: bool) -> Self {
-        Self {
-            method: http::Method::POST,
-            path: "/api/stream/games-by-users".to_string(),
-            query: Some(PostQuery { with_current_games }),
-            body: Body::PlainText(user_ids.join(",")),
-            ..Default::default()
-        }
+        Self::post(
+            "/api/stream/games-by-users",
+            PostQuery { with_current_games },
+            Body::PlainText(user_ids.join(",")),
+            None,
+        )
     }
 }

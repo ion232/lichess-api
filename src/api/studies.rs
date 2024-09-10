@@ -5,8 +5,8 @@ use crate::model::studies::import_pgn_into_study::{PostRequest, StudyImportPgnCh
 impl LichessApi<reqwest::Client> {
     pub async fn import_pgn_into_study(
         &self,
-        request: PostRequest,
+        request: impl Into<PostRequest>,
     ) -> Result<StudyImportPgnChapters> {
-        self.get_single_model(request).await
+        self.get_single_model(request.into()).await
     }
 }

@@ -11,12 +11,7 @@ pub type PostRequest = Request<PostQuery>;
 
 impl PostRequest {
     pub fn new(game_id: String, token1: String, token2: String) -> Self {
-        let path = format!("/api/challenge/{}/start-clocks", game_id);
-        Self {
-            method: http::Method::POST,
-            path,
-            query: Some(PostQuery { token1, token2 }),
-            ..Default::default()
-        }
+        let path = format!("/api/challenge/{game_id}/start-clocks");
+        Self::post(path, PostQuery { token1, token2 }, None, None)
     }
 }
