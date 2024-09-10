@@ -37,14 +37,14 @@ impl Default for PostQuery {
 pub type PostRequest = crate::model::Request<PostQuery>;
 
 impl PostRequest {
-    pub fn new() -> Self {
-        PostQuery::default().into()
+    pub fn new(query: PostQuery) -> Self {
+        Self::post("/api/board/seek", query, None, None)
     }
 }
 
 impl From<PostQuery> for PostRequest {
     fn from(query: PostQuery) -> Self {
-        Self::post("/api/board/seek", query, None, None)
+        Self::new(query)
     }
 }
 
