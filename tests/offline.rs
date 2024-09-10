@@ -86,6 +86,11 @@ pub fn tv() {
     test_response_model::<tv::stream::Event>("tv_stream_fen");
 }
 
+#[test]
+pub fn leaderboard() {
+    test_response_model::<player::Leaderboards>("players");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);
