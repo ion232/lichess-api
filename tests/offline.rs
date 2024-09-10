@@ -91,6 +91,12 @@ pub fn leaderboard() {
     test_response_model::<player::Leaderboards>("players");
 }
 
+#[test]
+pub fn users() {
+    test_response_model::<Vec<users::rating_history::RatingEntry>>("rating-history");
+    test_response_model::<users::rating_history::RatingHistory>("rating-history");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);

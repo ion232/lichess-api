@@ -16,4 +16,11 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<Vec<status::User>> {
         self.get_single_model(request.into()).await
     }
+
+    pub async fn get_rating_history(
+        &self,
+        request: impl Into<rating_history::GetRequest>,
+    ) -> Result<rating_history::RatingHistory> {
+        self.get_single_model(request.into()).await
+    }
 }
