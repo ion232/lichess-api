@@ -26,18 +26,13 @@ impl<Q: Serialize + Default> QueryBounds for Q {}
 pub trait ModelBounds: DeserializeOwned {}
 impl<M: DeserializeOwned> ModelBounds for M {}
 
-#[derive(Clone, Debug)]
+#[derive(Default, Clone, Debug)]
 pub enum Body<B: BodyBounds> {
     Form(B),
     Json(B),
     PlainText(String),
+    #[default]
     Empty,
-}
-
-impl Default for Body<()> {
-    fn default() -> Self {
-        Body::Empty
-    }
 }
 
 impl<B: BodyBounds> Body<B> {
@@ -111,7 +106,7 @@ where
             method,
             path: path.into(),
             query: query.into(),
-            body: body.into().unwrap_or(Body::Empty),
+            body: body.into().unwrap_or_default(),
         }
     }
 
