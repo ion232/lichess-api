@@ -23,4 +23,12 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<rating_history::RatingHistory> {
         self.get_single_model(request.into()).await
     }
+
+    /// Get performance statistics of a user.
+    pub async fn get_user_performance_statistics(
+        &self,
+        request: impl Into<performance::GetRequest>,
+    ) -> Result<performance::Performance> {
+        self.get_single_model(request.into()).await
+    }
 }

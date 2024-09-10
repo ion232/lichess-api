@@ -95,6 +95,7 @@ pub fn leaderboard() {
 pub fn users() {
     test_response_model::<Vec<users::rating_history::RatingEntry>>("rating-history");
     test_response_model::<users::rating_history::RatingHistory>("rating-history");
+    test_response_model::<users::performance::Performance>("performance");
 }
 
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
