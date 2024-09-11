@@ -2,7 +2,7 @@ use lichess_api::client::*;
 use reqwest;
 use tokio;
 
-#[tokio::test]
+#[tokio::test(flavor = "current_thread")]
 pub async fn daily_puzzle() {
     let api = make_api(None);
     let response = api.get_daily_puzzle().await.unwrap();
