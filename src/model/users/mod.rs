@@ -1,3 +1,4 @@
+pub mod activity;
 pub mod performance;
 pub mod public;
 pub mod rating_history;

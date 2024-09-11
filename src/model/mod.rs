@@ -266,7 +266,7 @@ pub enum Speed {
     Correspondence,
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize, Hash)]
 #[serde(rename_all = "camelCase")]
 pub enum PerfType {
     UltraBullet,
