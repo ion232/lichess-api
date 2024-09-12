@@ -31,4 +31,11 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<performance::Performance> {
         self.get_single_model(request.into()).await
     }
+
+    pub async fn get_users_by_id(
+        &self,
+        request: impl Into<by_id::PostRequest>,
+    ) -> Result<Vec<User>> {
+        self.get_single_model(request.into()).await
+    }
 }
