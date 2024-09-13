@@ -1,10 +1,13 @@
 pub mod activity;
 pub mod by_id;
+pub mod crosstable;
 pub mod live_streamers;
 pub mod performance;
 pub mod public;
 pub mod rating_history;
 pub mod status;
+
+use std::collections::HashMap;
 
 use crate::model::{LightUser, Title};
 use serde::{Deserialize, Serialize};
@@ -142,4 +145,20 @@ pub struct StreamingUser {
     pub user: LightUser,
     pub stream: Stream,
     pub streamer: Streamer,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Matchup {
+    pub users: HashMap<String, f64>,
+
+    #[serde(rename = "nbGames")]
+    pub game_count: u32,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Crosstable {
+    #[serde(flatten)]
+    pub all_time: Matchup,
+    pub matchup: Option<Matchup>,
 }

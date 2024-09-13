@@ -43,4 +43,11 @@ impl LichessApi<reqwest::Client> {
         self.get_single_model(live_streamers::GetRequest::new())
             .await
     }
+
+    pub async fn get_crosstable(
+        &self,
+        request: impl Into<crosstable::GetRequest>,
+    ) -> Result<Crosstable> {
+        self.get_single_model(request.into()).await
+    }
 }
