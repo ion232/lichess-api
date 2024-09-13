@@ -1,11 +1,12 @@
 pub mod activity;
 pub mod by_id;
+pub mod live_streamers;
 pub mod performance;
 pub mod public;
 pub mod rating_history;
 pub mod status;
 
-use crate::model::Title;
+use crate::model::{LightUser, Title};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
@@ -114,4 +115,31 @@ pub struct Profile {
     pub uscf_rating: Option<u32>,
     pub ecf_rating: Option<u32>,
     pub links: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Stream {
+    pub service: String,
+    pub status: String,
+    pub lang: String,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Streamer {
+    pub name: String,
+    pub headline: String,
+    pub description: Option<String>,
+    #[serde(rename = "youTube")]
+    pub youtube: Option<String>,
+    pub twitch: Option<String>,
+    pub image: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct StreamingUser {
+    #[serde(flatten)]
+    pub user: LightUser,
+    pub stream: Stream,
+    pub streamer: Streamer,
 }

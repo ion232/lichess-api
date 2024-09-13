@@ -38,4 +38,9 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<Vec<User>> {
         self.get_single_model(request.into()).await
     }
+
+    pub async fn get_live_streamers(&self) -> Result<Vec<StreamingUser>> {
+        self.get_single_model(live_streamers::GetRequest::new())
+            .await
+    }
 }
