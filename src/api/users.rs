@@ -72,4 +72,15 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<Vec<String>> {
         self.get_single_model(request.into()).await
     }
+
+    pub async fn get_user_notes(&self, request: impl Into<note::GetRequest>) -> Result<Vec<Note>> {
+        self.get_single_model(request.into()).await
+    }
+
+    pub async fn add_note_to_user(
+        &self,
+        request: impl Into<note::PostRequest>,
+    ) -> Result<crate::model::Ok> {
+        self.get_single_model(request.into()).await
+    }
 }

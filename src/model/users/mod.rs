@@ -4,6 +4,7 @@ pub mod autocomplete_name;
 pub mod by_id;
 pub mod crosstable;
 pub mod live_streamers;
+pub mod note;
 pub mod performance;
 pub mod public;
 pub mod rating_history;
@@ -163,4 +164,13 @@ pub struct Crosstable {
     #[serde(flatten)]
     pub all_time: Matchup,
     pub matchup: Option<Matchup>,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Note {
+    from: LightUser,
+    to: LightUser,
+    text: String,
+    date: u64,
 }

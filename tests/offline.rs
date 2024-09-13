@@ -98,6 +98,7 @@ pub fn users() {
     test_response_model::<users::performance::Performance>("performance");
     test_response_model::<Vec<users::activity::Activity>>("activities");
     test_response_model::<Vec<users::StreamingUser>>("streamers");
+    test_response_model::<Vec<users::Note>>("notes");
 }
 
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
