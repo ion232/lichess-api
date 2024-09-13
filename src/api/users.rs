@@ -1,6 +1,6 @@
 use crate::client::LichessApi;
 use crate::error::Result;
-use crate::model::users::*;
+use crate::model::{users::*, LightUser};
 
 impl LichessApi<reqwest::Client> {
     pub async fn get_public_user_data(
@@ -48,6 +48,28 @@ impl LichessApi<reqwest::Client> {
         &self,
         request: impl Into<crosstable::GetRequest>,
     ) -> Result<Crosstable> {
+        self.get_single_model(request.into()).await
+    }
+
+    /// Get user autocomplete results.
+    ///
+    /// This differs from [`LichessApi::autocomplete_usernames`] by not returning user information
+    /// and not only the usernames.
+    pub async fn autocomplete_users(
+        &self,
+        request: impl Into<autocomplete::GetRequest>,
+    ) -> Result<Vec<LightUser>> {
+        self.get_single_model(request.into()).await
+    }
+
+    /// Get username autocomplete results.
+    ///
+    /// This differs from [`LichessApi::autocomplete_users`] by not returning any user information
+    /// aside from the username itself.
+    pub async fn autocomplete_usernames(
+        &self,
+        request: impl Into<autocomplete_name::GetRequest>,
+    ) -> Result<Vec<String>> {
         self.get_single_model(request.into()).await
     }
 }
