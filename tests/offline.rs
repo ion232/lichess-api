@@ -87,12 +87,8 @@ pub fn tv() {
 }
 
 #[test]
-pub fn leaderboard() {
-    test_response_model::<player::Leaderboards>("players");
-}
-
-#[test]
 pub fn users() {
+    test_response_model::<users::Leaderboards>("players");
     test_response_model::<Vec<users::rating_history::RatingEntry>>("rating-history");
     test_response_model::<users::rating_history::RatingHistory>("rating-history");
     test_response_model::<users::performance::Performance>("performance");
