@@ -42,7 +42,7 @@ pub struct RatingExtreme {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct UserID {
+pub struct UserId {
     pub id: String,
     pub name: String,
     pub title: Option<Title>,
@@ -55,7 +55,7 @@ pub struct WinExtremeGame {
     pub opponent_rating: u32,
 
     #[serde(rename = "opId")]
-    pub opponent: UserID,
+    pub opponent: UserId,
 
     #[serde(flatten)]
     pub game: Game,
@@ -92,7 +92,7 @@ pub enum Streak {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct StreakSet {
     #[serde(rename = "cur")]
-    pub currrent: Streak,
+    pub current: Streak,
     pub max: Streak,
 }
 
@@ -123,7 +123,7 @@ pub struct Stat {
     pub count: Count,
     pub result_streak: ResultStreak,
     pub play_streak: PlayStreak,
-    pub user_id: UserID,
+    pub user_id: UserId,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

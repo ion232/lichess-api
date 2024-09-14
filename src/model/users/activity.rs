@@ -37,41 +37,33 @@ pub struct Followers {
     pub count: Option<u32>,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Follows {
     #[serde(rename = "in")]
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub gained: Option<Followers>,
 
     #[serde(rename = "out")]
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub lost: Option<Followers>,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct CorrsepondenceOpponent {
-    #[serde(skip_serializing_if = "Option::is_none")]
+pub struct CorrespondenceOpponent {
     pub user: Option<String>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub rating: Option<u32>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde_with::skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct CorrespondenceGame {
     pub id: String,
     pub color: Color,
     pub url: String,
-    pub opponent: CorrsepondenceOpponent,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
+    pub opponent: CorrespondenceOpponent,
     pub variant: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub speed: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub perf: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub rated: Option<bool>,
 }
 
@@ -89,7 +81,7 @@ pub struct CorrespondenceEnds {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct TournamentID {
+pub struct TournamentId {
     pub id: String,
     pub name: String,
 }
@@ -97,7 +89,7 @@ pub struct TournamentID {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Tournament {
-    pub tournament: TournamentID,
+    pub tournament: TournamentId,
 
     #[serde(rename = "nbGames")]
     pub game_count: u32,
@@ -142,39 +134,20 @@ pub struct Team {
     pub name: String,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Activity {
     pub interval: Range<u64>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub games: Option<HashMap<PerfType, Score>>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub puzzles: Option<Puzzles>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub follows: Option<Follows>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub correspondence_moves: Option<CorrespondenceMoves>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub correspondence_ends: Option<CorrespondenceEnds>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub tournaments: Option<Tournaments>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub stream: Option<bool>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub posts: Option<Vec<Topic>>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub practice: Option<Vec<Practice>>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub teams: Option<Vec<Team>>,
 }
 
