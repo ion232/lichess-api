@@ -45,6 +45,7 @@ impl LichessApi<reqwest::Client> {
             self.make_request_as_raw_lines(http_request)
                 .await?
                 .map(|l| -> Result<Model> {
+                    println!("{:?}", l);
                     serde_json::from_str(&l?).map_err(|e| crate::error::Error::Json(e))
                 });
 
