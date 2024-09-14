@@ -79,6 +79,11 @@ pub fn storm_dashboard() {
 }
 
 #[test]
+pub fn simuls() {
+    test_response_model::<simuls::current::Simuls>("current_simuls");
+}
+
+#[test]
 pub fn tv() {
     test_response_model::<tv::Channels>("tv_channels");
     test_response_model::<tv::stream::Event>("tv_stream_featured");

@@ -10,6 +10,14 @@ pub async fn daily_puzzle() {
     assert!(!response.puzzle.id.is_empty());
 }
 
+#[tokio::test(flavor = "current_thread")]
+pub async fn simuls() {
+    let api = make_api(None);
+    let response = api.get_current_simuls().await.unwrap();
+    println!("{:?}", response);
+    assert!(!response.started.first().unwrap().id.is_empty());
+}
+
 fn make_api(auth_token: Option<String>) -> LichessApi<reqwest::Client> {
     let http: reqwest::Client = reqwest::Client::new();
     LichessApi::new(http, auth_token)

@@ -46,7 +46,7 @@ The following table shows the current level of support for each category of endp
 | OAuth                 |   ❌    |
 | Puzzles               |   ✅    |
 | Relations             |   ❌    |
-| Simuls                |   ❌    |
+| Simuls                |   ✅    |
 | Studies               |   🔶    |
 | Swiss Tournaments     |   ❌    |
 | Tablebase             |   ✅    |
