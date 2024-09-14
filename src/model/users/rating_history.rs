@@ -52,7 +52,7 @@ pub struct RatingEntry {
 
 // Lichess returns a hard to use tuple of `[year, month, day, rating]`,
 // because of this Serialize / Deserialize are manually implemented.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct RatingPoint {
     pub year: u32,
     pub month: u32,
@@ -71,20 +71,6 @@ impl Serialize for RatingPoint {
         seq.serialize_element(&self.day)?;
         seq.serialize_element(&self.rating)?;
         seq.end()
-    }
-}
-
-impl<'de> Deserialize<'de> for RatingPoint {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        <[u32; 4]>::deserialize(deserializer).map(|[year, month, day, rating]| Self {
-            year,
-            month,
-            day,
-            rating,
-        })
     }
 }
 
