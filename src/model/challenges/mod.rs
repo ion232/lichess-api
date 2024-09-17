@@ -142,7 +142,7 @@ pub enum TimeControl {
         limit: u32,
         show: String,
     },
-    Correspondance {
+    Correspondence {
         days_per_turn: u32,
     },
     Unlimited,
