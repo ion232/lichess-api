@@ -52,6 +52,7 @@ pub struct GameEventInfo {
     pub is_my_turn: bool,
     pub seconds_left: Option<u64>,
     pub compat: Option<Compat>,
+    pub winner: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
