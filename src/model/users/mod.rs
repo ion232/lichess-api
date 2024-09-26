@@ -1,6 +1,5 @@
 pub mod activity;
 pub mod autocomplete;
-pub mod autocomplete_name;
 pub mod by_id;
 pub mod crosstable;
 pub mod leaderboard;
