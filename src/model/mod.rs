@@ -266,7 +266,7 @@ pub enum Speed {
     Correspondence,
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize, Hash)]
 #[serde(rename_all = "camelCase")]
 pub enum PerfType {
     UltraBullet,
@@ -282,6 +282,32 @@ pub enum PerfType {
     KingOfTheHill,
     RacingKings,
     ThreeCheck,
+}
+
+impl PerfType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::UltraBullet => "ultraBullet",
+            Self::Bullet => "bullet",
+            Self::Blitz => "blitz",
+            Self::Rapid => "rapid",
+            Self::Classical => "classical",
+            Self::Chess960 => "chess960",
+            Self::Crazyhouse => "crazyhouse",
+            Self::Antichess => "antichess",
+            Self::Atomic => "atomic",
+            Self::Horde => "horde",
+            Self::KingOfTheHill => "kingOfTheHill",
+            Self::RacingKings => "racingKings",
+            Self::ThreeCheck => "threeCheck",
+        }
+    }
+}
+
+impl std::fmt::Display for PerfType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(self.as_str())
+    }
 }
 
 #[skip_serializing_none]

@@ -1,0 +1,250 @@
+{
+  "user": {
+    "name": "Tarr3n"
+  },
+  "perf": {
+    "glicko": {
+      "rating": 1955.89,
+      "deviation": 45.0
+    },
+    "nb": 14632,
+    "progress": -18
+  },
+  "rank": 502,
+  "percentile": 92.1,
+  "stat": {
+    "count": {
+      "berserk": 904,
+      "win": 8152,
+      "all": 15249,
+      "seconds": 1387450,
+      "opAvg": 1824.61,
+      "draw": 233,
+      "tour": 3273,
+      "disconnects": 0,
+      "rated": 14632,
+      "loss": 6864
+    },
+    "resultStreak": {
+      "win": {
+        "cur": {
+          "v": 0
+        },
+        "max": {
+          "v": 45,
+          "from": {
+            "at": "2020-07-03T12:45:38.028Z",
+            "gameId": "sUHkFZ2t"
+          },
+          "to": {
+            "at": "2020-07-04T15:19:09.255Z",
+            "gameId": "HwEaczVF"
+          }
+        }
+      },
+      "loss": {
+        "cur": {
+          "v": 2,
+          "from": {
+            "at": "2024-09-10T16:56:56.388Z",
+            "gameId": "YuVvrANS"
+          },
+          "to": {
+            "at": "2024-09-10T17:00:05.579Z",
+            "gameId": "6qi1yLYU"
+          }
+        },
+        "max": {
+          "v": 41,
+          "from": {
+            "at": "2019-11-27T19:02:45.016Z",
+            "gameId": "tiwQsw9t"
+          },
+          "to": {
+            "at": "2019-11-27T19:46:03.585Z",
+            "gameId": "SK2uSsGQ"
+          }
+        }
+      }
+    },
+    "lowest": {
+      "int": 1201,
+      "at": "2019-11-23T08:37:47.855Z",
+      "gameId": "qeMz4KvC"
+    },
+    "worstLosses": {
+      "results": [
+        {
+          "opRating": 1113,
+          "opId": {
+            "id": "m_guzel",
+            "name": "M_Guzel",
+            "title": null
+          },
+          "at": "2020-03-29T09:01:27.789Z",
+          "gameId": "01k3dvDL"
+        },
+        {
+          "opRating": 1158,
+          "opId": {
+            "id": "lilyschirmbeck",
+            "name": "Lilyschirmbeck",
+            "title": "WCM"
+          },
+          "at": "2020-06-25T20:57:54.333Z",
+          "gameId": "nciW5Rb4"
+        },
+        {
+          "opRating": 1176,
+          "opId": {
+            "id": "nirvan1234",
+            "name": "nirvan1234",
+            "title": null
+          },
+          "at": "2020-06-13T14:56:44.945Z",
+          "gameId": "IrS6dhQY"
+        },
+        {
+          "opRating": 1201,
+          "opId": {
+            "id": "khodavedk",
+            "name": "khodavedk",
+            "title": null
+          },
+          "at": "2020-03-28T10:23:20.719Z",
+          "gameId": "3imrI2kk"
+        },
+        {
+          "opRating": 1206,
+          "opId": {
+            "id": "white__killer1",
+            "name": "white__killer1",
+            "title": null
+          },
+          "at": "2020-05-08T11:18:38.937Z",
+          "gameId": "Zj2VjkWL"
+        }
+      ]
+    },
+    "perfType": {
+      "key": "antichess",
+      "name": "Antichess"
+    },
+    "id": "tarr3n/13",
+    "bestWins": {
+      "results": [
+        {
+          "opRating": 2449,
+          "opId": {
+            "id": "antichess_valentino",
+            "name": "Antichess_Valentino",
+            "title": null
+          },
+          "at": "2024-08-09T21:26:10.033Z",
+          "gameId": "FwhIplpv"
+        },
+        {
+          "opRating": 2409,
+          "opId": {
+            "id": "antichess_valentino",
+            "name": "Antichess_Valentino",
+            "title": null
+          },
+          "at": "2024-03-10T18:53:29.285Z",
+          "gameId": "a9mpQZ6A"
+        },
+        {
+          "opRating": 2392,
+          "opId": {
+            "id": "changeopening",
+            "name": "ChangeOpening",
+            "title": null
+          },
+          "at": "2024-02-19T18:43:05.66Z",
+          "gameId": "JnDNs0EN"
+        },
+        {
+          "opRating": 2390,
+          "opId": {
+            "id": "allegro_moon",
+            "name": "Allegro_Moon",
+            "title": null
+          },
+          "at": "2024-03-05T18:37:32.635Z",
+          "gameId": "VcgEbatU"
+        },
+        {
+          "opRating": 2387,
+          "opId": {
+            "id": "fins-love",
+            "name": "Fins-Love",
+            "title": null
+          },
+          "at": "2024-08-02T18:26:58.501Z",
+          "gameId": "Eo0PFFsj"
+        }
+      ]
+    },
+    "userId": {
+      "id": "tarr3n",
+      "name": "Tarr3n",
+      "title": null
+    },
+    "playStreak": {
+      "nb": {
+        "cur": {
+          "v": 8,
+          "from": {
+            "at": "2024-09-10T16:40:57.636Z",
+            "gameId": "Mq9gSZLi"
+          },
+          "to": {
+            "at": "2024-09-10T17:00:05.579Z",
+            "gameId": "6qi1yLYU"
+          }
+        },
+        "max": {
+          "v": 128,
+          "from": {
+            "at": "2020-04-23T10:05:24.651Z",
+            "gameId": "NqG48jAx"
+          },
+          "to": {
+            "at": "2020-04-23T16:16:23.075Z",
+            "gameId": "Y2kixNMn"
+          }
+        }
+      },
+      "time": {
+        "cur": {
+          "v": 857,
+          "from": {
+            "at": "2024-09-10T16:40:57.636Z",
+            "gameId": "Mq9gSZLi"
+          },
+          "to": {
+            "at": "2024-09-10T17:00:05.579Z",
+            "gameId": "6qi1yLYU"
+          }
+        },
+        "max": {
+          "v": 16894,
+          "from": {
+            "at": "2020-04-23T10:05:24.651Z",
+            "gameId": "NqG48jAx"
+          },
+          "to": {
+            "at": "2020-04-23T16:16:23.075Z",
+            "gameId": "Y2kixNMn"
+          }
+        }
+      },
+      "lastDate": "2024-09-10T17:00:05.579Z"
+    },
+    "highest": {
+      "int": 2087,
+      "at": "2024-06-19T18:22:51.442Z",
+      "gameId": "zzGA5X63"
+    }
+  }
+}

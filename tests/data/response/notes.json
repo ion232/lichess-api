@@ -1,0 +1,17 @@
+[
+  {
+    "from": {
+      "name": "thibault",
+      "patron": true,
+      "id": "thibault"
+    },
+    "to": {
+      "name": "DrNykterstein",
+      "title": "GM",
+      "patron": true,
+      "id": "drnykterstein"
+    },
+    "text": "This guy is good at chess",
+    "date": 1690585691898
+  }
+]

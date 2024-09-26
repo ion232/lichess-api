@@ -91,6 +91,17 @@ pub fn tv() {
     test_response_model::<tv::stream::Event>("tv_stream_fen");
 }
 
+#[test]
+pub fn users() {
+    test_response_model::<users::Leaderboards>("players");
+    test_response_model::<Vec<users::rating_history::RatingEntry>>("rating-history");
+    test_response_model::<users::rating_history::RatingHistory>("rating-history");
+    test_response_model::<users::performance::Performance>("performance");
+    test_response_model::<Vec<users::activity::Activity>>("activities");
+    test_response_model::<Vec<users::StreamingUser>>("streamers");
+    test_response_model::<Vec<users::Note>>("notes");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);
