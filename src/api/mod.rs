@@ -6,6 +6,7 @@ pub mod challenges;
 pub mod external_engine;
 pub mod games;
 pub mod messaging;
+pub mod oauth;
 pub mod openings;
 pub mod puzzles;
 pub mod simuls;
