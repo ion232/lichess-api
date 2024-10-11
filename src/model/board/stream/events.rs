@@ -25,7 +25,8 @@ impl Default for GetRequest {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Event {
     #[serde(flatten)]
-    pub event: InnerEvent,
+    pub event: EventData,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub compat: Option<Compat>,
 }
 

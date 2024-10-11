@@ -4,10 +4,6 @@
     "id": "7pGLxJ4F",
     "url": "https://lichess.org/VU0nyvsW",
     "status": "created",
-    "compat": {
-      "bot": false,
-      "board": true
-    },
     "destUser": {
       "id": "thibot",
       "name": "thibot",
