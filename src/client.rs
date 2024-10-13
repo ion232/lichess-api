@@ -34,6 +34,19 @@ impl<HttpClient> LichessApi<HttpClient> {
             .await
             .ok_or(Error::Response("empty response stream".to_string()))?
     }
+
+    pub(crate) async fn expect_empty<G>(&self, stream: &mut G) -> Result<()>
+    where
+        G: StreamExt<Item = Result<()>> + std::marker::Unpin,
+    {
+        if stream.next().await.is_some() {
+            Err(Error::Response(
+                "expected empty response stream".to_string(),
+            ))
+        } else {
+            Ok(())
+        }
+    }
 }
 
 impl LichessApi<reqwest::Client> {

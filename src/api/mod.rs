@@ -46,6 +46,17 @@ impl LichessApi<reqwest::Client> {
         Ok(stream)
     }
 
+    pub async fn get_empty<Q, B>(&self, request: Request<Q, B>) -> Result<()>
+    where
+        Q: QueryBounds,
+        B: BodyBounds,
+    {
+        let request = request.as_http_request("application/json")?;
+        let mut stream = self.make_request(request).await?;
+        self.expect_empty(&mut stream).await?;
+        Ok(())
+    }
+
     pub async fn get_single_model<Q, B, M>(&self, request: Request<Q, B>) -> Result<M>
     where
         Q: QueryBounds,

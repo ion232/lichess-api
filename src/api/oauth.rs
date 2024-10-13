@@ -7,8 +7,7 @@ impl LichessApi<reqwest::Client> {
         self.get_single_model(request.into()).await
     }
 
-    pub async fn revoke_token(&self) -> Result<bool> {
-        // XXX get_ok expects a bool, but this method just returns 200
-        self.get_ok(revoke::DeleteRequest::new()).await
+    pub async fn revoke_token(&self) -> Result<()> {
+        self.get_empty(revoke::DeleteRequest::new()).await
     }
 }
