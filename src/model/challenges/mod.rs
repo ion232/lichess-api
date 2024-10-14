@@ -102,7 +102,6 @@ pub struct ChallengeJsonBase {
     /// The api docs suggest this is non-nullable,
     /// this is true only if the user does not accept anonymous challengers.
     pub challenger: Option<ChallengeUser>,
-    pub compat: Option<Compat>,
     pub dest_user: Option<ChallengeUser>,
     pub perf: Perf,
     pub rated: bool,

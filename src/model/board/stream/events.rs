@@ -23,9 +23,17 @@ impl Default for GetRequest {
 // Response structs.
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Event {
+    #[serde(flatten)]
+    pub event: EventData,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub compat: Option<Compat>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "type")]
 #[serde(rename_all = "camelCase")]
-pub enum Event {
+pub enum EventData {
     Challenge { challenge: ChallengeJson },
     ChallengeCanceled { challenge: ChallengeJson },
     ChallengeDeclined { challenge: ChallengeJson },
