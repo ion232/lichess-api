@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_with::skip_serializing_none;
 
 #[derive(Default, Clone, Debug, Serialize)]
@@ -16,9 +16,12 @@ impl GetRequest {
     }
 }
 
-impl From<&str> for GetRequest {
-    fn from(query: &str) -> Self {
-        GetQuery { query: query.to_string() }.into()
+impl<S: AsRef<str>> From<S> for GetRequest {
+    fn from(query: S) -> Self {
+        GetQuery {
+            query: query.as_ref().to_string(),
+        }
+        .into()
     }
 }
 
@@ -27,4 +30,3 @@ impl From<GetQuery> for GetRequest {
         Self::new(query)
     }
 }
-

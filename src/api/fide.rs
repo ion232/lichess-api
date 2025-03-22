@@ -12,10 +12,7 @@ impl LichessApi<reqwest::Client> {
         self.get_single_model(request.into()).await
     }
 
-    pub async fn get_fide_player(
-        &self,
-        request: impl Into<player::GetRequest>,
-    ) -> Result<Player> {
+    pub async fn get_fide_player(&self, request: impl Into<player::GetRequest>) -> Result<Player> {
         self.get_single_model(request.into()).await
     }
 }
