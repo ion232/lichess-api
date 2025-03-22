@@ -9,6 +9,7 @@ pub mod games;
 pub mod messaging;
 pub mod openings;
 pub mod puzzles;
+pub mod relations;
 pub mod simuls;
 pub mod studies;
 pub mod tablebase;
