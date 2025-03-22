@@ -2,7 +2,7 @@ use async_std::stream::StreamExt;
 
 use crate::client::LichessApi;
 use crate::error::Result;
-use crate::model::external_engine::*;
+use crate::model::engine::*;
 
 impl LichessApi<reqwest::Client> {
     pub async fn list_external_engines(&self) -> Result<Vec<ExternalEngine>> {

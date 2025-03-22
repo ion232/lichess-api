@@ -4,7 +4,7 @@ use clap::{Parser, Subcommand};
 use color_eyre::Result;
 use futures::StreamExt;
 use lichess_api::client::LichessApi;
-use lichess_api::model::external_engine::{self, *};
+use lichess_api::model::engine::{self, *};
 use lichess_api::model::puzzles::{self, *};
 use rand::Rng;
 use reqwest;
@@ -257,7 +257,7 @@ impl ExternalEngineCommand {
                 Ok(())
             }
             ExternalEngineCommand::Get { id } => {
-                let request = external_engine::id::GetRequest::new(&id);
+                let request = engine::id::GetRequest::new(&id);
                 let engine = lichess.get_external_engine(request).await?;
                 println!("{:#?}", engine);
                 Ok(())

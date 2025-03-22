@@ -1,4 +1,4 @@
-use crate::model::external_engine::CreateExternalEngine;
+use crate::model::engine::CreateExternalEngine;
 use crate::model::{Body, Request};
 use serde::{Deserialize, Serialize};
 
