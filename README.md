@@ -40,6 +40,7 @@ The following table shows the current level of support for each category of endp
 | Bulk Pairings         |   ❌    |
 | Challenges            |   ✅    |
 | External Engine       |   🔶    |
+| FIDE                  |   ✅    |
 | Games                 |   ✅    |
 | Messaging             |   ✅    |
 | Opening Explorer      |   ✅    |
