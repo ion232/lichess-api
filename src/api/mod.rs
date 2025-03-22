@@ -7,6 +7,7 @@ pub mod external_engine;
 pub mod fide;
 pub mod games;
 pub mod messaging;
+pub mod oauth;
 pub mod openings;
 pub mod puzzles;
 pub mod relations;
@@ -45,6 +46,17 @@ impl LichessApi<reqwest::Client> {
         let request = request.as_http_request("application/x-chess-pgn")?;
         let stream = self.make_request_as_raw_lines(request).await?;
         Ok(stream)
+    }
+
+    pub async fn get_empty<Q, B>(&self, request: Request<Q, B>) -> Result<()>
+    where
+        Q: QueryBounds,
+        B: BodyBounds,
+    {
+        let request = request.as_http_request("application/json")?;
+        let mut stream = self.make_request(request).await?;
+        self.expect_empty(&mut stream).await?;
+        Ok(())
     }
 
     pub async fn get_single_model<Q, B, M>(&self, request: Request<Q, B>) -> Result<M>

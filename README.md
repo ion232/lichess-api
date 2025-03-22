@@ -44,7 +44,7 @@ The following table shows the current level of support for each category of endp
 | Games                 |   ✅    |
 | Messaging             |   ✅    |
 | Opening Explorer      |   ✅    |
-| OAuth                 |   ❌    |
+| OAuth                 |   🔶    |
 | Puzzles               |   ✅    |
 | Relations             |   ❌    |
 | Simuls                |   ✅    |
