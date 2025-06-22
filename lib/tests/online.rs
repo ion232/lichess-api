@@ -1,4 +1,3 @@
-use futures::StreamExt;
 use lichess_api::client::*;
 use reqwest;
 use tokio;
