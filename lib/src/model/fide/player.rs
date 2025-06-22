@@ -1,5 +1,4 @@
-use serde::{Deserialize, Serialize};
-use serde_with::skip_serializing_none;
+use serde::Serialize;
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct GetQuery;

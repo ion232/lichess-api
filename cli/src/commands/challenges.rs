@@ -1,7 +1,7 @@
 use clap::{Parser, Subcommand};
 use color_eyre::Result;
 use lichess_api::client::LichessApi;
-use lichess_api::model::challenges::{self, *};
+use lichess_api::model::challenges::{*};
 use lichess_api::model::VariantKey;
 use reqwest;
 

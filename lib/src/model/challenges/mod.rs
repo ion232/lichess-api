@@ -8,7 +8,7 @@ pub mod list;
 pub mod open;
 pub mod start_clocks;
 
-use crate::model::{Color, Compat, Days, LightUser, Speed, Variant, VariantKey};
+use crate::model::{Color, Days, LightUser, Speed, Variant, VariantKey};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
