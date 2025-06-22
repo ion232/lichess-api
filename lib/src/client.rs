@@ -89,15 +89,25 @@ impl LichessApi<reqwest::Client> {
             .map_err(|e| futures::io::Error::new(futures::io::ErrorKind::Other, e))
             .into_async_read()
             .lines()
-            .filter(|l| {
+            .filter(|l| 
                 // To avoid trying to serialize blank keep alive lines.
-                !l.as_ref().unwrap_or(&"".to_string()).is_empty()
-            })
+                match l {
+                    Ok(line) => !line.is_empty(),
+                    Err(_) => true,
+                }
+            )
             .map(|l| -> Result<String> {
                 let line = l?;
                 debug!(line, "model line");
                 if line.starts_with("<!DOCTYPE html>") {
                     return Err(crate::error::Error::PageNotFound());
+                }
+                // Check for error responses returned as json before model serialization is attempted.
+                // This can happen when not authorized to access an endpoint.
+                if let Ok(error_value) = serde_json::from_str::<serde_json::Value>(&line) {
+                    if let Some(error_msg) = error_value.get("error").and_then(|e| e.as_str()) {
+                        return Err(crate::error::Error::Response(error_msg.to_string()));
+                    }
                 }
                 Ok(line)
             });
