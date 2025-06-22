@@ -399,6 +399,21 @@ pub enum Days {
     Fourteen,
 }
 
+impl From<u32> for Days {
+    fn from(value: u32) -> Self {
+        match value {
+            1 => Days::One,
+            2 => Days::Two,
+            3 => Days::Three,
+            5 => Days::Five,
+            7 => Days::Seven,
+            10 => Days::Ten,
+            14 => Days::Fourteen,
+            _ => panic!("Invalid days {}", value),
+        }
+    }
+}
+
 impl Into<u32> for Days {
     fn into(self) -> u32 {
         match self {
