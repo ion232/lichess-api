@@ -54,28 +54,33 @@ pub fn games_export() {
 }
 
 #[test]
-pub fn puzzle() {
-    test_response_model::<puzzles::PuzzleAndGame>("puzzle");
+pub fn puzzle_and_game() {
+    test_response_model::<puzzles::PuzzleAndGame>("puzzle_and_game");
 }
 
 #[test]
-pub fn puzzle_round() {
-    test_response_model::<puzzles::activity::PuzzleRoundJson>("puzzle_round");
+pub fn puzzle_activity() {
+    test_response_model::<puzzles::activity::PuzzleActivity>("puzzle_activity");
 }
 
 #[test]
 pub fn puzzle_race() {
-    test_response_model::<puzzles::race::PuzzleRaceJson>("puzzle_race");
+    test_response_model::<puzzles::race::PuzzleRacer>("puzzle_racer");
 }
 
 #[test]
 pub fn puzzle_dashboard() {
-    test_response_model::<puzzles::dashboard::PuzzleDashboardJson>("puzzle_dashboard");
+    test_response_model::<puzzles::dashboard::PuzzleDashboard>("puzzle_dashboard");
+}
+
+#[test]
+pub fn puzzle_replay() {
+    test_response_model::<puzzles::replay::Replay>("puzzle_replay");
 }
 
 #[test]
 pub fn storm_dashboard() {
-    test_response_model::<puzzles::storm_dashboard::StormDashboardJson>("storm_dashboard");
+    test_response_model::<puzzles::storm_dashboard::StormDashboard>("storm_dashboard");
 }
 
 #[test]
@@ -110,11 +115,11 @@ fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
 fn test_model<Model: Serialize + DeserializeOwned>(path: String) {
     let model_string = fs::read_to_string(path).expect("Unable to read file.");
     let model_json: serde_json::Value =
-        serde_json::from_str(&model_string).expect("Unable to serialize model into json value.");
+        serde_json::from_str(&model_string).expect("Unable to deserialize model string into json value.");
     let model: Model =
-        serde_json::from_str(&model_string).expect("Unable to deserialize json string to model.");
+        serde_json::from_str(&model_string).expect("Unable to deserialize model string into model.");
     let reserialized_model_json: serde_json::Value =
-        serde_json::to_value(&model).expect("Unable to serialize model to json value.");
+        serde_json::to_value(&model).expect("Unable to serialize model into json value.");
 
     assert_eq!(model_json, reserialized_model_json);
 }

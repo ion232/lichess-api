@@ -19,23 +19,23 @@ impl From<u32> for GetRequest {
     }
 }
 
-pub type Dashboard = PuzzleDashboardJson;
+pub type Dashboard = PuzzleDashboard;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct PuzzleDashboardJson {
+pub struct PuzzleDashboard {
     days: i64,
-    global: Results,
+    global: PuzzlePerformance,
     themes: HashMap<String, Theme>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Theme {
-    results: Results,
+    results: PuzzlePerformance,
     theme: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Results {
+pub struct PuzzlePerformance {
     #[serde(rename = "firstWins")]
     first_wins: i64,
     nb: i64,

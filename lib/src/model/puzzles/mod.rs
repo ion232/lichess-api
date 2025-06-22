@@ -2,10 +2,13 @@ pub mod activity;
 pub mod daily;
 pub mod dashboard;
 pub mod id;
+pub mod next;
 pub mod race;
+pub mod replay;
 pub mod storm_dashboard;
 
 use serde::{Deserialize, Serialize};
+use super::Title;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct PuzzleAndGame {
@@ -44,7 +47,10 @@ pub struct Perf {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Player {
     pub color: String,
+    pub id: String,
     pub name: String,
-    #[serde(rename = "userId")]
-    pub user_id: Option<String>,
+    pub rating: i32,
+    pub flair: Option<String>,
+    pub patron: Option<bool>,
+    pub title: Option<Title>,
 }

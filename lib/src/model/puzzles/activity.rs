@@ -26,20 +26,23 @@ impl From<u32> for GetRequest {
     }
 }
 
-pub type Round = PuzzleRoundJson;
+pub type Activity = PuzzleActivity;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct PuzzleRoundJson {
+pub struct PuzzleActivity {
     pub date: u64,
     pub win: bool,
     pub puzzle: Puzzle,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Puzzle {
     pub id: String,
     pub fen: String,
+    pub last_move: Option<String>,
     pub plays: i32,
     pub rating: i32,
     pub solution: Vec<String>,

@@ -17,10 +17,10 @@ impl Default for PostRequest {
     }
 }
 
-pub type Race = PuzzleRaceJson;
+pub type Race = PuzzleRacer;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct PuzzleRaceJson {
+pub struct PuzzleRacer {
     id: String,
     url: String,
 }

@@ -21,10 +21,10 @@ impl<S: AsRef<str>> From<S> for GetRequest {
     }
 }
 
-pub type Dashboard = StormDashboardJson;
+pub type Dashboard = StormDashboard;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct StormDashboardJson {
+pub struct StormDashboard {
     high: High,
     days: Vec<Day>,
 }

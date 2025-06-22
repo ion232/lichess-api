@@ -13,11 +13,25 @@ impl LichessApi<reqwest::Client> {
         self.get_single_model(request.into()).await
     }
 
+    pub async fn get_new_puzzle(
+        &self,
+        request: impl Into<next::GetRequest>,
+    ) -> Result<next::Puzzle> {
+        self.get_single_model(request.into()).await
+    }
+
     pub async fn get_puzzle_activity(
         &self,
         request: impl Into<activity::GetRequest>,
-    ) -> Result<impl StreamExt<Item = Result<activity::Round>>> {
+    ) -> Result<impl StreamExt<Item = Result<activity::Activity>>> {
         self.get_streamed_models(request.into()).await
+    }
+
+    pub async fn get_puzzles_to_replay(
+        &self,
+        request: impl Into<replay::GetRequest>,
+    ) -> Result<replay::Replay> {
+        self.get_single_model(request.into()).await
     }
 
     pub async fn get_puzzle_dashboard(
