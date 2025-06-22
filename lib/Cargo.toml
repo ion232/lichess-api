@@ -1,7 +1,7 @@
 [package]
 name = "lichess-api"
 version = "0.6.0"
-edition = "2021"
+edition = "2024"
 license = "Apache-2.0"
 description = "A client library for the Lichess API"
 keywords = ["lichess", "api", "client"]
