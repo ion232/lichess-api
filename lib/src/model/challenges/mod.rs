@@ -204,6 +204,7 @@ pub struct ChallengeDeclinedEvent {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "type")]
 #[serde(rename_all = "camelCase")]
+#[serde(rename_all_fields = "camelCase")]
 pub enum TimeControl {
     Clock {
         increment: u32,
