@@ -29,7 +29,7 @@ impl From<Difficulty> for next::Difficulty {
 }
 
 #[derive(Debug, Subcommand)]
-pub enum PuzzleCommand {
+pub enum PuzzlesCommand {
     /// Get the daily puzzle
     Daily,
     /// Get a puzzle by its ID
@@ -58,21 +58,21 @@ pub enum PuzzleCommand {
     },
 }
 
-impl PuzzleCommand {
+impl PuzzlesCommand {
     pub async fn run(self, lichess: Lichess) -> Result<()> {
         match self {
-            PuzzleCommand::Daily => {
+            PuzzlesCommand::Daily => {
                 let puzzle = lichess.get_daily_puzzle().await?;
                 println!("{puzzle:#?}");
                 Ok(())
             }
-            PuzzleCommand::Get { id } => {
+            PuzzlesCommand::Get { id } => {
                 let request = puzzles::id::GetRequest::new(&id);
                 let puzzle = lichess.get_puzzle(request).await?;
                 println!("{puzzle:#?}");
                 Ok(())
             }
-            PuzzleCommand::Activity { max_rounds } => {
+            PuzzlesCommand::Activity { max_rounds } => {
                 let request = activity::GetRequest::new(max_rounds);
                 let mut stream = lichess.get_puzzle_activity(request).await?;
                 while let Some(round) = stream.next().await {
@@ -81,25 +81,25 @@ impl PuzzleCommand {
                 }
                 Ok(())
             }
-            PuzzleCommand::Dashboard { days } => {
+            PuzzlesCommand::Dashboard { days } => {
                 let request = dashboard::GetRequest::new(days.unwrap_or(30));
                 let dashboard = lichess.get_puzzle_dashboard(request).await?;
                 println!("{dashboard:#?}");
                 Ok(())
             }
-            PuzzleCommand::Storm { username, days } => {
+            PuzzlesCommand::Storm { username, days } => {
                 let request = storm_dashboard::GetRequest::new(&username, days);
                 let dashboard = lichess.get_puzzle_storm_dashboard(request).await?;
                 println!("{dashboard:#?}");
                 Ok(())
             }
-            PuzzleCommand::Next { angle, difficulty } => {
+            PuzzlesCommand::Next { angle, difficulty } => {
                 let request = next::GetRequest::new(angle, difficulty.map(|d| d.into()));
                 let puzzle = lichess.get_new_puzzle(request).await?;
                 println!("{puzzle:#?}");
                 Ok(())
             }
-            PuzzleCommand::Replay { days, theme } => {
+            PuzzlesCommand::Replay { days, theme } => {
                 let request = replay::GetRequest::new(days, &theme);
                 let replay = lichess.get_puzzles_to_replay(request).await?;
                 println!("{replay:#?}");

@@ -5,5 +5,5 @@ pub mod users;
 
 pub use challenges::ChallengesCommand;
 pub use external_engine::ExternalEngineCommand;
-pub use puzzles::PuzzleCommand;
+pub use puzzles::PuzzlesCommand;
 pub use users::UsersCommand;

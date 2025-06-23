@@ -4,7 +4,7 @@ use clap::builder::Styles;
 use clap::builder::styling::AnsiColor;
 use clap::{Parser, Subcommand};
 use color_eyre::Result;
-use commands::{ChallengesCommand, ExternalEngineCommand, PuzzleCommand, UsersCommand};
+use commands::{ChallengesCommand, ExternalEngineCommand, PuzzlesCommand, UsersCommand};
 use lichess_api::client::LichessApi;
 use reqwest;
 use tracing::level_filters::LevelFilter;
@@ -33,9 +33,9 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
-    Puzzle {
+    Puzzles {
         #[clap(subcommand)]
-        command: PuzzleCommand,
+        command: PuzzlesCommand,
     },
     Engine {
         #[clap(subcommand)]
@@ -94,7 +94,7 @@ impl App {
 
     async fn run(self, args: Cli) -> Result<()> {
         match args.command {
-            Command::Puzzle { command } => command.run(self.lichess).await,
+            Command::Puzzles { command } => command.run(self.lichess).await,
             Command::Engine { command } => command.run(self.lichess).await,
             Command::Challenges { command } => command.run(self.lichess).await,
             Command::Users { command } => command.run(self.lichess).await,
