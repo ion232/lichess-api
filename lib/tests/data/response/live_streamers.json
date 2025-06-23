@@ -1,39 +1,39 @@
 [
-  {
-    "name": "PokochajSzachy",
-    "title": "CM",
-    "flair": "symbols.orange-heart",
-    "patron": true,
-    "id": "pokochajszachy",
-    "stream": {
-      "service": "twitch",
-      "status": "CHess & Chill & Good Music !youtube !instagram lichess.org [EN] [PL]",
-      "lang": "pl"
+    {
+        "name": "PokochajSzachy",
+        "title": "CM",
+        "flair": "symbols.orange-heart",
+        "patron": true,
+        "id": "pokochajszachy",
+        "stream": {
+            "service": "twitch",
+            "status": "CHess & Chill & Good Music !youtube !instagram lichess.org [EN] [PL]",
+            "lang": "pl"
+        },
+        "streamer": {
+            "name": "Pokochaj Szachy",
+            "headline": "Streaming in Polish and English. Come by and say hello!",
+            "description": "Hi! Have a good time watching the stream! I very often play against viewers on DGT chessboard.",
+            "twitch": "https://www.twitch.tv/pokochajszachy",
+            "image": "https://image.lichess1.org/display?fmt=png&h=350&op=thumbnail&path=pokochajszachy:streamer:pokochajszachy:qfVf3nXP.png&w=350&sig=e329d57f8e6815da63dba66992fa8b3c4b100ba9"
+        }
     },
-    "streamer": {
-      "name": "Pokochaj Szachy",
-      "headline": "Streaming in Polish and English. Come by and say hello!",
-      "description": "Hi! Have a good time watching the stream! I very often play against viewers on DGT chessboard.",
-      "twitch": "https://www.twitch.tv/pokochajszachy",
-      "image": "https://image.lichess1.org/display?fmt=png&h=350&op=thumbnail&path=pokochajszachy:streamer:pokochajszachy:qfVf3nXP.png&w=350&sig=e329d57f8e6815da63dba66992fa8b3c4b100ba9"
+    {
+        "name": "XadrezTotalTV",
+        "flair": "objects.telescope",
+        "id": "xadreztotaltv",
+        "stream": {
+            "service": "youTube",
+            "status": "Xadrez Total | Analisando partidas e batendo papo Lichess.org",
+            "lang": "en-US"
+        },
+        "streamer": {
+            "name": "XadrezTotal",
+            "headline": "Empresa de Organizaçao de torenios FIDE",
+            "description": "Xadrez Total é uma empresa que organiza torneios FIDE",
+            "twitch": "https://www.twitch.tv/xadreztotaltv",
+            "youTube": "https://www.youtube.com/channel/UCl0pW-vG9r8AT8N2bJdMu8Q/live",
+            "image": "https://image.lichess1.org/display?fmt=webp&h=350&op=thumbnail&path=xadreztotaltv:streamer:xadreztotaltv:4DueCXhP.jpg&w=350&sig=e5fb7e683cb3ec7258778f727decd50b0495417a"
+        }
     }
-  },
-  {
-    "name": "XadrezTotalTV",
-    "flair": "objects.telescope",
-    "id": "xadreztotaltv",
-    "stream": {
-      "service": "youTube",
-      "status": "Xadrez Total | Analisando partidas e batendo papo Lichess.org",
-      "lang": "en-US"
-    },
-    "streamer": {
-      "name": "XadrezTotal",
-      "headline": "Empresa de Organizaçao de torenios FIDE",
-      "description": "Xadrez Total é uma empresa que organiza torneios FIDE",
-      "twitch": "https://www.twitch.tv/xadreztotaltv",
-      "youTube": "https://www.youtube.com/channel/UCl0pW-vG9r8AT8N2bJdMu8Q/live",
-      "image": "https://image.lichess1.org/display?fmt=webp&h=350&op=thumbnail&path=xadreztotaltv:streamer:xadreztotaltv:4DueCXhP.jpg&w=350&sig=e5fb7e683cb3ec7258778f727decd50b0495417a"
-    }
-  }
 ]

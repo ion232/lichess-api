@@ -2,6 +2,31 @@ use crate::model::{Clock, Room, Speed, Variant};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum GameColor {
+    White,
+    Black,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub enum GameStatusName {
+    Created,
+    Started,
+    Aborted,
+    Mate,
+    Resign,
+    Stalemate,
+    Timeout,
+    Draw,
+    Outoftime,
+    Cheat,
+    NoStart,
+    UnknownFinish,
+    VariantEnd,
+}
+
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct GetQuery;
 
@@ -26,26 +51,26 @@ impl<S: AsRef<str>> From<S> for GetRequest {
 pub enum Event {
     GameFull {
         #[serde(flatten)]
-        game_full: GameFull,
+        game_full: GameFullEvent,
     },
     GameState {
         #[serde(flatten)]
-        game_state: GameState,
+        game_state: GameStateEvent,
     },
     ChatLine {
         #[serde(flatten)]
-        chat_line: ChatLine,
+        chat_line: ChatLineEvent,
     },
     OpponentGone {
         #[serde(flatten)]
-        opponent_gone: OpponentGone,
+        opponent_gone: OpponentGoneEvent,
     },
 }
 
 #[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct GameFull {
+pub struct GameFullEvent {
     pub id: String,
     pub variant: Variant,
     pub rated: bool,
@@ -56,14 +81,14 @@ pub struct GameFull {
     pub white: GameEventPlayer,
     pub black: GameEventPlayer,
     pub initial_fen: Option<String>,
-    pub state: Option<GameState>,
+    pub state: Option<GameStateEvent>,
     pub tournament_id: Option<String>,
 }
 
 #[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct GameState {
+pub struct GameStateEvent {
     // Will always be gameState, but needed to avoid cycles.
     pub r#type: Option<String>,
     pub moves: String,
@@ -71,8 +96,8 @@ pub struct GameState {
     pub btime: u64,
     pub winc: u64,
     pub binc: u64,
-    pub status: String,
-    pub winner: Option<String>,
+    pub status: GameStatusName,
+    pub winner: Option<GameColor>,
     pub wdraw: Option<bool>,
     pub bdraw: Option<bool>,
     pub wtakeback: Option<bool>,
@@ -82,7 +107,7 @@ pub struct GameState {
 #[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ChatLine {
+pub struct ChatLineEvent {
     pub room: Room,
     pub username: String,
     pub text: String,
@@ -91,40 +116,23 @@ pub struct ChatLine {
 #[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct OpponentGone {
+pub struct OpponentGoneEvent {
     pub gone: bool,
     pub claim_win_in_seconds: Option<u32>,
 }
 
-#[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(untagged)]
 #[serde(rename_all = "camelCase")]
-pub enum GameEventPlayer {
-    AI {
-        #[serde(flatten)]
-        ai: GameEventAI,
-    },
-    Human {
-        #[serde(flatten)]
-        human: GameEventHuman,
-    },
-    Anonymous {},
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct GameEventAI {
-    pub ai_level: u32,
-}
-
-#[skip_serializing_none]
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct GameEventHuman {
+pub struct GameEventPlayer {
     pub id: String,
     pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ai_level: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub rating: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub provisional: Option<bool>,
 }
 

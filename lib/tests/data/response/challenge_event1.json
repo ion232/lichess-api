@@ -1,25 +1,26 @@
 {
     "type": "challenge",
     "challenge": {
-        "id": "7pGLxJ4F",
-        "url": "https://lichess.org/VU0nyvsW",
+        "id": "H9fIRZUk",
+        "url": "https://lichess.org/H9fIRZUk",
         "status": "created",
         "challenger": {
-            "id": "lovlas",
-            "name": "Lovlas",
-            "title": "IM",
-            "rating": 2506,
-            "patron": true,
-            "online": true,
-            "lag": 24
-        },
-        "destUser": {
-            "id": "thibot",
-            "name": "thibot",
+            "id": "bot1",
+            "name": "Bot1",
             "rating": 1500,
+            "title": "BOT",
             "provisional": true,
             "online": true,
-            "lag": 45
+            "lag": 4
+        },
+        "destUser": {
+            "id": "bobby",
+            "name": "Bobby",
+            "rating": 1635,
+            "title": "GM",
+            "provisional": true,
+            "online": true,
+            "lag": 4
         },
         "variant": {
             "key": "standard",
@@ -27,19 +28,20 @@
             "short": "Std"
         },
         "rated": true,
+        "speed": "rapid",
         "timeControl": {
             "type": "clock",
-            "limit": 300,
-            "increment": 25,
-            "show": "5+25"
+            "limit": 600,
+            "increment": 0,
+            "show": "10+0"
         },
         "color": "random",
-        "speed": "rapid",
+        "finalColor": "black",
         "perf": {
-            "icon": "#",
+            "icon": "",
             "name": "Rapid"
         },
-        "finalColor": "white"
+        "direction": "in"
     },
     "compat": {
         "bot": false,
