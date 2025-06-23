@@ -1,5 +1,10 @@
-use crate::model::Request;
-use serde::Serialize;
+use crate::model::{LightUser, Request};
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Autocompletions {
+    pub result: Vec<LightUser>,
+}
 
 #[serde_with::skip_serializing_none]
 #[derive(Default, Clone, Debug, Serialize)]
@@ -19,7 +24,7 @@ impl GetRequest {
             friend,
         };
 
-        Self::get("/api/autocomplete", query, None)
+        Self::get("/api/player/autocomplete", query, None)
     }
 }
 

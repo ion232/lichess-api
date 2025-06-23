@@ -1,5 +1,11 @@
-use crate::model::{PerfType, Request, Title, puzzles};
+use crate::model::{PerfType, Request, Title};
 use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct PerfTypeData {
+    pub key: String,
+    pub name: String,
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct User {
@@ -114,7 +120,7 @@ pub struct PlayStreak {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Stat {
-    pub perf_type: puzzles::Perf,
+    pub perf_type: PerfTypeData,
     pub id: String,
     pub highest: RatingExtreme,
     pub lowest: RatingExtreme,
@@ -128,11 +134,11 @@ pub struct Stat {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Performance {
+pub struct PerfStat {
     pub user: User,
     pub perf: Perf,
     pub rank: Option<u32>,
-    pub percentile: f64,
+    pub percentile: Option<f64>,
     pub stat: Stat,
 }
 

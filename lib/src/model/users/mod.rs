@@ -25,13 +25,12 @@ pub struct UserExtended {
     pub user: User,
     pub url: String,
     pub playing: Option<String>,
-    pub completion_rate: Option<u32>,
     pub count: Count,
     pub streaming: Option<bool>,
-    pub followable: bool,
-    pub following: bool,
-    pub blocking: bool,
-    pub follows_you: bool,
+    pub streamer: Option<UserStreamer>,
+    pub followable: Option<bool>,
+    pub following: Option<bool>,
+    pub blocking: Option<bool>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -68,6 +67,7 @@ pub struct User {
     pub verified: Option<bool>,
     pub play_time: PlayTime,
     pub title: Option<Title>,
+    pub flair: Option<String>,
 }
 
 #[skip_serializing_none]
@@ -86,6 +86,11 @@ pub struct Perfs {
     pub puzzle: Option<Perf>,
     pub classical: Option<Perf>,
     pub rapid: Option<Perf>,
+    pub three_check: Option<Perf>,
+    pub antichess: Option<Perf>,
+    pub crazyhouse: Option<Perf>,
+    pub storm: Option<Storm>,
+    pub racer: Option<Storm>,
     pub streak: Option<Storm>,
 }
 
@@ -95,6 +100,7 @@ pub struct Perf {
     pub rating: u32,
     pub rd: u32,
     pub prog: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub prov: Option<bool>,
 }
 
@@ -113,14 +119,17 @@ pub struct PlayTime {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Profile {
-    pub country: Option<String>,
+    pub flag: Option<String>,
     pub location: Option<String>,
     pub bio: Option<String>,
-    pub first_name: Option<String>,
-    pub last_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub real_name: Option<String>,
     pub fide_rating: Option<u32>,
     pub uscf_rating: Option<u32>,
     pub ecf_rating: Option<u32>,
+    pub cfc_rating: Option<u32>,
+    pub rcf_rating: Option<u32>,
+    pub dsb_rating: Option<u32>,
     pub links: Option<String>,
 }
 
@@ -129,6 +138,19 @@ pub struct Stream {
     pub service: String,
     pub status: String,
     pub lang: String,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct UserStreamer {
+    pub twitch: Option<StreamerChannel>,
+    #[serde(rename = "youTube")]
+    pub youtube: Option<StreamerChannel>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct StreamerChannel {
+    pub channel: String,
 }
 
 #[skip_serializing_none]
@@ -169,11 +191,11 @@ pub struct Crosstable {
 
 #[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Note {
-    from: LightUser,
-    to: LightUser,
-    text: String,
-    date: u64,
+pub struct UserNote {
+    pub from: LightUser,
+    pub to: LightUser,
+    pub text: String,
+    pub date: u64,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -241,22 +263,41 @@ pub struct Player {
     pub online: Option<bool>,
 }
 
+pub type PerfTop10 = Vec<TopUser>;
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Leaderboards {
-    pub bullet: Vec<Player>,
-    pub blitz: Vec<Player>,
-    pub rapid: Vec<Player>,
-    pub classical: Vec<Player>,
-    pub ultra_bullet: Vec<Player>,
-    pub chess960: Vec<Player>,
-    pub crazyhouse: Vec<Player>,
-    pub antichess: Vec<Player>,
-    pub atomic: Vec<Player>,
-    pub horde: Vec<Player>,
-    pub king_of_the_hill: Vec<Player>,
-    pub racing_kings: Vec<Player>,
-    pub three_check: Vec<Player>,
+pub struct Top10s {
+    pub bullet: PerfTop10,
+    pub blitz: PerfTop10,
+    pub rapid: PerfTop10,
+    pub classical: PerfTop10,
+    pub ultra_bullet: PerfTop10,
+    pub chess960: PerfTop10,
+    pub crazyhouse: PerfTop10,
+    pub antichess: PerfTop10,
+    pub atomic: PerfTop10,
+    pub horde: PerfTop10,
+    pub king_of_the_hill: PerfTop10,
+    pub racing_kings: PerfTop10,
+    pub three_check: PerfTop10,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct TopUser {
+    pub id: String,
+    pub username: String,
+    pub perfs: std::collections::HashMap<String, TopUserPerf>,
+    pub title: Option<Title>,
+    pub patron: Option<bool>,
+    pub online: Option<bool>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct TopUserPerf {
+    pub rating: u32,
+    pub progress: i32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

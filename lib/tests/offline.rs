@@ -98,13 +98,18 @@ pub fn tv() {
 
 #[test]
 pub fn users() {
-    test_response_model::<users::Leaderboards>("players");
-    test_response_model::<Vec<users::rating_history::RatingEntry>>("rating-history");
-    test_response_model::<users::rating_history::RatingHistory>("rating-history");
-    test_response_model::<users::performance::Performance>("performance");
-    test_response_model::<Vec<users::activity::Activity>>("activities");
+    test_response_model::<users::Top10s>("players");
+    test_response_model::<Vec<users::rating_history::RatingEntry>>("rating_history");
+    test_response_model::<users::rating_history::RatingHistory>("rating_history");
+    test_response_model::<users::performance::PerfStat>("user_performance");
     test_response_model::<Vec<users::StreamingUser>>("streamers");
-    test_response_model::<Vec<users::Note>>("notes");
+    test_response_model::<Vec<users::UserNote>>("notes");
+    test_response_model::<Vec<users::activity::UserActivity>>("user_activity");
+    test_response_model::<Vec<users::activity::UserActivity>>("user_activities");
+    test_response_model::<users::UserExtended>("user_extended");
+    test_response_model::<Vec<users::status::User>>("user_statuses");
+    test_response_model::<Vec<users::StreamingUser>>("live_streamers");
+    test_response_model::<users::autocomplete::Autocompletions>("user_autocompletions");
 }
 
 #[test]
@@ -123,7 +128,7 @@ fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
 }
 
 fn test_model<Model: Serialize + DeserializeOwned>(path: String) {
-    let model_string = fs::read_to_string(path).expect("Unable to read file.");
+    let model_string = fs::read_to_string(&path).expect("Unable to read file.");
     let model_json: serde_json::Value = serde_json::from_str(&model_string)
         .expect("Unable to deserialize model string into json value.");
     let model: Model = serde_json::from_str(&model_string)

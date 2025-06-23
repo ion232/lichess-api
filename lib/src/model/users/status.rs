@@ -28,6 +28,7 @@ impl GetRequest {
 pub struct User {
     pub id: String,
     pub name: String,
+    pub flair: Option<String>,
     pub title: Option<Title>,
     pub online: Option<bool>,
     pub playing: Option<bool>,

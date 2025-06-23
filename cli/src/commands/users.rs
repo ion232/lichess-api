@@ -65,11 +65,16 @@ pub enum UsersCommand {
     Top10,
     /// Get one leaderboard
     Leaderboard {
+        /// Variant (e.g., bullet, blitz, rapid, classical, etc.)
+        perf: String,
         /// Number of users to fetch (1-200)
         #[arg(default_value = "10")]
-        nb: u8,
-        /// Variant (e.g., bullet, blitz, rapid, classical, etc.)
-        perftype: String,
+        count: u8,
+    },
+    /// Get activity feed of a user
+    Activity {
+        /// Username
+        username: String,
     },
 }
 
@@ -122,8 +127,8 @@ impl UsersCommand {
                     }
                 };
                 let request = users::performance::GetRequest::new(&username, perf_type);
-                let performance = lichess.get_user_performance_statistics(request).await?;
-                println!("{:#?}", performance);
+                let perf_stat = lichess.get_user_performance_statistics(request).await?;
+                println!("{:#?}", perf_stat);
                 Ok(())
             }
             UsersCommand::ByIds { ids } => {
@@ -159,7 +164,7 @@ impl UsersCommand {
                 }
                 let request = users::autocomplete::GetRequest::new(&term, Some(friend));
                 let suggestions = lichess.autocomplete_users(request).await?;
-                for user in suggestions {
+                for user in suggestions.result {
                     println!("{} ({})", user.name, user.id);
                 }
                 Ok(())
@@ -169,8 +174,8 @@ impl UsersCommand {
                 println!("{:#?}", leaderboards);
                 Ok(())
             }
-            UsersCommand::Leaderboard { nb, perftype } => {
-                let perf_type = match perftype.as_str() {
+            UsersCommand::Leaderboard { count, perf } => {
+                let perf_type = match perf.as_str() {
                     "ultraBullet" => PerfType::UltraBullet,
                     "bullet" => PerfType::Bullet,
                     "blitz" => PerfType::Blitz,
@@ -185,13 +190,21 @@ impl UsersCommand {
                     "racingKings" => PerfType::RacingKings,
                     "threeCheck" => PerfType::ThreeCheck,
                     _ => {
-                        println!("Invalid performance type: {}", perftype);
+                        println!("Invalid performance type: {}", perf);
                         return Ok(());
                     }
                 };
-                let request = users::leaderboard::GetRequest::new(nb, perf_type);
+                let request = users::leaderboard::GetRequest::new(count, perf_type);
                 let leaderboard = lichess.get_one_leaderboard(request).await?;
                 println!("{:#?}", leaderboard);
+                Ok(())
+            }
+            UsersCommand::Activity { username } => {
+                let request = users::activity::GetRequest::new(&username);
+                let activities = lichess.get_user_activity(request).await?;
+                for activity in activities {
+                    println!("{:#?}", activity);
+                }
                 Ok(())
             }
         }

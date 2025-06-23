@@ -321,6 +321,7 @@ pub struct LightUser {
     pub title: Option<Title>,
     pub flair: Option<String>,
     pub patron: Option<bool>,
+    pub online: Option<bool>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]

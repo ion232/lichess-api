@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
+use crate::model::LightUser;
+
 use super::{Title, Variant};
 
 pub mod current;
@@ -30,11 +32,9 @@ pub struct Simul {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Host {
-    pub id: String,
-    pub name: String,
+    #[serde(flatten)]
+    pub user: LightUser,
     pub rating: u32,
-    pub title: Option<Title>,
     pub game_id: Option<String>,
-    pub online: Option<bool>,
     pub provisional: Option<bool>,
 }

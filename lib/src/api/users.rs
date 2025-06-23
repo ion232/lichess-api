@@ -1,8 +1,19 @@
 use crate::client::LichessApi;
 use crate::error::Result;
-use crate::model::{LightUser, users::*};
+use crate::model::users::*;
 
 impl LichessApi<reqwest::Client> {
+    pub async fn get_all_top_10(&self) -> Result<Top10s> {
+        self.get_single_model(top_10::GetRequest::default()).await
+    }
+
+    pub async fn get_one_leaderboard(
+        &self,
+        request: impl Into<leaderboard::GetRequest>,
+    ) -> Result<Leaderboard> {
+        self.get_single_model(request.into()).await
+    }
+
     pub async fn get_public_user_data(
         &self,
         request: impl Into<public::GetRequest>,
@@ -24,11 +35,10 @@ impl LichessApi<reqwest::Client> {
         self.get_single_model(request.into()).await
     }
 
-    /// Get performance statistics of a user.
     pub async fn get_user_performance_statistics(
         &self,
         request: impl Into<performance::GetRequest>,
-    ) -> Result<performance::Performance> {
+    ) -> Result<performance::PerfStat> {
         self.get_single_model(request.into()).await
     }
 
@@ -51,15 +61,10 @@ impl LichessApi<reqwest::Client> {
         self.get_single_model(request.into()).await
     }
 
-    /// Get user autocomplete results.
     pub async fn autocomplete_users(
         &self,
         request: impl Into<autocomplete::GetRequest>,
-    ) -> Result<Vec<LightUser>> {
-        self.get_single_model(request.into()).await
-    }
-
-    pub async fn get_user_notes(&self, request: impl Into<note::GetRequest>) -> Result<Vec<Note>> {
+    ) -> Result<autocomplete::Autocompletions> {
         self.get_single_model(request.into()).await
     }
 
@@ -70,14 +75,14 @@ impl LichessApi<reqwest::Client> {
         self.get_single_model(request.into()).await
     }
 
-    pub async fn get_all_top_10(&self) -> Result<Leaderboards> {
-        self.get_single_model(top_10::GetRequest::default()).await
+    pub async fn get_user_notes(&self, request: impl Into<note::GetRequest>) -> Result<Vec<UserNote>> {
+        self.get_single_model(request.into()).await
     }
 
-    pub async fn get_one_leaderboard(
+    pub async fn get_user_activity(
         &self,
-        request: impl Into<leaderboard::GetRequest>,
-    ) -> Result<Leaderboard> {
+        request: impl Into<activity::GetRequest>,
+    ) -> Result<Vec<activity::UserActivity>> {
         self.get_single_model(request.into()).await
     }
 }
