@@ -80,7 +80,15 @@ impl LichessApi<reqwest::Client> {
 
         let convert_err = |e: reqwest::Error| Error::Request(e.to_string());
         let request = reqwest::Request::try_from(http_request).map_err(convert_err)?;
-        debug!(?request, "sending");
+        let body_text = if let Some(body) = request.body() {
+            match body.as_bytes() {
+                Some(bytes) => String::from_utf8_lossy(bytes).to_string(),
+                None => "<streaming body>".to_string(),
+            }
+        } else {
+            "<empty body>".to_string()
+        };
+        debug!(?request, body = %body_text, "sending");
         let response = self.client.execute(request).await;
         debug!(?response, "received");
         let stream = response

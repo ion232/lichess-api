@@ -204,6 +204,7 @@ pub struct ChallengeDeclinedEvent {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "type")]
 #[serde(rename_all = "camelCase")]
+#[serde(rename_all_fields = "camelCase")]
 pub enum TimeControl {
     Clock {
         increment: u32,
@@ -216,16 +217,20 @@ pub enum TimeControl {
     Unlimited,
 }
 
-#[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ChallengeUser {
     pub id: String,
     pub name: String,
     pub rating: u32,
     pub title: Option<Title>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub flair: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub patron: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub provisional: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub online: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub lag: Option<u32>,
 }

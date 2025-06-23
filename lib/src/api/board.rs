@@ -19,7 +19,7 @@ impl LichessApi<reqwest::Client> {
     pub async fn board_stream_game_chat(
         &self,
         request: impl Into<chat::GetRequest>,
-    ) -> Result<impl StreamExt<Item = Result<chat::ChatLine>>> {
+    ) -> Result<impl StreamExt<Item = Result<Vec<chat::ChatLine>>>> {
         self.get_streamed_models(request.into()).await
     }
 

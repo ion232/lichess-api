@@ -51,16 +51,26 @@ pub struct GameEventInfo {
     pub color: Color,
     pub last_move: String,
     pub source: Source,
+    pub status: GameStatus,
     pub variant: Variant,
     pub speed: Speed,
     pub perf: String,
     pub rated: bool,
     pub has_moved: bool,
-    pub opponent: Opponent,
+    pub opponent: GameEventOpponent,
     pub is_my_turn: bool,
     pub seconds_left: Option<u64>,
+    pub tournament_id: Option<String>,
     pub compat: Option<GameCompat>,
     pub winner: Option<String>,
+    pub rating_diff: Option<i32>,
+    pub id: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct GameStatus {
+    pub id: u32,
+    pub name: String,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
@@ -78,15 +88,25 @@ pub enum Source {
     Relay,
     Pool,
     Swiss,
+    Arena,
 }
 
-#[skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Opponent {
-    pub id: Option<String>,
-    pub username: String,
-    pub rating: Option<u32>,
-    pub ai: Option<u32>,
+#[serde(untagged)]
+#[serde(rename_all_fields = "camelCase")]
+pub enum GameEventOpponent {
+    Player {
+        id: String,
+        username: String,
+        rating: u32,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        rating_diff: Option<i32>,
+    },
+    AI {
+        id: Option<String>, // Always null for AI
+        username: String,
+        ai: u32,
+    },
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

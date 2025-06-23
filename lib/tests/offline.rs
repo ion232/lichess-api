@@ -18,39 +18,30 @@ pub fn response() {
 
 #[test]
 pub fn board_event_stream() {
-    test_response_model::<board::stream::events::Event>("challenge");
-    test_response_model::<board::stream::events::Event>("challenge_canceled");
-    test_response_model::<board::stream::events::Event>("challenge_declined");
-    test_response_model::<board::stream::events::Event>("game_start");
-    test_response_model::<board::stream::events::Event>("game_finish");
+    test_response_model::<board::stream::events::Event>("game_start_event");
+    test_response_model::<board::stream::events::Event>("game_start_ai_event");
+    test_response_model::<board::stream::events::Event>("game_finish_event");
+    test_response_model::<board::stream::events::Event>("game_finish_ai_event");
+    test_response_model::<board::stream::events::Event>("challenge_event1");
+    test_response_model::<board::stream::events::Event>("challenge_event2");
+    test_response_model::<board::stream::events::Event>("challenge_declined_event1");
+    test_response_model::<board::stream::events::Event>("challenge_declined_event2");
+    test_response_model::<board::stream::events::Event>("challenge_canceled_event1");
+    test_response_model::<board::stream::events::Event>("challenge_canceled_event2");
 }
 
 #[test]
 pub fn board_game_stream() {
-    test_response_model::<board::stream::game::Event>("game_full_human");
-    test_response_model::<board::stream::game::Event>("game_state");
+    test_response_model::<board::stream::game::Event>("game_full_event");
+    test_response_model::<board::stream::game::Event>("game_state_event");
     test_response_model::<board::stream::game::Event>("game_state_resign");
-    test_response_model::<board::stream::game::Event>("chat_line");
-    test_response_model::<board::stream::game::Event>("chat_line_spectator");
-    test_response_model::<board::stream::game::Event>("opponent_gone_false");
-    test_response_model::<board::stream::game::Event>("opponent_gone_true");
+    test_response_model::<board::stream::game::Event>("chat_line_event");
+    test_response_model::<board::stream::game::Event>("opponent_gone_event");
 }
 
 #[test]
-pub fn challenge_ai() {
-    test_response_model::<games::stream::moves::Move>("challenge_ai");
-    test_response_model::<board::stream::game::Event>("game_full_ai");
-}
-
-#[test]
-pub fn challenge_anonymous() {
-    test_response_model::<board::stream::events::Event>("challenge_anonymous");
-    test_response_model::<board::stream::game::Event>("game_full_anonymous");
-}
-
-#[test]
-pub fn games_export() {
-    test_response_model::<games::GameJson>("game_json");
+pub fn board_chat() {
+    test_response_model::<Vec<board::chat::ChatLine>>("game_chat");
 }
 
 #[test]
@@ -117,9 +108,6 @@ pub fn challenges() {
     test_response_model::<challenges::ChallengeJson>("challenge_json");
     test_response_model::<challenges::ChallengeOpenJson>("challenge_open_json");
     test_response_model::<challenges::ChallengeDeclinedJson>("challenge_declined_json");
-    test_response_model::<challenges::ChallengeEvent>("challenge_event");
-    test_response_model::<challenges::ChallengeCanceledEvent>("challenge_canceled_event");
-    test_response_model::<challenges::ChallengeDeclinedEvent>("challenge_declined_event");
 }
 
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {

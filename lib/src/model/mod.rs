@@ -389,7 +389,7 @@ pub struct Clock {
     pub total_time: Option<u32>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Days {
     One,
     Two,
@@ -398,6 +398,26 @@ pub enum Days {
     Seven,
     Ten,
     Fourteen,
+}
+
+impl Serialize for Days {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let value: u32 = (*self).into();
+        value.serialize(serializer)
+    }
+}
+
+impl<'de> Deserialize<'de> for Days {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = u32::deserialize(deserializer)?;
+        Ok(Days::from(value))
+    }
 }
 
 impl From<u32> for Days {
