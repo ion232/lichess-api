@@ -4,7 +4,9 @@ use clap::builder::Styles;
 use clap::builder::styling::AnsiColor;
 use clap::{Parser, Subcommand};
 use color_eyre::Result;
-use commands::{BoardCommand, ChallengesCommand, ExternalEngineCommand, PuzzlesCommand, UsersCommand};
+use commands::{
+    BoardCommand, ChallengesCommand, ExternalEngineCommand, PuzzlesCommand, UsersCommand,
+};
 use lichess_api::client::LichessApi;
 use reqwest;
 use tracing::level_filters::LevelFilter;

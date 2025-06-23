@@ -134,7 +134,11 @@ impl BoardCommand {
                 }
                 Ok(())
             }
-            BoardCommand::WriteChat { game_id, room, text } => {
+            BoardCommand::WriteChat {
+                game_id,
+                room,
+                text,
+            } => {
                 let room_enum = match room.as_str() {
                     "spectator" => Room::Spectator,
                     _ => Room::Player,
@@ -156,7 +160,11 @@ impl BoardCommand {
                 println!("Draw handled: {}", result);
                 Ok(())
             }
-            BoardCommand::MakeMove { game_id, r#move, offering_draw } => {
+            BoardCommand::MakeMove {
+                game_id,
+                r#move,
+                offering_draw,
+            } => {
                 let request = r#move::PostRequest::new(&game_id, &r#move, offering_draw);
                 let result = lichess.board_make_move(request).await?;
                 println!("Move made: {}", result);
@@ -168,7 +176,16 @@ impl BoardCommand {
                 println!("Game resigned: {}", result);
                 Ok(())
             }
-            BoardCommand::CreateSeek { rated, time, increment, days, variant, color, rating_range_min, rating_range_max } => {
+            BoardCommand::CreateSeek {
+                rated,
+                time,
+                increment,
+                days,
+                variant,
+                color,
+                rating_range_min,
+                rating_range_max,
+            } => {
                 let variant_key = match variant.as_str() {
                     "standard" => VariantKey::Standard,
                     "chess960" => VariantKey::Chess960,
@@ -193,16 +210,18 @@ impl BoardCommand {
                 } else {
                     let time_mins = time.unwrap_or(10.0);
                     let time_secs = (time_mins * 60.0) as u32;
-                    seek::SeekType::RealTime { 
-                        time: time_secs, 
-                        increment: increment.unwrap_or(0) 
+                    seek::SeekType::RealTime {
+                        time: time_secs,
+                        increment: increment.unwrap_or(0),
                     }
                 };
 
                 let rating_range = if rating_range_min.is_some() || rating_range_max.is_some() {
-                    format!("{}-{}", 
-                        rating_range_min.unwrap_or(800), 
-                        rating_range_max.unwrap_or(2800))
+                    format!(
+                        "{}-{}",
+                        rating_range_min.unwrap_or(800),
+                        rating_range_max.unwrap_or(2800)
+                    )
                 } else {
                     "".to_string()
                 };
