@@ -89,13 +89,11 @@ impl LichessApi<reqwest::Client> {
             .map_err(|e| futures::io::Error::new(futures::io::ErrorKind::Other, e))
             .into_async_read()
             .lines()
-            .filter(|l| 
+            .filter(|l| match l {
                 // To avoid trying to serialize blank keep alive lines.
-                match l {
-                    Ok(line) => !line.is_empty(),
-                    Err(_) => true,
-                }
-            )
+                Ok(line) => !line.is_empty(),
+                Err(_) => true,
+            })
             .map(|l| -> Result<String> {
                 let line = l?;
                 debug!(line, "model line");

@@ -1,4 +1,4 @@
-use crate::model::{puzzles, PerfType, Request, Title};
+use crate::model::{PerfType, Request, Title, puzzles};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

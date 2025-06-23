@@ -18,7 +18,7 @@ pub mod tv;
 pub mod users;
 
 use crate::error;
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use serde_with::skip_serializing_none;
 
 pub trait BodyBounds: Serialize {}

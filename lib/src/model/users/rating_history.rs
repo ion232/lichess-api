@@ -1,6 +1,6 @@
 use serde::{
-    ser::{SerializeSeq, SerializeTuple},
     Deserialize, Deserializer, Serialize, Serializer,
+    ser::{SerializeSeq, SerializeTuple},
 };
 
 #[derive(Default, Clone, Debug, Serialize)]

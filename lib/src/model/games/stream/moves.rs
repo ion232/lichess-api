@@ -1,5 +1,5 @@
-use crate::model::games::Players;
 use crate::model::Variant;
+use crate::model::games::Players;
 
 use serde::{Deserialize, Serialize};
 

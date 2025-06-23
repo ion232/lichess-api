@@ -1,6 +1,6 @@
 use crate::client::LichessApi;
 use crate::error::Result;
-use crate::model::{users::*, LightUser};
+use crate::model::{LightUser, users::*};
 
 impl LichessApi<reqwest::Client> {
     pub async fn get_public_user_data(

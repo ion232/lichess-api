@@ -1,5 +1,5 @@
-use crate::model::challenges::ChallengeJson;
 use crate::model::Request;
+use crate::model::challenges::ChallengeJson;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize)]

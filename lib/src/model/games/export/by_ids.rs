@@ -1,4 +1,4 @@
-use crate::model::{games::export::Base, Body};
+use crate::model::{Body, games::export::Base};
 use serde::Serialize;
 use std::borrow::Borrow;
 

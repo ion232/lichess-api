@@ -1,7 +1,7 @@
 use clap::Subcommand;
 use color_eyre::Result;
 use lichess_api::client::LichessApi;
-use lichess_api::model::{users, PerfType};
+use lichess_api::model::{PerfType, users};
 use reqwest;
 
 type Lichess = LichessApi<reqwest::Client>;
@@ -86,7 +86,8 @@ impl UsersCommand {
                 users,
                 with_game_ids,
             } => {
-                let user_ids: Vec<String> = users.split(',').map(|s| s.trim().to_string()).collect();
+                let user_ids: Vec<String> =
+                    users.split(',').map(|s| s.trim().to_string()).collect();
                 let request = users::status::GetRequest::new(user_ids, with_game_ids);
                 let statuses = lichess.get_status_of_users(request).await?;
                 for status in statuses {
@@ -151,10 +152,7 @@ impl UsersCommand {
                 println!("{:#?}", crosstable);
                 Ok(())
             }
-            UsersCommand::Autocomplete {
-                term,
-                friend,
-            } => {
+            UsersCommand::Autocomplete { term, friend } => {
                 if term.len() < 3 {
                     println!("Search term must be at least 3 characters");
                     return Ok(());

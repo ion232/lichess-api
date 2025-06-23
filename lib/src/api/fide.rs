@@ -1,4 +1,3 @@
-
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::fide::*;

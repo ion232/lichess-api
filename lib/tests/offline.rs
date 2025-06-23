@@ -1,7 +1,7 @@
 use lichess_api::model::*;
 
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 
 use std::fs;
 
@@ -114,10 +114,10 @@ fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
 
 fn test_model<Model: Serialize + DeserializeOwned>(path: String) {
     let model_string = fs::read_to_string(path).expect("Unable to read file.");
-    let model_json: serde_json::Value =
-        serde_json::from_str(&model_string).expect("Unable to deserialize model string into json value.");
-    let model: Model =
-        serde_json::from_str(&model_string).expect("Unable to deserialize model string into model.");
+    let model_json: serde_json::Value = serde_json::from_str(&model_string)
+        .expect("Unable to deserialize model string into json value.");
+    let model: Model = serde_json::from_str(&model_string)
+        .expect("Unable to deserialize model string into model.");
     let reserialized_model_json: serde_json::Value =
         serde_json::to_value(&model).expect("Unable to serialize model into json value.");
 

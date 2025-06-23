@@ -1,8 +1,8 @@
 use clap::{Parser, Subcommand};
 use color_eyre::Result;
 use lichess_api::client::LichessApi;
-use lichess_api::model::challenges::{*};
 use lichess_api::model::VariantKey;
+use lichess_api::model::challenges::*;
 use reqwest;
 
 type Lichess = LichessApi<reqwest::Client>;
@@ -159,8 +159,7 @@ impl ChallengesCommand {
                 reason,
             } => {
                 let decline_reason = reason.unwrap_or(DeclineReason::Generic);
-                let request =
-                    decline::PostRequest::new(challenge_id, decline_reason.into());
+                let request = decline::PostRequest::new(challenge_id, decline_reason.into());
                 let result = lichess.decline_challenge(request).await?;
                 println!("Challenge declined: {}", result);
                 Ok(())

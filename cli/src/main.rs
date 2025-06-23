@@ -1,7 +1,7 @@
 mod commands;
 
-use clap::builder::styling::AnsiColor;
 use clap::builder::Styles;
+use clap::builder::styling::AnsiColor;
 use clap::{Parser, Subcommand};
 use color_eyre::Result;
 use commands::{ChallengesCommand, ExternalEngineCommand, PuzzleCommand, UsersCommand};
