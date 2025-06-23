@@ -125,11 +125,10 @@ impl BoardCommand {
             BoardCommand::StreamChat { game_id } => {
                 let request = chat::GetRequest::new(&game_id);
                 let mut stream = lichess.board_stream_game_chat(request).await?;
-                println!("Streaming chat messages (press Ctrl+C to stop):");
-                while let Some(message) = stream.next().await {
-                    match message {
-                        Ok(chat_line) => println!("{}: {}", chat_line.user, chat_line.text),
-                        Err(e) => eprintln!("Error: {}", e),
+                println!("Streaming chat messages:");
+                while let Some(Ok(messages)) = stream.next().await {
+                    for chat_line in messages {
+                        println!("{}: {}", chat_line.user, chat_line.text);
                     }
                 }
                 Ok(())
@@ -236,7 +235,7 @@ impl BoardCommand {
 
                 let request = seek::PostRequest::new(query);
                 let mut stream = lichess.board_create_a_seek(request).await?;
-                println!("Creating seek (press Ctrl+C to stop):");
+                println!("Creating seek:");
                 while let Some(event) = stream.next().await {
                     match event {
                         Ok(json) => println!("Event: {}", json),
@@ -248,7 +247,7 @@ impl BoardCommand {
             BoardCommand::StreamEvents => {
                 let request = stream::events::GetRequest::new();
                 let mut stream = lichess.board_stream_incoming_events(request).await?;
-                println!("Streaming incoming events (press Ctrl+C to stop):");
+                println!("Streaming incoming events:");
                 while let Some(event) = stream.next().await {
                     match event {
                         Ok(event) => println!("Event: {:#?}", event),
@@ -260,7 +259,7 @@ impl BoardCommand {
             BoardCommand::StreamGame { game_id } => {
                 let request = stream::game::GetRequest::new(&game_id);
                 let mut stream = lichess.board_stream_board_state(request).await?;
-                println!("Streaming game state (press Ctrl+C to stop):");
+                println!("Streaming game state:");
                 while let Some(event) = stream.next().await {
                     match event {
                         Ok(event) => println!("Event: {:#?}", event),
