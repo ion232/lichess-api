@@ -8,7 +8,7 @@ pub mod list;
 pub mod open;
 pub mod start_clocks;
 
-use crate::model::{Color, Days, LightUser, Speed, Variant, VariantKey};
+use crate::model::{Color, Days, GameCompat, Speed, Title, Variant, VariantKey};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
@@ -62,20 +62,63 @@ pub struct ChallengeBase {
     pub fen: Option<String>,
 }
 
-#[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ChallengeOpenJson {
-    #[serde(flatten)]
-    pub base: ChallengeJsonBase,
+    pub id: String,
+    pub url: String,
+    pub status: Status,
+    pub challenger: Option<ChallengeUser>,
+    pub dest_user: Option<ChallengeUser>,
+    pub variant: Variant,
+    pub rated: bool,
+    pub speed: Speed,
+    pub time_control: TimeControl,
+    pub color: Color,
+    pub final_color: Option<Color>,
+    pub perf: Perf,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub initial_fen: Option<String>,
     pub url_white: String,
     pub url_black: String,
+    pub open: OpenChallengeUsers,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct OpenChallengeUsers {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_ids: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ChallengeCreated {
-    pub challenge: ChallengeJson,
+pub struct ChallengeDeclinedJson {
+    #[serde(flatten)]
+    pub base: ChallengeJson,
+    pub decline_reason: String,
+    pub decline_reason_key: DeclineReasonKey,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum DeclineReasonKey {
+    Generic,
+    Later,
+    #[serde(rename = "toofast")]
+    TooFast,
+    #[serde(rename = "tooslow")]
+    TooSlow,
+    #[serde(rename = "timecontrol")]
+    TimeControl,
+    Rated,
+    Casual,
+    Standard,
+    Variant,
+    #[serde(rename = "nobot")]
+    NoBot,
+    #[serde(rename = "onlybot")]
+    OnlyBot,
 }
 
 #[skip_serializing_none]
@@ -107,6 +150,7 @@ pub struct ChallengeJsonBase {
     pub rated: bool,
     pub speed: Speed,
     pub status: Status,
+    pub final_color: Option<Color>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
@@ -133,6 +177,31 @@ pub enum Status {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ChallengeEvent {
+    #[serde(rename = "type")]
+    pub event_type: String,  // Always "challenge"
+    pub challenge: ChallengeJson,
+    pub compat: Option<GameCompat>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ChallengeCanceledEvent {
+    #[serde(rename = "type")]
+    pub event_type: String,  // Always "challengeCanceled"
+    pub challenge: ChallengeJson,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ChallengeDeclinedEvent {
+    #[serde(rename = "type")]
+    pub event_type: String,  // Always "challengeDeclined"
+    pub challenge: ChallengeDeclinedJson,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "type")]
 #[serde(rename_all = "camelCase")]
 pub enum TimeControl {
@@ -150,9 +219,12 @@ pub enum TimeControl {
 #[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ChallengeUser {
-    #[serde(flatten)]
-    pub user: LightUser,
+    pub id: String,
+    pub name: String,
     pub rating: u32,
+    pub title: Option<Title>,
+    pub flair: Option<String>,
+    pub patron: Option<bool>,
     pub provisional: Option<bool>,
     pub online: Option<bool>,
     pub lag: Option<u32>,

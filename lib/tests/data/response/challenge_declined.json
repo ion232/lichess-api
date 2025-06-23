@@ -3,7 +3,7 @@
     "challenge": {
         "id": "7pGLxJ4F",
         "url": "https://lichess.org/VU0nyvsW",
-        "status": "created",
+        "status": "declined",
         "challenger": {
             "id": "lovlas",
             "name": "Lovlas",
@@ -38,6 +38,8 @@
         "perf": {
             "icon": "#",
             "name": "Rapid"
-        }
+        },
+        "declineReason": "I'm not interested in playing right now",
+        "declineReasonKey": "generic"
     }
 }

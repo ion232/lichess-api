@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand};
+use clap::Subcommand;
 use color_eyre::Result;
 use lichess_api::client::LichessApi;
 use lichess_api::model::VariantKey;
@@ -12,7 +12,31 @@ pub enum ChallengesCommand {
     /// List your challenges
     List,
     /// Create a challenge
-    Create(CreateChallengeArgs),
+    Create {
+        /// Username to challenge
+        username: String,
+        /// Whether the game is rated
+        #[arg(long)]
+        rated: bool,
+        /// Clock limit in seconds
+        #[arg(long)]
+        clock_limit: Option<u32>,
+        /// Clock increment in seconds
+        #[arg(long)]
+        clock_increment: Option<u32>,
+        /// Days per turn for correspondence games
+        #[arg(long)]
+        days: Option<u32>,
+        /// Chess variant
+        #[arg(long, default_value = "standard")]
+        variant: String,
+        /// Custom starting position (FEN)
+        #[arg(long)]
+        fen: Option<String>,
+        /// Message to the opponent
+        #[arg(long)]
+        message: Option<String>,
+    },
     /// Accept a challenge
     Accept {
         /// Challenge ID
@@ -34,33 +58,6 @@ pub enum ChallengesCommand {
         #[arg(long)]
         opponent_token: Option<String>,
     },
-}
-
-#[derive(Debug, Parser)]
-pub struct CreateChallengeArgs {
-    /// Username to challenge
-    username: String,
-    /// Whether the game is rated
-    #[arg(long)]
-    rated: bool,
-    /// Clock limit in seconds
-    #[arg(long)]
-    clock_limit: Option<u32>,
-    /// Clock increment in seconds
-    #[arg(long)]
-    clock_increment: Option<u32>,
-    /// Days per turn for correspondence games
-    #[arg(long)]
-    days: Option<u32>,
-    /// Chess variant
-    #[arg(long, default_value = "standard")]
-    variant: String,
-    /// Custom starting position (FEN)
-    #[arg(long)]
-    fen: Option<String>,
-    /// Message to the opponent
-    #[arg(long)]
-    message: Option<String>,
 }
 
 #[derive(Debug, Clone, clap::ValueEnum)]
@@ -111,8 +108,17 @@ impl ChallengesCommand {
                 }
                 Ok(())
             }
-            ChallengesCommand::Create(args) => {
-                let variant_key = match args.variant.as_str() {
+            ChallengesCommand::Create {
+                username,
+                rated,
+                clock_limit,
+                clock_increment,
+                days,
+                variant,
+                fen,
+                message,
+            } => {
+                let variant_key = match variant.as_str() {
                     "standard" => VariantKey::Standard,
                     "chess960" => VariantKey::Chess960,
                     "crazyhouse" => VariantKey::Crazyhouse,
@@ -123,27 +129,27 @@ impl ChallengesCommand {
                     "racingKings" => VariantKey::RacingKings,
                     "threeCheck" => VariantKey::ThreeCheck,
                     _ => {
-                        println!("Invalid variant: {}", args.variant);
+                        println!("Invalid variant: {}", variant);
                         return Ok(());
                     }
                 };
 
                 let challenge = CreateChallenge {
                     base: ChallengeBase {
-                        clock_limit: args.clock_limit,
-                        clock_increment: args.clock_increment,
-                        days: args.days.map(|d| d.into()),
+                        clock_limit: clock_limit,
+                        clock_increment: clock_increment,
+                        days: days.map(|d| d.into()),
                         variant: variant_key,
-                        fen: args.fen,
+                        fen: fen,
                     },
-                    rated: args.rated,
+                    rated: rated,
                     keep_alive_stream: false,
                     accept_by_token: None,
-                    message: args.message,
+                    message: message,
                     rules: String::new(),
                 };
 
-                let request = create::PostRequest::new(&args.username, challenge);
+                let request = create::PostRequest::new(&username, challenge);
                 let result = lichess.create_challenge(request).await?;
                 println!("Challenge created: {:#?}", result);
                 Ok(())

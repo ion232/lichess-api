@@ -1,5 +1,5 @@
-use crate::model::challenges::ChallengeJson;
-use crate::model::{Color, Compat, Speed, Variant};
+use crate::model::challenges::{ChallengeJson, ChallengeDeclinedJson};
+use crate::model::{Color, GameCompat, Speed, Variant};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
@@ -27,7 +27,7 @@ pub struct Event {
     #[serde(flatten)]
     pub event: EventData,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub compat: Option<Compat>,
+    pub compat: Option<GameCompat>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -36,7 +36,7 @@ pub struct Event {
 pub enum EventData {
     Challenge { challenge: ChallengeJson },
     ChallengeCanceled { challenge: ChallengeJson },
-    ChallengeDeclined { challenge: ChallengeJson },
+    ChallengeDeclined { challenge: ChallengeDeclinedJson },
     GameStart { game: GameEventInfo },
     GameFinish { game: GameEventInfo },
 }
@@ -59,7 +59,7 @@ pub struct GameEventInfo {
     pub opponent: Opponent,
     pub is_my_turn: bool,
     pub seconds_left: Option<u64>,
-    pub compat: Option<Compat>,
+    pub compat: Option<GameCompat>,
     pub winner: Option<String>,
 }
 

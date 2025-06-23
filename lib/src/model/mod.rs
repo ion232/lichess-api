@@ -374,9 +374,9 @@ pub enum Room {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Compat {
-    pub bot: bool,
-    pub board: bool,
+pub struct GameCompat {
+    pub bot: Option<bool>,
+    pub board: Option<bool>,
 }
 
 #[serde_with::skip_serializing_none]

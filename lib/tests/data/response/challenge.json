@@ -38,7 +38,8 @@
         "perf": {
             "icon": "#",
             "name": "Rapid"
-        }
+        },
+        "finalColor": "white"
     },
     "compat": {
         "bot": false,

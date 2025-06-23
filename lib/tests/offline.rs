@@ -107,6 +107,16 @@ pub fn users() {
     test_response_model::<Vec<users::Note>>("notes");
 }
 
+#[test]
+pub fn challenges() {
+    test_response_model::<challenges::ChallengeJson>("challenge_json");
+    test_response_model::<challenges::ChallengeOpenJson>("challenge_open_json");
+    test_response_model::<challenges::ChallengeDeclinedJson>("challenge_declined_json");
+    test_response_model::<challenges::ChallengeEvent>("challenge_event");
+    test_response_model::<challenges::ChallengeCanceledEvent>("challenge_canceled_event");
+    test_response_model::<challenges::ChallengeDeclinedEvent>("challenge_declined_event");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);
