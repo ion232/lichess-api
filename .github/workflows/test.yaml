@@ -43,7 +43,7 @@ jobs:
         run: cargo build --verbose
 
       - name: wasm check
-        run: cargo check --verbose --target wasm32-unknown-unknown
+        run: cargo check --lib --verbose --target wasm32-unknown-unknown
 
       - name: test
         run: cargo test --verbose

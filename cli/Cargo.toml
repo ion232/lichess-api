@@ -1,0 +1,25 @@
+[package]
+name = "lichess-cli"
+version = "0.6.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "A cli client for the lichess API."
+keywords = ["lichess", "api", "client"]
+categories = ["api-bindings"]
+homepage = "https://github.com/ion232/lichess-api"
+repository = "https://github.com/ion232/lichess-api"
+
+[[bin]]
+name = "lichess"
+path = "src/main.rs"
+
+[dependencies]
+lichess-api = { path = "../lib" }
+clap = { version = "4.5.32", features = ["derive"] }
+color-eyre = "0.6.3"
+futures = "0.3.31"
+rand = "0.9.0"
+reqwest = "0.12.7"
+tokio = { version = "1.44.1", features = ["macros", "rt"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }

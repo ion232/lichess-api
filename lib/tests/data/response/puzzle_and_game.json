@@ -1,0 +1,47 @@
+{
+    "game": {
+        "clock": "5+0",
+        "id": "MLDVu1s1",
+        "perf": {
+            "key": "blitz",
+            "name": "Blitz"
+        },
+        "pgn": "c4 Nf6 Nf3 g6 Nc3 Bg7 g3 d5 Bg2 dxc4 Qa4+ Nc6 Qxc4 O-O O-O a6 d4 e6 Bf4 Nd5 Ne5 Nxe5 Bxe5 c6 Bxg7 Kxg7 e4 Nxc3 bxc3 Qe7 e5 Bd7 Rab1 Rab8 Rb6 c5 Rxb7",
+        "players": [
+            {
+                "color": "white",
+                "id": "sanasesino",
+                "name": "sanasesino",
+                "rating": 1969
+            },
+            {
+                "color": "black",
+                "id": "tolichach",
+                "name": "tolichach",
+                "rating": 2226,
+                "title": "FM"
+            }
+        ],
+        "rated": true
+    },
+    "puzzle": {
+        "id": "i1Al4",
+        "initialPly": 36,
+        "plays": 83787,
+        "rating": 1873,
+        "solution": [
+            "b8b7",
+            "g2b7",
+            "d7b5",
+            "c4c5",
+            "e7b7"
+        ],
+        "themes": [
+            "advantage",
+            "long",
+            "discoveredAttack",
+            "master",
+            "middlegame"
+        ]
+    }
+}

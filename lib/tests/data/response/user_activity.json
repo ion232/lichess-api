@@ -1,0 +1,53 @@
+[
+  {
+    "interval": {
+      "start": 1745020800000,
+      "end": 1745107200000
+    },
+    "games": {
+      "blitz": {
+        "win": 1,
+        "loss": 0,
+        "draw": 0,
+        "rp": {
+          "before": 1712,
+          "after": 1717
+        }
+      }
+    },
+    "follows": {
+      "in": {
+        "ids": [
+          "aadhya5",
+          "mrbernhardknarkson",
+          "biggiantsandwich"
+        ]
+      }
+    }
+  },
+  {
+    "interval": {
+      "start": 1744934400000,
+      "end": 1745020800000
+    },
+    "puzzles": {
+      "score": {
+        "win": 0,
+        "loss": 1,
+        "draw": 0,
+        "rp": {
+          "before": 1911,
+          "after": 1911
+        }
+      }
+    },
+    "follows": {
+      "in": {
+        "ids": [
+          "midnight_marauder",
+          "aryanraj2014"
+        ]
+      }
+    }
+  }
+]
