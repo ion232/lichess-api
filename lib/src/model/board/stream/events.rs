@@ -1,4 +1,4 @@
-use crate::model::challenges::{ChallengeJson, ChallengeDeclinedJson};
+use crate::model::challenges::{ChallengeDeclinedJson, ChallengeJson};
 use crate::model::{Color, GameCompat, Speed, Variant};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;

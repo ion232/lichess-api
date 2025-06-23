@@ -180,7 +180,7 @@ pub enum Status {
 #[serde(rename_all = "camelCase")]
 pub struct ChallengeEvent {
     #[serde(rename = "type")]
-    pub event_type: String,  // Always "challenge"
+    pub event_type: String, // Always "challenge"
     pub challenge: ChallengeJson,
     pub compat: Option<GameCompat>,
 }
@@ -189,7 +189,7 @@ pub struct ChallengeEvent {
 #[serde(rename_all = "camelCase")]
 pub struct ChallengeCanceledEvent {
     #[serde(rename = "type")]
-    pub event_type: String,  // Always "challengeCanceled"
+    pub event_type: String, // Always "challengeCanceled"
     pub challenge: ChallengeJson,
 }
 
@@ -197,7 +197,7 @@ pub struct ChallengeCanceledEvent {
 #[serde(rename_all = "camelCase")]
 pub struct ChallengeDeclinedEvent {
     #[serde(rename = "type")]
-    pub event_type: String,  // Always "challengeDeclined"
+    pub event_type: String, // Always "challengeDeclined"
     pub challenge: ChallengeDeclinedJson,
 }
 
