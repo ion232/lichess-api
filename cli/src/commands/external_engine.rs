@@ -3,7 +3,7 @@ use color_eyre::Result;
 use futures::StreamExt;
 use lichess_api::client::LichessApi;
 use lichess_api::model::external_engine::{self, *};
-use rand::Rng;
+use rand::RngExt;
 use reqwest;
 
 type Lichess = LichessApi<reqwest::Client>;
