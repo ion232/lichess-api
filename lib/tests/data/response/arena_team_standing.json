@@ -1,0 +1,29 @@
+{
+  "id": "qVDS48xp",
+  "teams": [
+    {
+      "rank": 1,
+      "id": "kingscrusher-youtube-and-twitch-fans",
+      "score": 1020,
+      "players": [
+        { "user": { "name": "DrMelekess", "title": "IM", "id": "drmelekess" }, "score": 127 },
+        {
+          "user": { "name": "yoseph2013", "title": "IM", "flair": "objects.alarm-clock", "id": "yoseph2013" },
+          "score": 126
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "id": "prizant_academy",
+      "score": 882,
+      "players": [
+        { "user": { "name": "InFighter", "title": "GM", "id": "infighter" }, "score": 125 },
+        {
+          "user": { "name": "Tyumenskiy_KMC", "flair": "food-drink.burrito", "id": "tyumenskiy_kmc" },
+          "score": 58
+        }
+      ]
+    }
+  ]
+}

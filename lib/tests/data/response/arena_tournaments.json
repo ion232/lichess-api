@@ -1,0 +1,63 @@
+{
+  "created": [
+    {
+      "id": "PbhgCwu0",
+      "createdBy": "lichess",
+      "system": "arena",
+      "minutes": 57,
+      "clock": { "limit": 480, "increment": 2 },
+      "rated": true,
+      "fullName": "≤2000 Rapid Arena",
+      "nbPlayers": 26,
+      "variant": { "key": "standard", "short": "Std", "name": "Standard" },
+      "startsAt": 1783389600000,
+      "finishesAt": 1783393020000,
+      "status": 10,
+      "perf": { "key": "rapid", "name": "Rapid", "position": 2, "icon": "#" },
+      "secondsToStart": 253,
+      "hasMaxRating": true,
+      "maxRating": { "rating": 2000 },
+      "minRatedGames": { "nb": 20 },
+      "schedule": { "freq": "hourly", "speed": "rapid" }
+    }
+  ],
+  "started": [
+    {
+      "id": "uKmhwTRP",
+      "createdBy": "lichess",
+      "system": "arena",
+      "minutes": 57,
+      "clock": { "limit": 180, "increment": 2 },
+      "rated": true,
+      "fullName": "Hourly Antichess Arena",
+      "nbPlayers": 2,
+      "variant": { "key": "antichess", "short": "Anti", "name": "Antichess" },
+      "startsAt": 1783389602500,
+      "finishesAt": 1783393022500,
+      "status": 10,
+      "perf": { "key": "antichess", "name": "Antichess", "position": 9 },
+      "secondsToStart": 255,
+      "schedule": { "freq": "hourly", "speed": "blitz" }
+    }
+  ],
+  "finished": [
+    {
+      "id": "v7uBZPdA",
+      "createdBy": "lichess",
+      "system": "arena",
+      "minutes": 57,
+      "clock": { "limit": 180, "increment": 0 },
+      "rated": true,
+      "fullName": "Hourly SuperBlitz Arena",
+      "nbPlayers": 7,
+      "variant": { "key": "standard", "short": "Std", "name": "Standard" },
+      "startsAt": 1783389605000,
+      "finishesAt": 1783393025000,
+      "status": 30,
+      "perf": { "key": "blitz", "name": "Blitz", "position": 1, "icon": ")" },
+      "secondsToStart": 258,
+      "minRatedGames": { "nb": 15 },
+      "schedule": { "freq": "hourly", "speed": "superBlitz" }
+    }
+  ]
+}

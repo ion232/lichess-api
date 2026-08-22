@@ -1,5 +1,6 @@
 pub mod account;
 pub mod analysis;
+pub mod arena_tournaments;
 pub mod board;
 pub mod bot;
 pub mod challenges;
