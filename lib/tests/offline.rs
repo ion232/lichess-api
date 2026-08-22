@@ -174,6 +174,48 @@ pub fn broadcasts() {
 #[test]
 pub fn oauth() {
     test_response_model::<oauth::TestResults>("oauth_test_tokens");
+    test_response_model::<oauth::AccessToken>("oauth_access_token");
+}
+
+#[test]
+pub fn oauth_authorization_url() {
+    let url = oauth::authorize::AuthorizationUrl::new("example.com", "http://example.com/", "cc")
+        .scope("preference:read challenge:write")
+        .state("st")
+        .to_url()
+        .expect("Unable to build authorization url.");
+
+    assert_eq!(url.scheme(), "https");
+    assert_eq!(url.host_str(), Some("lichess.org"));
+    assert_eq!(url.path(), "/oauth");
+
+    let params: std::collections::HashMap<_, _> = url.query_pairs().into_owned().collect();
+
+    assert_eq!(
+        params.get("response_type").map(String::as_str),
+        Some("code")
+    );
+    assert_eq!(
+        params.get("client_id").map(String::as_str),
+        Some("example.com")
+    );
+    assert_eq!(
+        params.get("redirect_uri").map(String::as_str),
+        Some("http://example.com/")
+    );
+    assert_eq!(
+        params.get("code_challenge_method").map(String::as_str),
+        Some("S256")
+    );
+    assert_eq!(params.get("code_challenge").map(String::as_str), Some("cc"));
+    assert_eq!(
+        params.get("scope").map(String::as_str),
+        Some("preference:read challenge:write")
+    );
+    assert_eq!(params.get("state").map(String::as_str), Some("st"));
+
+    // Unset optional parameters are omitted entirely.
+    assert_eq!(params.get("username"), None);
 }
 
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
