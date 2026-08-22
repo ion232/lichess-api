@@ -12,45 +12,7 @@
 [apache-url]: LICENSE
 
 A Rust API client library for [the current lichess.org API](https://lichess.org/api).
-
-The goal of this crate is to fully support the latest lichess API - a major version release will be made once all endpoints are supported.
-
-The lichess endpoints will often change without an OpenAPI version or even schema change, so please raise an issue with relevant output if one of the endpoints is failing.
-
-## Endpoints
-
-- ✅ = Fully supported at the time of the most recent release crate.
-- 🔶 = Partially supported.
-- 🚧 = Work to support this category is currently in progress.
-- ❌ = Not currently supported.
-
-The following table shows the current level of support for each category of endpoints.
-
-| Category              | Status  |
-|-----------------------|:-------:|
-| Account               |   🔶    |
-| Analysis              |   ✅    |
-| Arena Tournaments     |   ❌    |
-| Board                 |   ✅    |
-| Bot                   |   ✅    |
-| Broadcasts            |   ❌    |
-| Bulk Pairings         |   ❌    |
-| Challenges            |   ✅    |
-| External Engine       |   🔶    |
-| FIDE                  |   ✅    |
-| Games                 |   ✅    |
-| Messaging             |   ✅    |
-| Opening Explorer      |   ✅    |
-| OAuth                 |   ✅    |
-| Puzzles               |   ✅    |
-| Relations             |   ✅    |
-| Simuls                |   ✅    |
-| Studies               |   🔶    |
-| Swiss Tournaments     |   ❌    |
-| Tablebase             |   ✅    |
-| Teams                 |   ❌    |
-| TV                    |   ✅    |
-| Users                 |   ✅    |
+All endpoints are supported.
 
 ## Features
 
@@ -66,6 +28,6 @@ lichess-api = { version = "0.7", default-features = false }
 
 ## Contributing
 
-Contributions are much appreciated - especially if you can add support for a category of endpoints. Otherwise, if you have any ideas, bug reports, feature requests, or fixes, please make an issue or submit a pull request.
+If you have any ideas, bug reports, feature requests, or fixes, please make an issue or submit a pull request.
 
 Thanks.
