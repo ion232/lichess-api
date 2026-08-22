@@ -152,6 +152,25 @@ pub fn studies() {
     test_response_model::<studies::StudyMetadata>("study_metadata");
 }
 
+#[test]
+pub fn broadcasts() {
+    test_response_model::<broadcasts::BroadcastRound>("broadcast_round");
+    test_response_model::<broadcasts::BroadcastWithRoundsAndFullGroup>("broadcast_tournament");
+    test_response_model::<broadcasts::BroadcastMyRound>("broadcast_my_round");
+    test_response_model::<broadcasts::BroadcastRoundNew>("broadcast_round_new");
+    test_response_model::<broadcasts::BroadcastWithRounds>("broadcast_with_rounds");
+    test_response_model::<broadcasts::BroadcastWithRounds>("broadcast_official");
+    test_response_model::<broadcasts::BroadcastByUserPaginator>("broadcast_by_user_paginator");
+    test_response_model::<broadcasts::BroadcastTop>("broadcast_top");
+    test_response_model::<broadcasts::BroadcastPlayerEntryWithFideAndGames>("broadcast_player");
+    test_response_model::<Vec<broadcasts::BroadcastPlayerEntry>>("broadcast_players");
+    test_response_model::<Vec<broadcasts::BroadcastTeamLeaderboardEntry>>(
+        "broadcast_team_leaderboard",
+    );
+    test_response_model::<broadcasts::BroadcastSearchPaginator>("broadcast_search_paginator");
+    test_response_model::<broadcasts::BroadcastPgnPush>("broadcast_pgn_push");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);

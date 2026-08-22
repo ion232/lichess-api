@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Team Cats",
+    "mp": 3.0,
+    "gp": 6.5,
+    "averageRating": 2400,
+    "matches": [
+      {
+        "roundId": "4Yuk2i2H",
+        "opponent": "Team Dogs",
+        "mp": 2.0,
+        "gp": 3.5,
+        "points": "1"
+      }
+    ],
+    "players": [
+      { "name": "Player 1", "fideId": 123, "score": 2.5, "played": 3, "rank": 1 }
+    ]
+  }
+]

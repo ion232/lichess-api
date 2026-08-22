@@ -1,0 +1,56 @@
+{
+  "tour": {
+    "id": "WkIVFXOx",
+    "name": "Knight Invitational",
+    "slug": "knight-invitational",
+    "info": {},
+    "createdAt": 1783389350699,
+    "url": "https://lichess.org/broadcast/knight-invitational/WkIVFXOx",
+    "tier": 5,
+    "dates": [1783389351095]
+  },
+  "rounds": [
+    {
+      "id": "pk5fmYTD",
+      "name": "Round 1",
+      "slug": "round-1",
+      "createdAt": 1783389350883,
+      "rated": false,
+      "ongoing": true,
+      "startsAt": 1783392950832,
+      "url": "https://lichess.org/broadcast/knight-invitational/round-1/pk5fmYTD"
+    },
+    {
+      "id": "jjBfMLR5",
+      "name": "Round 2",
+      "slug": "round-2",
+      "createdAt": 1783389351042,
+      "rated": false,
+      "ongoing": true,
+      "startsAt": 1783396550832,
+      "url": "https://lichess.org/broadcast/knight-invitational/round-2/jjBfMLR5"
+    },
+    {
+      "id": "B1DKh5a1",
+      "name": "Round 3",
+      "slug": "round-3",
+      "createdAt": 1783389351068,
+      "rated": false,
+      "ongoing": true,
+      "startsAt": 1783400150832,
+      "url": "https://lichess.org/broadcast/knight-invitational/round-3/B1DKh5a1"
+    },
+    {
+      "id": "4Yuk2i2H",
+      "name": "Final Round",
+      "slug": "final-round",
+      "createdAt": 1783389351095,
+      "rated": false,
+      "ongoing": true,
+      "startsAt": 1783389351095,
+      "url": "https://lichess.org/broadcast/knight-invitational/final-round/4Yuk2i2H"
+    }
+  ],
+  "defaultRoundId": "pk5fmYTD",
+  "photos": {}
+}
