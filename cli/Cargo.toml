@@ -15,11 +15,11 @@ path = "src/main.rs"
 
 [dependencies]
 lichess-api = { path = "../lib" }
-clap = { version = "4.5.32", features = ["derive"] }
-color-eyre = "0.6.3"
-futures = "0.3.31"
-rand = "0.9.0"
-reqwest = "0.12.7"
-tokio = { version = "1.44.1", features = ["macros", "rt"] }
-tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+clap = { version = "4.6.6", features = ["derive"] }
+color-eyre = "0.6.5"
+futures = "0.3.34"
+rand = "0.10.2"
+reqwest = "0.13.4"
+tokio = { version = "1.53.1", features = ["macros", "rt"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
