@@ -3,6 +3,7 @@ pub mod analysis;
 pub mod arena_tournaments;
 pub mod board;
 pub mod bot;
+pub mod broadcasts;
 pub mod bulk_pairings;
 pub mod challenges;
 pub mod external_engine;

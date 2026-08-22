@@ -1,0 +1,30 @@
+{
+  "currentPage": 1,
+  "maxPerPage": 24,
+  "currentPageResults": [
+    {
+      "tour": {
+        "id": "WkIVFXOx",
+        "name": "Knight Invitational",
+        "slug": "knight-invitational",
+        "info": {},
+        "createdAt": 1783389350699,
+        "url": "https://lichess.org/broadcast/knight-invitational/WkIVFXOx",
+        "tier": 5,
+        "dates": [1783389351095]
+      },
+      "round": {
+        "id": "4Yuk2i2H",
+        "name": "Final Round",
+        "slug": "final-round",
+        "createdAt": 1783389351095,
+        "rated": false,
+        "ongoing": true,
+        "startsAt": 1783389351095,
+        "url": "https://lichess.org/broadcast/knight-invitational/final-round/4Yuk2i2H"
+      }
+    }
+  ],
+  "previousPage": null,
+  "nextPage": null
+}

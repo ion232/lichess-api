@@ -1,0 +1,16 @@
+{
+  "name": "Player 1",
+  "fideId": 123,
+  "played": 0,
+  "rank": 1,
+  "games": [
+    {
+      "round": "4Yuk2i2H",
+      "id": "5rsW2cRb",
+      "opponent": { "name": "Player 2", "fideId": 456 },
+      "color": "white",
+      "fideTC": "standard",
+      "ongoing": true
+    }
+  ]
+}
