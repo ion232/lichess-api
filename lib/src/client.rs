@@ -1,9 +1,8 @@
-use async_std::io::prelude::BufReadExt;
-use async_std::stream::StreamExt;
-
 use bytes::Bytes;
 
+use futures::AsyncBufReadExt;
 use futures::TryStreamExt;
+use futures::stream::StreamExt;
 
 use serde::de::DeserializeOwned;
 use tracing::debug;
@@ -97,10 +96,12 @@ impl LichessApi<reqwest::Client> {
             .map_err(|e| futures::io::Error::new(futures::io::ErrorKind::Other, e))
             .into_async_read()
             .lines()
-            .filter(|l| match l {
+            .filter(|l| {
                 // To avoid trying to serialize blank keep alive lines.
-                Ok(line) => !line.is_empty(),
-                Err(_) => true,
+                futures::future::ready(match l {
+                    Ok(line) => !line.is_empty(),
+                    Err(_) => true,
+                })
             })
             .map(|l| -> Result<String> {
                 let line = l?;

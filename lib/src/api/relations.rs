@@ -1,4 +1,4 @@
-use async_std::stream::StreamExt;
+use futures::stream::StreamExt;
 
 use crate::client::LichessApi;
 use crate::error::Result;
