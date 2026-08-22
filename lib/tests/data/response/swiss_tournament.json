@@ -1,0 +1,22 @@
+{
+  "id": "KmevwnGY",
+  "createdBy": "lichess",
+  "startsAt": "2026-07-10T23:30:00Z",
+  "name": "Rapid Increment",
+  "clock": { "limit": 420, "increment": 2 },
+  "variant": "standard",
+  "round": 0,
+  "nbRounds": 7,
+  "nbPlayers": 0,
+  "nbOngoing": 0,
+  "status": "created",
+  "nextRound": { "at": "2026-07-10T23:30:00Z", "in": 336831 },
+  "verdicts": {
+    "list": [
+      { "condition": "≥ 8 rated Rapid games", "verdict": "ok" },
+      { "condition": "Play your games", "verdict": "ok" }
+    ],
+    "accepted": true
+  },
+  "rated": true
+}
