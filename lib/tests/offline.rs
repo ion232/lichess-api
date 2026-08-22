@@ -104,6 +104,11 @@ pub fn users() {
 }
 
 #[test]
+pub fn timeline() {
+    test_response_model::<account::timeline::Timeline>("timeline");
+}
+
+#[test]
 pub fn challenges() {
     test_response_model::<challenges::ChallengeJson>("challenge_json");
     test_response_model::<challenges::ChallengeOpenJson>("challenge_open_json");

@@ -22,4 +22,11 @@ impl LichessApi<reqwest::Client> {
     pub async fn set_kid_mode_status(&self, request: impl Into<kid::PostRequest>) -> Result<bool> {
         self.get_ok(request.into()).await
     }
+
+    pub async fn get_timeline(
+        &self,
+        request: impl Into<timeline::GetRequest>,
+    ) -> Result<timeline::Timeline> {
+        self.get_single_model(request.into()).await
+    }
 }
