@@ -4,6 +4,7 @@ pub mod create;
 pub mod delete;
 pub mod id;
 pub mod list;
+pub mod submit_analysis;
 pub mod update;
 
 use serde::{Deserialize, Serialize};

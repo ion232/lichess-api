@@ -21,6 +21,20 @@ impl LichessApi<reqwest::Client> {
         self.get_ok(request.into()).await
     }
 
+    pub async fn bot_claim_draw(
+        &self,
+        request: impl Into<claim_draw::PostRequest>,
+    ) -> Result<bool> {
+        self.get_ok(request.into()).await
+    }
+
+    pub async fn bot_claim_victory(
+        &self,
+        request: impl Into<claim_victory::PostRequest>,
+    ) -> Result<bool> {
+        self.get_ok(request.into()).await
+    }
+
     pub async fn bot_draw_game(&self, request: impl Into<draw::PostRequest>) -> Result<bool> {
         self.get_ok(request.into()).await
     }
@@ -52,6 +66,13 @@ impl LichessApi<reqwest::Client> {
         request: impl Into<stream::game::GetRequest>,
     ) -> Result<impl StreamExt<Item = Result<stream::game::Event>>> {
         self.get_streamed_models(request.into()).await
+    }
+
+    pub async fn bot_handle_takeback(
+        &self,
+        request: impl Into<takeback::PostRequest>,
+    ) -> Result<bool> {
+        self.get_ok(request.into()).await
     }
 
     pub async fn bot_upgrade_account(

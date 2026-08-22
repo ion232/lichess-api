@@ -27,6 +27,13 @@ impl LichessApi<reqwest::Client> {
         self.get_ok(request.into()).await
     }
 
+    pub async fn board_claim_draw(
+        &self,
+        request: impl Into<claim_draw::PostRequest>,
+    ) -> Result<bool> {
+        self.get_ok(request.into()).await
+    }
+
     pub async fn board_claim_victory(
         &self,
         request: impl Into<claim_victory::PostRequest>,

@@ -60,6 +60,17 @@ pub fn puzzle_race() {
 }
 
 #[test]
+pub fn puzzle_batch() {
+    test_response_model::<puzzles::batch::Select>("puzzle_batch_select");
+    test_response_model::<puzzles::batch::SolveResponse>("puzzle_batch_solve");
+}
+
+#[test]
+pub fn puzzle_racer_results() {
+    test_response_model::<puzzles::racer::RaceResults>("puzzle_race_results");
+}
+
+#[test]
 pub fn puzzle_dashboard() {
     test_response_model::<puzzles::dashboard::PuzzleDashboard>("puzzle_dashboard");
 }
@@ -325,6 +336,11 @@ pub fn oauth_pending_authorization() {
 
     // Neither a code nor an error is malformed.
     assert!(pending().exchange_form(&redirect("state=st")).is_err());
+}
+
+#[test]
+pub fn fide_player_ratings() {
+    test_response_model::<fide::ratings::PlayerRatings>("fide_player_ratings");
 }
 
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {

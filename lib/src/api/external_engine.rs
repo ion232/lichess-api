@@ -53,4 +53,11 @@ impl LichessApi<reqwest::Client> {
         // The response is a stream of 0 or 1 items, so we can just take the first item
         Ok((stream.next().await).transpose()?)
     }
+
+    pub async fn submit_analysis(
+        &self,
+        request: impl Into<submit_analysis::PostRequest>,
+    ) -> Result<()> {
+        self.get_empty(request.into()).await
+    }
 }

@@ -1,16 +1,21 @@
 pub mod accept;
 pub mod add_time;
+pub mod admin_challenge;
 pub mod ai;
 pub mod cancel;
 pub mod create;
 pub mod decline;
 pub mod list;
 pub mod open;
+pub mod show;
 pub mod start_clocks;
 
 use crate::model::{Color, Days, GameCompat, Speed, Title, Variant, VariantKey};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
+use std::collections::HashMap;
+
+pub type AdminChallengeTokenResults = HashMap<String, String>;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct OpenChallenge {

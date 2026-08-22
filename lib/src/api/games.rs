@@ -74,4 +74,26 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<import::ImportData> {
         self.get_single_model(request.into()).await
     }
+
+    pub async fn export_bookmarked_games(
+        &self,
+        request: impl Into<export::bookmarks::GetRequest>,
+    ) -> Result<impl StreamExt<Item = Result<GameJson>>> {
+        self.get_streamed_models(request.into()).await
+    }
+
+    pub async fn export_imported_games(&self) -> Result<impl StreamExt<Item = Result<String>>> {
+        self.get_pgn(export::imports::GetRequest::new()).await
+    }
+
+    pub async fn get_game_chat(
+        &self,
+        request: impl Into<chat::GetRequest>,
+    ) -> Result<impl StreamExt<Item = Result<chat::ChatLine>>> {
+        self.get_streamed_models(request.into()).await
+    }
+
+    pub async fn bookmark_game(&self, request: impl Into<bookmark::PostRequest>) -> Result<()> {
+        self.get_empty(request.into()).await
+    }
 }
