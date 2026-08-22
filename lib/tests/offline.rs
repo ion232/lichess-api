@@ -182,6 +182,11 @@ pub fn broadcasts() {
     test_response_model::<broadcasts::BroadcastPgnPush>("broadcast_pgn_push");
 }
 
+#[test]
+pub fn fide_player_ratings() {
+    test_response_model::<fide::ratings::PlayerRatings>("fide_player_ratings");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);
