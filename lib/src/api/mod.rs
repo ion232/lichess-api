@@ -10,6 +10,7 @@ pub mod external_engine;
 pub mod fide;
 pub mod games;
 pub mod messaging;
+#[cfg(feature = "oauth")]
 pub mod oauth;
 pub mod openings;
 pub mod puzzles;
