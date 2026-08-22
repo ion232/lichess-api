@@ -14,6 +14,7 @@ pub mod relations;
 pub mod simuls;
 pub mod studies;
 pub mod tablebase;
+pub mod teams;
 pub mod tv;
 pub mod users;
 
@@ -323,6 +324,8 @@ pub struct LightUser {
     pub title: Option<Title>,
     pub flair: Option<String>,
     pub patron: Option<bool>,
+    #[serde(rename = "patronColor")]
+    pub patron_color: Option<u8>,
     pub online: Option<bool>,
 }
 
@@ -449,4 +452,205 @@ impl Into<u32> for Days {
             Days::Fourteen => 14,
         }
     }
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ArenaTournament {
+    pub id: String,
+    pub created_by: String,
+    pub system: String,
+    pub minutes: u32,
+    pub clock: ArenaClock,
+    pub rated: bool,
+    pub full_name: String,
+    pub nb_players: u32,
+    pub variant: Variant,
+    pub starts_at: i64,
+    pub finishes_at: i64,
+    pub status: ArenaStatus,
+    pub perf: ArenaPerf,
+    pub seconds_to_start: Option<i32>,
+    pub has_max_rating: Option<bool>,
+    pub max_rating: Option<ArenaRatingObj>,
+    pub min_rating: Option<ArenaRatingObj>,
+    pub min_rated_games: Option<ArenaMinRatedGames>,
+    pub bots_allowed: Option<bool>,
+    pub min_account_age_in_days: Option<i32>,
+    pub only_titled: Option<bool>,
+    pub team_member: Option<String>,
+    pub private: Option<bool>,
+    pub position: Option<ArenaPosition>,
+    pub schedule: Option<ArenaSchedule>,
+    pub team_battle: Option<ArenaTeamBattle>,
+    pub winner: Option<LightUser>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ArenaClock {
+    pub limit: u32,
+    pub increment: u32,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ArenaStatus {
+    Created,
+    Started,
+    Finished,
+}
+
+impl Serialize for ArenaStatus {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let value: u8 = match self {
+            ArenaStatus::Created => 10,
+            ArenaStatus::Started => 20,
+            ArenaStatus::Finished => 30,
+        };
+        value.serialize(serializer)
+    }
+}
+
+impl<'de> Deserialize<'de> for ArenaStatus {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = u8::deserialize(deserializer)?;
+        match value {
+            10 => Ok(ArenaStatus::Created),
+            20 => Ok(ArenaStatus::Started),
+            30 => Ok(ArenaStatus::Finished),
+            _ => Err(serde::de::Error::custom(format!(
+                "invalid arena tournament status {value}"
+            ))),
+        }
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ArenaStatusName {
+    Created,
+    Started,
+    Finished,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ArenaPerf {
+    pub key: PerfType,
+    pub name: String,
+    pub position: i32,
+    pub icon: Option<String>,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ArenaRatingObj {
+    pub perf: Option<PerfType>,
+    pub rating: i32,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ArenaMinRatedGames {
+    pub nb: Option<i32>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(untagged)]
+pub enum ArenaPosition {
+    Thematic {
+        eco: String,
+        name: String,
+        fen: String,
+        url: String,
+    },
+    Custom {
+        name: String,
+        fen: String,
+    },
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ArenaSchedule {
+    pub freq: Option<String>,
+    pub speed: Option<String>,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ArenaTeamBattle {
+    pub teams: Option<Vec<String>>,
+    pub nb_leaders: Option<i32>,
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SwissTournament {
+    pub id: String,
+    pub created_by: String,
+    pub starts_at: String,
+    pub name: String,
+    pub clock: SwissClock,
+    pub variant: VariantKey,
+    pub round: i32,
+    pub nb_rounds: i32,
+    pub nb_players: i32,
+    pub nb_ongoing: i32,
+    pub status: SwissStatus,
+    pub stats: Option<SwissStats>,
+    pub rated: bool,
+    pub verdicts: Verdicts,
+    pub next_round: Option<SwissNextRound>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct SwissClock {
+    pub limit: i32,
+    pub increment: i32,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum SwissStatus {
+    Created,
+    Started,
+    Finished,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SwissStats {
+    pub games: i32,
+    pub white_wins: i32,
+    pub black_wins: i32,
+    pub draws: i32,
+    pub byes: i32,
+    pub absences: i32,
+    pub average_rating: f64,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct SwissNextRound {
+    pub at: String,
+    #[serde(rename = "in")]
+    pub in_seconds: i32,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Verdicts {
+    pub accepted: bool,
+    pub list: Vec<Verdict>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Verdict {
+    pub condition: String,
+    pub verdict: String,
 }
