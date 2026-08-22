@@ -14,6 +14,7 @@ pub mod puzzles;
 pub mod relations;
 pub mod simuls;
 pub mod studies;
+pub mod swiss_tournaments;
 pub mod tablebase;
 pub mod teams;
 pub mod tv;
@@ -48,6 +49,20 @@ impl LichessApi<reqwest::Client> {
         let request = request.as_http_request("application/x-chess-pgn")?;
         let stream = self.make_request_as_raw_lines(request).await?;
         Ok(stream)
+    }
+
+    pub async fn get_text<Q, B>(&self, request: Request<Q, B>) -> Result<String>
+    where
+        Q: QueryBounds,
+        B: BodyBounds,
+    {
+        let request = request.as_http_request("text/plain")?;
+        let mut stream = self.make_request_as_raw_lines(request).await?;
+        let mut lines = Vec::new();
+        while let Some(line) = stream.next().await {
+            lines.push(line?);
+        }
+        Ok(lines.join("\n"))
     }
 
     pub async fn get_empty<Q, B>(&self, request: Request<Q, B>) -> Result<()>

@@ -136,6 +136,11 @@ pub fn arena_tournaments() {
     test_response_model::<arena_tournaments::ArenaTournamentPlayed>("arena_tournament_played");
 }
 
+#[test]
+pub fn swiss_tournaments() {
+    test_response_model::<swiss_tournaments::SwissResult>("swiss_result");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);

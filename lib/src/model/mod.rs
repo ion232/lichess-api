@@ -14,6 +14,7 @@ pub mod puzzles;
 pub mod relations;
 pub mod simuls;
 pub mod studies;
+pub mod swiss_tournaments;
 pub mod tablebase;
 pub mod teams;
 pub mod tv;
