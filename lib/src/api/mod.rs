@@ -14,6 +14,7 @@ pub mod relations;
 pub mod simuls;
 pub mod studies;
 pub mod tablebase;
+pub mod teams;
 pub mod tv;
 pub mod users;
 

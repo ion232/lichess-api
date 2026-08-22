@@ -115,6 +115,18 @@ pub fn challenges() {
     test_response_model::<challenges::ChallengeDeclinedJson>("challenge_declined_json");
 }
 
+#[test]
+pub fn teams() {
+    test_response_model::<teams::Team>("team");
+    test_response_model::<teams::TeamPaginatorJson>("team_paginator");
+    test_response_model::<teams::TeamRequestWithUser>("team_request_with_user");
+    test_response_model::<teams::TeamUpdates>("team_updates");
+    test_response_model::<teams::TeamUpdatesOfTeam>("team_updates_of_team");
+    test_response_model::<teams::users::TeamMember>("team_member");
+    test_response_model::<ArenaTournament>("arena_tournament");
+    test_response_model::<SwissTournament>("swiss_tournament");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);

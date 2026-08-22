@@ -1,0 +1,34 @@
+{
+  "currentPage": 1,
+  "maxPerPage": 15,
+  "currentPageResults": [
+    {
+      "id": "coders",
+      "name": "Coders",
+      "description": "If you want to join the team, prove (briefly) that you can code in the request message!",
+      "open": false,
+      "leader": { "name": "thibault", "flair": "nature.seedling", "patron": true, "patronColor": 10, "id": "thibault" },
+      "nbMembers": 492,
+      "flair": "objects.hammer-and-wrench",
+      "leaders": [
+        { "name": "thibault", "flair": "nature.seedling", "patron": true, "patronColor": 10, "id": "thibault" }
+      ]
+    },
+    {
+      "id": "f5-coders",
+      "name": "f5 coders",
+      "description": "Equipo de coders de factoria f5.\r\nRompemos el código y los tableros.",
+      "open": false,
+      "leader": { "name": "RogerAiguas", "id": "rogeraiguas" },
+      "nbMembers": 16,
+      "leaders": [
+        { "name": "RogerAiguas", "id": "rogeraiguas" },
+        { "name": "ABPNET", "id": "abpnet" }
+      ]
+    }
+  ],
+  "previousPage": null,
+  "nextPage": 2,
+  "nbResults": 30,
+  "nbPages": 2
+}
