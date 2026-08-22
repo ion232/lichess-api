@@ -54,4 +54,18 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<bool> {
         self.get_ok(request.into()).await
     }
+
+    pub async fn show_challenge(
+        &self,
+        request: impl Into<show::GetRequest>,
+    ) -> Result<ChallengeJson> {
+        self.get_single_model(request.into()).await
+    }
+
+    pub async fn admin_challenge_tokens(
+        &self,
+        request: impl Into<admin_challenge::PostRequest>,
+    ) -> Result<AdminChallengeTokenResults> {
+        self.get_single_model(request.into()).await
+    }
 }
