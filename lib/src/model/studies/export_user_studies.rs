@@ -1,0 +1,17 @@
+use crate::model::Request;
+use crate::model::studies::PgnExportQuery;
+use serde::Serialize;
+
+#[derive(Default, Clone, Debug, Serialize)]
+pub struct GetQuery {
+    #[serde(flatten)]
+    pub options: PgnExportQuery,
+}
+
+pub type GetRequest = Request<GetQuery>;
+
+impl GetRequest {
+    pub fn new(username: &str, query: GetQuery) -> Self {
+        Self::get(format!("/api/study/by/{username}/export.pgn"), query, None)
+    }
+}

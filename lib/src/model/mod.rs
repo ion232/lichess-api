@@ -125,6 +125,14 @@ where
         Self::create(path, query, None, domain, http::Method::GET)
     }
 
+    pub(crate) fn head(
+        path: impl Into<String>,
+        query: impl Into<Option<Q>>,
+        domain: impl Into<Option<Domain>>,
+    ) -> Self {
+        Self::create(path, query, None, domain, http::Method::HEAD)
+    }
+
     pub(crate) fn post(
         path: impl Into<String>,
         query: impl Into<Option<Q>>,
