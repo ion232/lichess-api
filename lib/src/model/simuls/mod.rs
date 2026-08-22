@@ -17,8 +17,8 @@ pub struct Simul {
     pub is_created: bool,
     pub is_finished: bool,
     pub is_running: bool,
-    pub estimated_start_at: u64,
-    pub started_at: u64,
+    pub estimated_start_at: Option<u64>,
+    pub started_at: Option<u64>,
     pub finished_at: Option<u64>,
     #[serde(rename = "nbApplicants")]
     pub applicants: u32,

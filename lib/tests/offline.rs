@@ -142,6 +142,11 @@ pub fn swiss_tournaments() {
 }
 
 #[test]
+pub fn bulk_pairings() {
+    test_response_model::<bulk_pairings::BulkPairing>("bulk_pairing");
+}
+
+#[test]
 pub fn studies() {
     test_response_model::<studies::create::CreateStudyResponse>("study_create");
     test_response_model::<studies::StudyMetadata>("study_metadata");
