@@ -41,7 +41,7 @@ The following table shows the current level of support for each category of endp
 | Games                 |   ✅    |
 | Messaging             |   ✅    |
 | Opening Explorer      |   ✅    |
-| OAuth                 |   🔶    |
+| OAuth                 |   ✅    |
 | Puzzles               |   ✅    |
 | Relations             |   ✅    |
 | Simuls                |   ✅    |
@@ -51,6 +51,18 @@ The following table shows the current level of support for each category of endp
 | Teams                 |   ❌    |
 | TV                    |   ✅    |
 | Users                 |   ✅    |
+
+## Features
+
+| Feature | Default | Description |
+|---------|:-------:|-------------|
+| `oauth` |   yes   | OAuth2 authorization code flow with PKCE, for acting on behalf of other users. Pulls in `rand` and `sha2`. |
+
+Most clients authenticate with a [personal API token](https://lichess.org/account/oauth/token) and don't need the OAuth flow. If you only ever act as yourself, you can drop the dependencies:
+
+```toml
+lichess-api = { version = "0.7", default-features = false }
+```
 
 ## Contributing
 

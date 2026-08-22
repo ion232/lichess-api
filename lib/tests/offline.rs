@@ -171,12 +171,14 @@ pub fn broadcasts() {
     test_response_model::<broadcasts::BroadcastPgnPush>("broadcast_pgn_push");
 }
 
+#[cfg(feature = "oauth")]
 #[test]
 pub fn oauth() {
     test_response_model::<oauth::TestResults>("oauth_test_tokens");
     test_response_model::<oauth::AccessToken>("oauth_access_token");
 }
 
+#[cfg(feature = "oauth")]
 #[test]
 pub fn oauth_authorization_url() {
     let url = oauth::authorize::AuthorizationUrl::new("example.com", "http://example.com/", "cc")
@@ -216,6 +218,113 @@ pub fn oauth_authorization_url() {
 
     // Unset optional parameters are omitted entirely.
     assert_eq!(params.get("username"), None);
+}
+
+#[cfg(feature = "oauth")]
+#[test]
+pub fn oauth_pkce() {
+    use lichess_api::model::oauth::Pkce;
+
+    // Test vector from RFC 7636 appendix B.
+    assert_eq!(
+        Pkce::derive_challenge("dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"),
+        "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"
+    );
+
+    let pkce = Pkce::generate();
+
+    // 32 random bytes, base64url encoded without padding.
+    assert_eq!(pkce.verifier().len(), 43);
+    assert!(!pkce.verifier().contains('='));
+    assert_eq!(pkce.challenge(), Pkce::derive_challenge(pkce.verifier()));
+    assert_ne!(pkce.verifier(), pkce.challenge());
+
+    // Secrets must not repeat across requests.
+    assert_ne!(Pkce::generate().verifier(), pkce.verifier());
+}
+
+#[cfg(feature = "oauth")]
+#[test]
+pub fn oauth_start_generates_secrets() {
+    use lichess_api::model::oauth::authorize::AuthorizationUrl;
+
+    let (url, pending) = AuthorizationUrl::generated("example.com", "http://example.com/")
+        .scope("preference:read")
+        .start()
+        .expect("Unable to start authorization.");
+
+    let params: std::collections::HashMap<_, _> = url.query_pairs().into_owned().collect();
+
+    // The generated state is what the pending authorization will check against,
+    // and the challenge must never be the verifier itself.
+    assert_eq!(
+        params.get("state").map(String::as_str),
+        Some(pending.state())
+    );
+    assert_eq!(
+        params.get("code_challenge_method").map(String::as_str),
+        Some("S256")
+    );
+    assert!(params.contains_key("code_challenge"));
+}
+
+#[cfg(feature = "oauth")]
+#[test]
+pub fn oauth_pending_authorization() {
+    use lichess_api::error::Error;
+    use lichess_api::model::oauth::PendingAuthorization;
+
+    let pending =
+        || PendingAuthorization::new("verifier", "st", "example.com", "http://example.com/");
+    let redirect = |query: &str| {
+        url::Url::parse(&format!("http://example.com/?{}", query)).expect("Unable to parse url.")
+    };
+
+    // Happy path: the form carries the verifier the challenge was derived from.
+    let form = pending()
+        .exchange_form(&redirect("code=abc&state=st"))
+        .expect("Unable to build exchange form.");
+    let encoded = serde_urlencoded::to_string(&form).expect("Unable to encode form.");
+
+    assert!(encoded.contains("grant_type=authorization_code"));
+    assert!(encoded.contains("code=abc"));
+    assert!(encoded.contains("code_verifier=verifier"));
+
+    // A mismatched state is rejected before anything else is considered.
+    assert!(matches!(
+        pending().exchange_form(&redirect("code=abc&state=wrong")),
+        Err(Error::OAuthStateMismatch)
+    ));
+
+    // A missing state is a mismatch, not an absent check.
+    assert!(matches!(
+        pending().exchange_form(&redirect("code=abc")),
+        Err(Error::OAuthStateMismatch)
+    ));
+
+    // Denial is surfaced with its description, not flattened into a string.
+    let denied = pending().exchange_form(&redirect(
+        "error=access_denied&error_description=user+cancelled&state=st",
+    ));
+    match denied {
+        Err(Error::OAuth {
+            error,
+            error_description,
+        }) => {
+            assert_eq!(error, "access_denied");
+            assert_eq!(error_description.as_deref(), Some("user cancelled"));
+        }
+        other => panic!("expected an oauth error, got {:?}", other.map(|_| ())),
+    }
+
+    // An error carrying a forged state is still rejected as a mismatch.
+    assert!(matches!(
+        pending().exchange_form(&redirect("error=access_denied&state=wrong")),
+        Err(Error::OAuthStateMismatch)
+    ));
+
+    // Neither a code nor an error is malformed.
+    assert!(pending().exchange_form(&redirect("state=st")).is_err());
 }
 
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {

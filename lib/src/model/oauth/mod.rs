@@ -3,9 +3,14 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
 pub mod authorize;
+pub mod pending;
+pub mod pkce;
 pub mod revoke;
 pub mod test;
 pub mod token;
+
+pub use pending::PendingAuthorization;
+pub use pkce::Pkce;
 
 /// Maps each tested token to its details, or `None` if the token is invalid.
 pub type TestResults = HashMap<String, Option<Token>>;
