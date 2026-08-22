@@ -141,6 +141,12 @@ pub fn swiss_tournaments() {
     test_response_model::<swiss_tournaments::SwissResult>("swiss_result");
 }
 
+#[test]
+pub fn studies() {
+    test_response_model::<studies::create::CreateStudyResponse>("study_create");
+    test_response_model::<studies::StudyMetadata>("study_metadata");
+}
+
 fn test_response_model<Model: Serialize + DeserializeOwned>(file_name: &str) {
     let path = format!("./tests/data/response/{}.json", file_name);
     test_model::<Model>(path);
