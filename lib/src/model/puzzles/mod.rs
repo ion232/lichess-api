@@ -1,9 +1,11 @@
 pub mod activity;
+pub mod batch;
 pub mod daily;
 pub mod dashboard;
 pub mod id;
 pub mod next;
 pub mod race;
+pub mod racer;
 pub mod replay;
 pub mod storm_dashboard;
 
@@ -26,6 +28,7 @@ pub struct Game {
     pub rated: bool,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Puzzle {
     pub id: String,
@@ -33,6 +36,9 @@ pub struct Puzzle {
     pub initial_ply: i32,
     pub plays: i32,
     pub rating: i32,
+    pub fen: Option<String>,
+    #[serde(rename = "lastMove")]
+    pub last_move: Option<String>,
     pub solution: Vec<String>,
     pub themes: Vec<String>,
 }
@@ -52,5 +58,7 @@ pub struct Player {
     pub rating: i32,
     pub flair: Option<String>,
     pub patron: Option<bool>,
+    #[serde(rename = "patronColor")]
+    pub patron_color: Option<u32>,
     pub title: Option<Title>,
 }
