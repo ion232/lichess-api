@@ -1,0 +1,19 @@
+{
+  "id": "nkEw7",
+  "owner": "lichess",
+  "players": [
+    { "name": "Hossienshirmohamady", "flair": "activity.yo-yo", "id": "hossienshirmohamady", "score": 62 },
+    { "name": "ttrv", "flair": "activity.trophy", "patron": true, "patronColor": 10, "id": "ttrv", "score": 37 },
+    { "name": "BubblyBakerHound", "score": 6 }
+  ],
+  "puzzles": [
+    {
+      "id": "oiHY2",
+      "fen": "1r6/7R/1n2p2p/p2kN3/3P3P/PPp5/2P5/2K5 b - - 1 38",
+      "line": "d5d4 e5c6 d4e4 c6b8",
+      "rating": 1016
+    }
+  ],
+  "startsAt": 1758635599928,
+  "finishesAt": 1758635689928
+}

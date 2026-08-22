@@ -1,0 +1,34 @@
+{
+  "puzzles": [
+    {
+      "game": {
+        "id": "j1fb41pT",
+        "perf": { "key": "classical", "name": "Classical" },
+        "rated": true,
+        "players": [
+          {
+            "name": "Boris",
+            "patron": true,
+            "patronColor": 1,
+            "id": "boris",
+            "color": "white",
+            "rating": 1651
+          },
+          { "name": "Benjamin", "id": "benjamin", "color": "black", "rating": 1703 }
+        ],
+        "pgn": "e4 e6 Nf3 c5 d4 cxd4 Qxd4 Nc6 Qc4 Bb4+ c3 Ba5 b4 Bb6 b5 Na5 Qb4 Ne7 Ba3 a6 Qxe7+ Qxe7 Bxe7 Kxe7 bxa6 bxa6 Bd3 Rd8 O-O g6 Nbd2 d5 Rab1 Bc7 h3 Rb8 c4 dxc4 Bxc4 Rxb1 Rxb1 Bf4 Rd1 Bxd2 Nxd2 Rxd2",
+        "clock": "15+15"
+      },
+      "puzzle": {
+        "id": "BlU5t",
+        "rating": 1677,
+        "plays": 19418,
+        "solution": ["d1d2", "a5c4", "d2c2", "c4d6", "e4e5", "c8d7", "e5d6"],
+        "themes": ["endgame", "veryLong", "advantage"],
+        "initialPly": 45
+      }
+    }
+  ],
+  "glicko": { "rating": 1663.73, "deviation": 91.04 },
+  "rounds": [{ "id": "8KtG9", "win": true, "ratingDiff": 14 }]
+}

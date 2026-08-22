@@ -54,4 +54,25 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<race::Race> {
         self.get_single_model(request.into()).await
     }
+
+    pub async fn get_puzzle_batch(
+        &self,
+        request: impl Into<batch::GetRequest>,
+    ) -> Result<batch::Select> {
+        self.get_single_model(request.into()).await
+    }
+
+    pub async fn solve_puzzle_batch(
+        &self,
+        request: impl Into<batch::PostRequest>,
+    ) -> Result<batch::SolveResponse> {
+        self.get_single_model(request.into()).await
+    }
+
+    pub async fn get_puzzle_race_results(
+        &self,
+        request: impl Into<racer::GetRequest>,
+    ) -> Result<racer::RaceResults> {
+        self.get_single_model(request.into()).await
+    }
 }

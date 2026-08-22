@@ -1,0 +1,33 @@
+{
+  "puzzles": [
+    {
+      "game": {
+        "id": "P1M5pws5",
+        "perf": { "key": "rapid", "name": "Rapid" },
+        "rated": true,
+        "players": [
+          {
+            "name": "Ivan",
+            "title": "GM",
+            "flair": "people.woman-tipping-hand-light-skin-tone",
+            "id": "ivan",
+            "color": "white",
+            "rating": 2059
+          },
+          { "name": "Rudra", "id": "rudra", "color": "black", "rating": 1992 }
+        ],
+        "pgn": "d4 Nf6 Nf3 g6 Nc3 Bg7 e4 d6 Be3 Nc6 d5 Nb8 Qd2 O-O O-O-O c5 Bh6 a6 a4 b5 axb5 axb5 Bxb5 Ra1+ Nb1 Nxe4 Qe3 Nxf2",
+        "clock": "10+0"
+      },
+      "puzzle": {
+        "id": "8KtG9",
+        "rating": 1512,
+        "plays": 5171,
+        "solution": ["h6g7", "g8g7", "e3f2"],
+        "themes": ["middlegame", "intermezzo", "short", "advantage"],
+        "initialPly": 27
+      }
+    }
+  ],
+  "glicko": { "rating": 1649.0, "deviation": 93.66 }
+}
