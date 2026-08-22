@@ -5,7 +5,8 @@ use serde::{Deserialize, Serialize};
 pub mod revoke;
 pub mod test;
 
-pub type TestResults = HashMap<String, Token>;
+/// Maps each tested token to its details, or `None` if the token is invalid.
+pub type TestResults = HashMap<String, Option<Token>>;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -13,7 +14,6 @@ pub struct Token {
     /// Comma separated
     pub scopes: String,
     pub user_id: String,
-    /// Unix timestamp
-    #[serde(skip_serializing_if = "Option::is_none")]
+    /// Unix timestamp in milliseconds, or `None` if the token never expires.
     pub expires: Option<u64>,
 }
