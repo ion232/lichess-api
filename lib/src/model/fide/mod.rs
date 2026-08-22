@@ -1,4 +1,5 @@
 pub mod player;
+pub mod ratings;
 pub mod search;
 
 use crate::model::Title;

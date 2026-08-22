@@ -1,3 +1,5 @@
+pub mod bookmark;
+pub mod chat;
 pub mod export;
 pub mod import;
 pub mod ongoing;
