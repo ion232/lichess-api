@@ -1,0 +1,19 @@
+use crate::model::Request;
+use serde::Serialize;
+
+#[derive(Default, Clone, Debug, Serialize)]
+pub struct PostQuery;
+
+pub type PostRequest = Request<PostQuery>;
+
+impl PostRequest {
+    pub fn new(id: &str) -> Self {
+        Self::post(format!("/api/tournament/{id}/withdraw"), None, None, None)
+    }
+}
+
+impl<S: AsRef<str>> From<S> for PostRequest {
+    fn from(id: S) -> Self {
+        Self::new(id.as_ref())
+    }
+}

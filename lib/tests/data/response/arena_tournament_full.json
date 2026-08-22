@@ -1,0 +1,78 @@
+{
+  "nbPlayers": 364,
+  "duels": [],
+  "isFinished": true,
+  "podium": [
+    {
+      "name": "RebeccaHarris",
+      "title": "GM",
+      "patron": true,
+      "patronColor": 10,
+      "rank": 1,
+      "rating": 3257,
+      "score": 148,
+      "nb": { "game": 69, "berserk": 25, "win": 46 },
+      "performance": 3308
+    },
+    {
+      "name": "Ediz_Gurel",
+      "title": "GM",
+      "flair": "smileys.alien",
+      "rank": 2,
+      "rating": 3230,
+      "score": 146,
+      "nb": { "game": 64, "berserk": 12, "win": 44 },
+      "performance": 3269
+    }
+  ],
+  "pairingsClosed": true,
+  "stats": {
+    "games": 5023,
+    "moves": 418545,
+    "whiteWins": 2476,
+    "blackWins": 2236,
+    "draws": 311,
+    "berserks": 729,
+    "averageRating": 2616
+  },
+  "standing": {
+    "page": 1,
+    "players": [
+      {
+        "name": "RebeccaHarris",
+        "title": "GM",
+        "patron": true,
+        "patronColor": 10,
+        "rank": 1,
+        "rating": 3257,
+        "score": 148,
+        "sheet": { "scores": "030432005442204423030220045423044442201300204220300021033044444423033" }
+      },
+      {
+        "name": "Ediz_Gurel",
+        "title": "GM",
+        "flair": "smileys.alien",
+        "rank": 2,
+        "rating": 3230,
+        "score": 146,
+        "sheet": { "scores": "4454220224230200000044544432020002242204444220020320204445444422", "fire": true }
+      }
+    ]
+  },
+  "id": "may24lta",
+  "createdBy": "cormacobear",
+  "startsAt": "2024-05-25T18:00:00Z",
+  "system": "arena",
+  "fullName": "Titled Arena May 2024",
+  "minutes": 120,
+  "perf": { "key": "bullet", "name": "Bullet", "icon": "T" },
+  "clock": { "limit": 60, "increment": 0 },
+  "variant": "standard",
+  "rated": true,
+  "spotlight": { "headline": "Titled only, $1,000 prize pool" },
+  "berserkable": true,
+  "verdicts": { "list": [{ "condition": "Only titled players", "verdict": "ok" }], "accepted": true },
+  "schedule": { "freq": "unique", "speed": "bullet" },
+  "description": "Prizes: $500/$250/$125/$75/$50\r\n\r\n[Warm-up event](https://lichess.org/tournament/may24wua)",
+  "onlyTitled": true
+}
