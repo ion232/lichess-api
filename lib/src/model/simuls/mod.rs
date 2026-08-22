@@ -3,7 +3,7 @@ use serde_with::skip_serializing_none;
 
 use crate::model::LightUser;
 
-use super::{Title, Variant};
+use super::Variant;
 
 pub mod current;
 
