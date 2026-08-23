@@ -6,7 +6,11 @@ use clap::builder::styling::AnsiColor;
 use clap::{Parser, Subcommand};
 use color_eyre::Result;
 use commands::{
-    BoardCommand, ChallengesCommand, ExternalEngineCommand, PuzzlesCommand, UsersCommand,
+    AccountCommand, AnalysisCommand, ArenaTournamentsCommand, BoardCommand, BotCommand,
+    BroadcastsCommand, BulkPairingsCommand, ChallengesCommand, ExternalEngineCommand, FideCommand,
+    GamesCommand, MessagingCommand, OpeningsCommand, PuzzlesCommand, RelationsCommand,
+    SimulsCommand, StudiesCommand, SwissTournamentsCommand, TablebaseCommand, TeamsCommand,
+    TvCommand, UsersCommand,
 };
 use lichess_api::client::LichessApi;
 use reqwest;
@@ -40,9 +44,33 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
+    Account {
+        #[clap(subcommand)]
+        command: AccountCommand,
+    },
+    Analysis {
+        #[clap(subcommand)]
+        command: AnalysisCommand,
+    },
+    ArenaTournaments {
+        #[clap(subcommand)]
+        command: ArenaTournamentsCommand,
+    },
     Board {
         #[clap(subcommand)]
         command: BoardCommand,
+    },
+    Bot {
+        #[clap(subcommand)]
+        command: BotCommand,
+    },
+    Broadcasts {
+        #[clap(subcommand)]
+        command: BroadcastsCommand,
+    },
+    BulkPairings {
+        #[clap(subcommand)]
+        command: BulkPairingsCommand,
     },
     Puzzles {
         #[clap(subcommand)]
@@ -55,6 +83,50 @@ enum Command {
     Challenges {
         #[clap(subcommand)]
         command: ChallengesCommand,
+    },
+    Fide {
+        #[clap(subcommand)]
+        command: FideCommand,
+    },
+    Games {
+        #[clap(subcommand)]
+        command: GamesCommand,
+    },
+    Messaging {
+        #[clap(subcommand)]
+        command: MessagingCommand,
+    },
+    Openings {
+        #[clap(subcommand)]
+        command: OpeningsCommand,
+    },
+    Relations {
+        #[clap(subcommand)]
+        command: RelationsCommand,
+    },
+    Simuls {
+        #[clap(subcommand)]
+        command: SimulsCommand,
+    },
+    Studies {
+        #[clap(subcommand)]
+        command: StudiesCommand,
+    },
+    SwissTournaments {
+        #[clap(subcommand)]
+        command: SwissTournamentsCommand,
+    },
+    Tablebase {
+        #[clap(subcommand)]
+        command: TablebaseCommand,
+    },
+    Teams {
+        #[clap(subcommand)]
+        command: TeamsCommand,
+    },
+    Tv {
+        #[clap(subcommand)]
+        command: TvCommand,
     },
     Users {
         #[clap(subcommand)]
@@ -106,10 +178,27 @@ impl App {
     async fn run(self, args: Cli) -> Result<()> {
         let json = args.json;
         match args.command {
+            Command::Account { command } => command.run(self.lichess, json).await,
+            Command::Analysis { command } => command.run(self.lichess, json).await,
+            Command::ArenaTournaments { command } => command.run(self.lichess, json).await,
             Command::Board { command } => command.run(self.lichess, json).await,
+            Command::Bot { command } => command.run(self.lichess, json).await,
+            Command::Broadcasts { command } => command.run(self.lichess, json).await,
+            Command::BulkPairings { command } => command.run(self.lichess, json).await,
             Command::Puzzles { command } => command.run(self.lichess, json).await,
             Command::Engine { command } => command.run(self.lichess, json).await,
             Command::Challenges { command } => command.run(self.lichess, json).await,
+            Command::Fide { command } => command.run(self.lichess, json).await,
+            Command::Games { command } => command.run(self.lichess, json).await,
+            Command::Messaging { command } => command.run(self.lichess, json).await,
+            Command::Openings { command } => command.run(self.lichess, json).await,
+            Command::Relations { command } => command.run(self.lichess, json).await,
+            Command::Simuls { command } => command.run(self.lichess, json).await,
+            Command::Studies { command } => command.run(self.lichess, json).await,
+            Command::SwissTournaments { command } => command.run(self.lichess, json).await,
+            Command::Tablebase { command } => command.run(self.lichess, json).await,
+            Command::Teams { command } => command.run(self.lichess, json).await,
+            Command::Tv { command } => command.run(self.lichess, json).await,
             Command::Users { command } => command.run(self.lichess, json).await,
         }
     }

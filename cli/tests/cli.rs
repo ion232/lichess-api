@@ -5,17 +5,39 @@ fn lichess() -> Command {
     Command::cargo_bin("lichess").unwrap()
 }
 
+const ALL_CATEGORIES: &[&str] = &[
+    "account",
+    "analysis",
+    "arena-tournaments",
+    "board",
+    "bot",
+    "broadcasts",
+    "bulk-pairings",
+    "puzzles",
+    "engine",
+    "challenges",
+    "fide",
+    "games",
+    "messaging",
+    "openings",
+    "relations",
+    "simuls",
+    "studies",
+    "swiss-tournaments",
+    "tablebase",
+    "teams",
+    "tv",
+    "users",
+];
+
 #[test]
 fn top_level_help_lists_all_categories() {
-    lichess()
-        .arg("--help")
-        .assert()
-        .success()
-        .stdout(predicate::str::contains("board"))
-        .stdout(predicate::str::contains("puzzles"))
-        .stdout(predicate::str::contains("engine"))
-        .stdout(predicate::str::contains("challenges"))
-        .stdout(predicate::str::contains("users"));
+    let mut cmd = lichess();
+    cmd.arg("--help");
+    let mut assert = cmd.assert().success();
+    for category in ALL_CATEGORIES {
+        assert = assert.stdout(predicate::str::contains(*category));
+    }
 }
 
 #[test]
@@ -30,8 +52,8 @@ fn unknown_subcommand_fails() {
 
 #[test]
 fn subcommand_help_succeeds_for_every_category() {
-    for subcommand in ["board", "puzzles", "engine", "challenges", "users"] {
-        lichess().args([subcommand, "--help"]).assert().success();
+    for subcommand in ALL_CATEGORIES {
+        lichess().args([*subcommand, "--help"]).assert().success();
     }
 }
 
