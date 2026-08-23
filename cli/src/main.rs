@@ -140,18 +140,34 @@ struct App {
     lichess: Lichess,
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() -> Result<()> {
-    let args = Cli::parse();
-    let level = if args.verbose {
-        LevelFilter::DEBUG
-    } else {
-        LevelFilter::INFO
-    };
-    init_tracing(level)?;
-    color_eyre::install()?;
-    let app = App::new(args.api_token.clone());
-    app.run(args).await
+fn main() -> Result<()> {
+    // clap's derive-generated `Command` graph for this many nested subcommands is deep enough to
+    // overflow the default 1 MiB main-thread stack on Windows (Linux/macOS default to 8 MiB), so
+    // run everything on a thread with an explicitly larger stack.
+    std::thread::Builder::new()
+        .stack_size(16 * 1024 * 1024)
+        .spawn(run)
+        .expect("failed to spawn main thread")
+        .join()
+        .expect("main thread panicked")
+}
+
+fn run() -> Result<()> {
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()?;
+    runtime.block_on(async {
+        let args = Cli::parse();
+        let level = if args.verbose {
+            LevelFilter::DEBUG
+        } else {
+            LevelFilter::INFO
+        };
+        init_tracing(level)?;
+        color_eyre::install()?;
+        let app = App::new(args.api_token.clone());
+        app.run(args).await
+    })
 }
 
 fn init_tracing(directive: LevelFilter) -> Result<()> {
