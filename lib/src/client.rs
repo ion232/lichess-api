@@ -57,7 +57,7 @@ impl LichessApi<reqwest::Client> {
             self.make_request_as_raw_lines(http_request)
                 .await?
                 .map(|l| -> Result<Model> {
-                    serde_json::from_str(&l?).map_err(|e| crate::error::Error::Json(e))
+                    serde_json::from_str(&l?).map_err(crate::error::Error::Json)
                 });
 
         Ok(stream)
@@ -68,7 +68,7 @@ impl LichessApi<reqwest::Client> {
         mut http_request: http::Request<Bytes>,
     ) -> Result<impl StreamExt<Item = Result<String>>> {
         if let Some(auth) = &self.bearer_auth {
-            let mut auth_header = http::HeaderValue::from_str(&auth)
+            let mut auth_header = http::HeaderValue::from_str(auth)
                 .map_err(|e| Error::HttpRequestBuilder(http::Error::from(e)))?;
             // exclude the auth header from being logged
             auth_header.set_sensitive(true);
@@ -93,7 +93,7 @@ impl LichessApi<reqwest::Client> {
         let stream = response
             .map_err(convert_err)?
             .bytes_stream()
-            .map_err(|e| futures::io::Error::new(futures::io::ErrorKind::Other, e))
+            .map_err(futures::io::Error::other)
             .into_async_read()
             .lines()
             .filter(|l| {
@@ -111,10 +111,10 @@ impl LichessApi<reqwest::Client> {
                 }
                 // Check for error responses returned as json before model serialization is attempted.
                 // This can happen when not authorized to access an endpoint.
-                if let Ok(error_value) = serde_json::from_str::<serde_json::Value>(&line) {
-                    if let Some(error_msg) = error_value.get("error").and_then(|e| e.as_str()) {
-                        return Err(crate::error::Error::Response(error_msg.to_string()));
-                    }
+                if let Ok(error_value) = serde_json::from_str::<serde_json::Value>(&line)
+                    && let Some(error_msg) = error_value.get("error").and_then(|e| e.as_str())
+                {
+                    return Err(crate::error::Error::Response(error_msg.to_string()));
                 }
                 Ok(line)
             });

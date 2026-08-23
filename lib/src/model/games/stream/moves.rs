@@ -24,6 +24,8 @@ pub type Move = MoveStream;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(untagged)]
+// Boxing would ripple through every match arm across the crate for a rarely-streamed enum; not worth it.
+#[allow(clippy::large_enum_variant)]
 pub enum MoveStream {
     #[serde(rename_all = "camelCase")]
     Start {

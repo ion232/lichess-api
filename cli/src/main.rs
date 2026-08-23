@@ -13,7 +13,6 @@ use commands::{
     TvCommand, UsersCommand,
 };
 use lichess_api::client::LichessApi;
-use reqwest;
 use tracing::level_filters::LevelFilter;
 use tracing_subscriber::EnvFilter;
 

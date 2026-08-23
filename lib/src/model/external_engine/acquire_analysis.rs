@@ -12,7 +12,7 @@ impl PostRequest {
         Self {
             domain: Domain::Engine,
             method: http::Method::POST,
-            path: format!("/api/external-engine/work"),
+            path: "/api/external-engine/work".to_string(),
             query: Default::default(),
             body: Body::Json(acquire_analysis),
         }

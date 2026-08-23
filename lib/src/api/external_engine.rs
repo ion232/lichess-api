@@ -69,7 +69,7 @@ impl LichessApi<reqwest::Client> {
     ) -> Result<Option<acquire_analysis::AcquireAnalysisResponse>> {
         let mut stream = self.get_streamed_models(request.into()).await?;
         // The response is a stream of 0 or 1 items, so we can just take the first item
-        Ok((stream.next().await).transpose()?)
+        (stream.next().await).transpose()
     }
 
     pub async fn submit_analysis(

@@ -48,6 +48,8 @@ impl<S: AsRef<str>> From<S> for GetRequest {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "type")]
 #[serde(rename_all = "camelCase")]
+// Boxing would ripple through every match arm across the crate for a rarely-streamed enum; not worth it.
+#[allow(clippy::large_enum_variant)]
 pub enum Event {
     GameFull {
         #[serde(flatten)]

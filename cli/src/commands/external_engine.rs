@@ -237,10 +237,9 @@ impl ExternalEngineCommand {
 /// Generate a random provider secret for the engine
 /// This is used to authenticate the engine with the lichess server
 fn generate_provider_secret() -> String {
-    let provider_secret = rand::rng()
+    rand::rng()
         .sample_iter(&rand::distr::Alphanumeric)
         .take(16)
         .map(char::from)
-        .collect::<String>();
-    provider_secret
+        .collect::<String>()
 }
