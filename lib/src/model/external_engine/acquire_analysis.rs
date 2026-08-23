@@ -25,7 +25,7 @@ pub struct AcquireAnalysis {
     pub provider_secret: String,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AcquireAnalysisResponse {
     pub id: String,
@@ -33,7 +33,7 @@ pub struct AcquireAnalysisResponse {
     pub engine: Engine,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ExternalEngineWork {
     pub session_id: String,
@@ -46,7 +46,7 @@ pub struct ExternalEngineWork {
     pub moves: Vec<String>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Engine {
     pub id: String,

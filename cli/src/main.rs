@@ -1,4 +1,5 @@
 mod commands;
+mod output;
 
 use clap::builder::Styles;
 use clap::builder::styling::AnsiColor;
@@ -31,6 +32,10 @@ struct Cli {
     /// Enable verbose logging
     #[arg(long, short)]
     verbose: bool,
+
+    /// Print output as pretty-printed JSON instead of Rust debug format
+    #[arg(long, global = true)]
+    json: bool,
 }
 
 #[derive(Debug, Subcommand)]
@@ -99,12 +104,13 @@ impl App {
     }
 
     async fn run(self, args: Cli) -> Result<()> {
+        let json = args.json;
         match args.command {
-            Command::Board { command } => command.run(self.lichess).await,
-            Command::Puzzles { command } => command.run(self.lichess).await,
-            Command::Engine { command } => command.run(self.lichess).await,
-            Command::Challenges { command } => command.run(self.lichess).await,
-            Command::Users { command } => command.run(self.lichess).await,
+            Command::Board { command } => command.run(self.lichess, json).await,
+            Command::Puzzles { command } => command.run(self.lichess, json).await,
+            Command::Engine { command } => command.run(self.lichess, json).await,
+            Command::Challenges { command } => command.run(self.lichess, json).await,
+            Command::Users { command } => command.run(self.lichess, json).await,
         }
     }
 }
