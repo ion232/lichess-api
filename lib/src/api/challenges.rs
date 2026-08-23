@@ -1,3 +1,14 @@
+//! Challenge other players, bots, or the Lichess AI to a game.
+//!
+//! Covers listing your incoming and outgoing challenges, creating, accepting,
+//! declining, and canceling a challenge, creating an open challenge anyone can
+//! join, and starting a game against the Lichess AI. Most operations require a
+//! bearer token with a `challenge:*` scope; open challenges and public reads
+//! are the exceptions. [`LichessApi::admin_challenge_tokens`] is restricted to
+//! Lichess administrators.
+//!
+//! Request/response types live in [`crate::model::challenges`].
+
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::challenges::*;

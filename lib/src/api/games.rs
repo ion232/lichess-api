@@ -1,3 +1,17 @@
+//! Fetching, exporting, streaming, and importing games.
+//!
+//! Games can be exported as [`GameJson`] (single game or user history) or as
+//! raw PGN text, and requests for many games at once return a stream of
+//! results rather than a single value, since the response can be very large.
+//! [`stream_games_of_users`](LichessApi::stream_games_of_users) and
+//! [`stream_games_by_ids`](LichessApi::stream_games_by_ids) instead stream
+//! [`GameStream`] events for games as they start and finish, in real time.
+//!
+//! Most exports work without a token, but return more detail when
+//! authenticated, and downloading your own games is rate limited more
+//! generously than anonymous or third-party requests. Importing a game and
+//! bookmarking a game both require an authenticated user.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

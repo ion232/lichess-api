@@ -1,3 +1,12 @@
+//! Query move statistics for a position from the Opening Explorer: aggregated
+//! master games ([`openings_masters`](LichessApi::openings_masters)), rated
+//! Lichess games ([`openings_lichess`](LichessApi::openings_lichess)), or a
+//! specific player's games ([`openings_player`](LichessApi::openings_player)),
+//! plus fetching a masters game's PGN by ID
+//! ([`openings_otb`](LichessApi::openings_otb)). All of these are public and
+//! need no token, and are served from a separate host,
+//! [`Domain::Explorer`](crate::model::Domain::Explorer).
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

@@ -1,3 +1,12 @@
+//! Read and manage the logged in user's own account: public profile, email
+//! address, kid mode, preferences, and activity timeline.
+//!
+//! Every method here requires a bearer token for the account being queried —
+//! there is no anonymous access. [`LichessApi::get_email_address`] and
+//! [`LichessApi::get_kid_mode_status`]/[`LichessApi::set_kid_mode_status`]
+//! additionally require the `email:read` and `preference:read` (or
+//! `preference:write`) scopes respectively, not just any token.
+
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::account::*;

@@ -1,3 +1,10 @@
+//! Follow, unfollow, and block other Lichess players.
+//!
+//! [`LichessApi::get_following`] streams the users the authenticated account
+//! follows; the request/response types live in [`crate::model::relations`].
+//! All operations here act on behalf of the authenticated user and require
+//! the `follow:read` or `follow:write` OAuth scope, as appropriate.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

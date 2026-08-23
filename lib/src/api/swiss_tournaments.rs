@@ -1,3 +1,13 @@
+//! Swiss-system tournaments.
+//!
+//! Unlike arena tournaments, Swiss tournaments are always organized by a team
+//! ([`LichessApi::create_swiss_tournament`] takes a `team_id`), run over a
+//! fixed number of rounds, and pair players based on score each round rather
+//! than continuously. Most write operations (creating, updating, joining,
+//! scheduling the next round, terminating, withdrawing) require the
+//! `tournament:write` scope; reading tournament info, results, games, and the
+//! TRF export are public.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

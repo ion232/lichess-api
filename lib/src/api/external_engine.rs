@@ -1,3 +1,21 @@
+//! Register and use an external engine: a chess engine running on the user's
+//! own machine, made available for cloud analysis (e.g. from the Lichess
+//! analysis board) via a provider/secret handshake.
+//!
+//! Listing, creating, fetching, updating, and deleting engine registrations
+//! ([`list_external_engines`](LichessApi::list_external_engines),
+//! [`create_external_engine`](LichessApi::create_external_engine),
+//! [`get_external_engine`](LichessApi::get_external_engine),
+//! [`update_external_engine`](LichessApi::update_external_engine),
+//! [`delete_external_engine`](LichessApi::delete_external_engine)) require a
+//! bearer token with the `engine:read` or `engine:write` scope and talk to
+//! the regular Lichess host. Requesting and providing analysis
+//! ([`analyse_with_external_engine`](LichessApi::analyse_with_external_engine),
+//! [`acquire_analysis_request`](LichessApi::acquire_analysis_request),
+//! [`submit_analysis`](LichessApi::submit_analysis)) instead use the engine's
+//! own client/provider secrets for auth and are served from a separate host,
+//! [`Domain::Engine`](crate::model::Domain::Engine).
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;
