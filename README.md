@@ -22,7 +22,7 @@ Add the dependencies:
 
 ```toml
 [dependencies]
-lichess-api = "0.7"
+lichess-api = "1.0"
 tokio = { version = "1", features = ["full"] }
 ```
 
