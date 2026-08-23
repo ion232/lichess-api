@@ -11,12 +11,12 @@ pub struct ImportPgnBody {
     pub orientation: Option<String>,
 }
 
-#[derive(Default, Clone, Debug, Deserialize)]
+#[derive(Default, Clone, Debug, Deserialize, Serialize)]
 pub struct StudyImportPgnChapters {
     pub chapters: Vec<StudyChapterListItem>,
 }
 
-#[derive(Default, Clone, Debug, Deserialize)]
+#[derive(Default, Clone, Debug, Deserialize, Serialize)]
 pub struct StudyChapterListItem {
     pub id: String,
     pub name: String,

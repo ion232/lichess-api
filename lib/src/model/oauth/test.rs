@@ -8,7 +8,7 @@ pub type PostRequest = Request<PostQuery>;
 
 impl PostRequest {
     pub fn new(tokens: Vec<String>) -> Self {
-        let path = format!("/api/token/test");
+        let path = "/api/token/test".to_string();
         Self::post(path, None, Body::PlainText(tokens.join(",")), None)
     }
 }

@@ -169,7 +169,7 @@ where
     Q: QueryBounds,
     B: BodyBounds,
 {
-    pub(crate) fn as_http_request(
+    pub(crate) fn into_http_request(
         self,
         accept: &str,
     ) -> error::Result<http::Request<bytes::Bytes>> {
@@ -212,7 +212,7 @@ where
         .method(method)
         .uri(url.as_str())
         .body(body)
-        .map_err(|e| error::Error::HttpRequestBuilder(e))?;
+        .map_err(error::Error::HttpRequestBuilder)?;
 
     Ok(request)
 }
@@ -236,11 +236,11 @@ where
 }
 
 fn to_json_string<B: BodyBounds>(body: &B) -> error::Result<String> {
-    serde_json::to_string(&body).map_err(|e| error::Error::Json(e))
+    serde_json::to_string(&body).map_err(error::Error::Json)
 }
 
 fn to_form_string<B: BodyBounds>(body: &B) -> error::Result<String> {
-    serde_urlencoded::to_string(&body).map_err(|e| error::Error::UrlEncoded(e))
+    serde_urlencoded::to_string(body).map_err(error::Error::UrlEncoded)
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -453,9 +453,9 @@ impl From<u32> for Days {
     }
 }
 
-impl Into<u32> for Days {
-    fn into(self) -> u32 {
-        match self {
+impl From<Days> for u32 {
+    fn from(value: Days) -> Self {
+        match value {
             Days::One => 1,
             Days::Two => 2,
             Days::Three => 3,

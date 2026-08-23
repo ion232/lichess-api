@@ -1,12 +1,76 @@
-use clap::Subcommand;
+use clap::{Subcommand, ValueEnum};
 use color_eyre::Result;
+use color_eyre::eyre::WrapErr;
 use futures::StreamExt;
 use lichess_api::client::LichessApi;
 use lichess_api::model::board::*;
-use lichess_api::model::{Color, Room, VariantKey};
+use lichess_api::model::{Color as LichessColor, Room, VariantKey};
 use reqwest;
 
+use crate::output;
+
 type Lichess = LichessApi<reqwest::Client>;
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum ChatRoom {
+    Player,
+    Spectator,
+}
+
+impl From<ChatRoom> for Room {
+    fn from(room: ChatRoom) -> Self {
+        match room {
+            ChatRoom::Player => Room::Player,
+            ChatRoom::Spectator => Room::Spectator,
+        }
+    }
+}
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum Variant {
+    Standard,
+    Chess960,
+    Crazyhouse,
+    Antichess,
+    Atomic,
+    Horde,
+    KingOfTheHill,
+    RacingKings,
+    ThreeCheck,
+}
+
+impl From<Variant> for VariantKey {
+    fn from(variant: Variant) -> Self {
+        match variant {
+            Variant::Standard => VariantKey::Standard,
+            Variant::Chess960 => VariantKey::Chess960,
+            Variant::Crazyhouse => VariantKey::Crazyhouse,
+            Variant::Antichess => VariantKey::Antichess,
+            Variant::Atomic => VariantKey::Atomic,
+            Variant::Horde => VariantKey::Horde,
+            Variant::KingOfTheHill => VariantKey::KingOfTheHill,
+            Variant::RacingKings => VariantKey::RacingKings,
+            Variant::ThreeCheck => VariantKey::ThreeCheck,
+        }
+    }
+}
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum SeekColor {
+    Random,
+    White,
+    Black,
+}
+
+impl From<SeekColor> for LichessColor {
+    fn from(color: SeekColor) -> Self {
+        match color {
+            SeekColor::Random => LichessColor::Random,
+            SeekColor::White => LichessColor::White,
+            SeekColor::Black => LichessColor::Black,
+        }
+    }
+}
 
 #[derive(Debug, Subcommand)]
 pub enum BoardCommand {
@@ -29,14 +93,19 @@ pub enum BoardCommand {
     WriteChat {
         /// Game ID
         game_id: String,
-        /// Room (player or spectator)
-        #[arg(long, default_value = "player")]
-        room: String,
+        /// Room
+        #[arg(long, value_enum, default_value = "player")]
+        room: ChatRoom,
         /// Message text
         text: String,
     },
     /// Claim victory when the opponent has left the game for a while
     ClaimVictory {
+        /// Game ID
+        game_id: String,
+    },
+    /// Claim a draw, or agree to an opponent's draw offer
+    ClaimDraw {
         /// Game ID
         game_id: String,
     },
@@ -78,11 +147,11 @@ pub enum BoardCommand {
         #[arg(long)]
         days: Option<u32>,
         /// Chess variant
-        #[arg(long, default_value = "standard")]
-        variant: String,
-        /// Color preference (random, white, black)
-        #[arg(long, default_value = "random")]
-        color: String,
+        #[arg(long, value_enum, default_value = "standard")]
+        variant: Variant,
+        /// Color preference
+        #[arg(long, value_enum, default_value = "random")]
+        color: SeekColor,
         /// Rating range minimum
         #[arg(long)]
         rating_range_min: Option<u32>,
@@ -108,23 +177,32 @@ pub enum BoardCommand {
 }
 
 impl BoardCommand {
-    pub async fn run(self, lichess: Lichess) -> Result<()> {
+    pub async fn run(self, lichess: Lichess, json: bool) -> Result<()> {
         match self {
             BoardCommand::Abort { game_id } => {
                 let request = abort::PostRequest::new(&game_id);
-                let result = lichess.board_abort_game(request).await?;
+                let result = lichess
+                    .board_abort_game(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to abort game '{game_id}'"))?;
                 println!("Game aborted: {}", result);
                 Ok(())
             }
             BoardCommand::Berserk { game_id } => {
                 let request = berserk::PostRequest::new(&game_id);
-                let result = lichess.board_berserk_game(request).await?;
+                let result = lichess
+                    .board_berserk_game(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to berserk game '{game_id}'"))?;
                 println!("Berserk activated: {}", result);
                 Ok(())
             }
             BoardCommand::StreamChat { game_id } => {
                 let request = chat::GetRequest::new(&game_id);
-                let mut stream = lichess.board_stream_game_chat(request).await?;
+                let mut stream = lichess
+                    .board_stream_game_chat(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to stream chat for game '{game_id}'"))?;
                 println!("Streaming chat messages:");
                 while let Some(Ok(messages)) = stream.next().await {
                     for chat_line in messages {
@@ -138,24 +216,40 @@ impl BoardCommand {
                 room,
                 text,
             } => {
-                let room_enum = match room.as_str() {
-                    "spectator" => Room::Spectator,
-                    _ => Room::Player,
-                };
-                let request = chat::PostRequest::new(&game_id, room_enum, &text);
-                let result = lichess.board_write_in_chat(request).await?;
+                let request = chat::PostRequest::new(&game_id, room.into(), &text);
+                let result = lichess
+                    .board_write_in_chat(request)
+                    .await
+                    .wrap_err_with(|| {
+                        format!("failed to write chat message to game '{game_id}'")
+                    })?;
                 println!("Message sent: {}", result);
                 Ok(())
             }
             BoardCommand::ClaimVictory { game_id } => {
                 let request = claim_victory::PostRequest::new(&game_id);
-                let result = lichess.board_claim_victory(request).await?;
+                let result = lichess
+                    .board_claim_victory(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to claim victory for game '{game_id}'"))?;
                 println!("Victory claimed: {}", result);
+                Ok(())
+            }
+            BoardCommand::ClaimDraw { game_id } => {
+                let request = claim_draw::PostRequest::new(&game_id);
+                let result = lichess
+                    .board_claim_draw(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to claim draw for game '{game_id}'"))?;
+                println!("Draw claimed: {}", result);
                 Ok(())
             }
             BoardCommand::HandleDraw { game_id, accept } => {
                 let request = draw::PostRequest::new(&game_id, accept);
-                let result = lichess.board_handle_draw(request).await?;
+                let result = lichess
+                    .board_handle_draw(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to handle draw for game '{game_id}'"))?;
                 println!("Draw handled: {}", result);
                 Ok(())
             }
@@ -165,13 +259,18 @@ impl BoardCommand {
                 offering_draw,
             } => {
                 let request = r#move::PostRequest::new(&game_id, &r#move, offering_draw);
-                let result = lichess.board_make_move(request).await?;
+                let result = lichess.board_make_move(request).await.wrap_err_with(|| {
+                    format!("failed to make move '{move}' in game '{game_id}'")
+                })?;
                 println!("Move made: {}", result);
                 Ok(())
             }
             BoardCommand::Resign { game_id } => {
                 let request = resign::PostRequest::new(&game_id);
-                let result = lichess.board_resign_game(request).await?;
+                let result = lichess
+                    .board_resign_game(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to resign game '{game_id}'"))?;
                 println!("Game resigned: {}", result);
                 Ok(())
             }
@@ -185,25 +284,6 @@ impl BoardCommand {
                 rating_range_min,
                 rating_range_max,
             } => {
-                let variant_key = match variant.as_str() {
-                    "standard" => VariantKey::Standard,
-                    "chess960" => VariantKey::Chess960,
-                    "crazyhouse" => VariantKey::Crazyhouse,
-                    "antichess" => VariantKey::Antichess,
-                    "atomic" => VariantKey::Atomic,
-                    "horde" => VariantKey::Horde,
-                    "kingOfTheHill" => VariantKey::KingOfTheHill,
-                    "racingKings" => VariantKey::RacingKings,
-                    "threeCheck" => VariantKey::ThreeCheck,
-                    _ => VariantKey::Standard,
-                };
-
-                let color_choice = match color.as_str() {
-                    "white" => Color::White,
-                    "black" => Color::Black,
-                    _ => Color::Random,
-                };
-
                 let seek_type = if let Some(days) = days {
                     seek::SeekType::Correspondence { days: days.into() }
                 } else {
@@ -228,17 +308,20 @@ impl BoardCommand {
                 let query = seek::PostQuery {
                     seek_type,
                     rated,
-                    variant: variant_key,
-                    color: color_choice,
+                    variant: variant.into(),
+                    color: color.into(),
                     rating_range,
                 };
 
                 let request = seek::PostRequest::new(query);
-                let mut stream = lichess.board_create_a_seek(request).await?;
+                let mut stream = lichess
+                    .board_create_a_seek(request)
+                    .await
+                    .wrap_err("failed to create seek")?;
                 println!("Creating seek:");
                 while let Some(event) = stream.next().await {
                     match event {
-                        Ok(json) => println!("Event: {}", json),
+                        Ok(value) => output::print(&value, json),
                         Err(e) => eprintln!("Error: {}", e),
                     }
                 }
@@ -246,11 +329,14 @@ impl BoardCommand {
             }
             BoardCommand::StreamEvents => {
                 let request = stream::events::GetRequest::new();
-                let mut stream = lichess.board_stream_incoming_events(request).await?;
+                let mut stream = lichess
+                    .board_stream_incoming_events(request)
+                    .await
+                    .wrap_err("failed to stream incoming events")?;
                 println!("Streaming incoming events:");
                 while let Some(event) = stream.next().await {
                     match event {
-                        Ok(event) => println!("Event: {:#?}", event),
+                        Ok(event) => output::print(&event, json),
                         Err(e) => eprintln!("Error: {}", e),
                     }
                 }
@@ -258,11 +344,14 @@ impl BoardCommand {
             }
             BoardCommand::StreamGame { game_id } => {
                 let request = stream::game::GetRequest::new(&game_id);
-                let mut stream = lichess.board_stream_board_state(request).await?;
+                let mut stream = lichess
+                    .board_stream_board_state(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to stream game state for '{game_id}'"))?;
                 println!("Streaming game state:");
                 while let Some(event) = stream.next().await {
                     match event {
-                        Ok(event) => println!("Event: {:#?}", event),
+                        Ok(event) => output::print(&event, json),
                         Err(e) => eprintln!("Error: {}", e),
                     }
                 }
@@ -270,7 +359,10 @@ impl BoardCommand {
             }
             BoardCommand::HandleTakeback { game_id, accept } => {
                 let request = takeback::PostRequest::new(&game_id, accept);
-                let result = lichess.board_handle_takeback(request).await?;
+                let result = lichess
+                    .board_handle_takeback(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to handle takeback for game '{game_id}'"))?;
                 println!("Takeback handled: {}", result);
                 Ok(())
             }

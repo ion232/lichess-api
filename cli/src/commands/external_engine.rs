@@ -1,10 +1,13 @@
 use clap::{Parser, Subcommand};
 use color_eyre::Result;
+use color_eyre::eyre::WrapErr;
 use futures::StreamExt;
 use lichess_api::client::LichessApi;
 use lichess_api::model::external_engine::{self, *};
 use rand::RngExt;
 use reqwest;
+
+use crate::output;
 
 type Lichess = LichessApi<reqwest::Client>;
 
@@ -111,17 +114,23 @@ pub struct AnalyseArgs {
 }
 
 impl ExternalEngineCommand {
-    pub async fn run(self, lichess: Lichess) -> Result<()> {
+    pub async fn run(self, lichess: Lichess, json: bool) -> Result<()> {
         match self {
             ExternalEngineCommand::List => {
-                let engines = lichess.list_external_engines().await?;
-                println!("{:#?}", engines);
+                let engines = lichess
+                    .list_external_engines()
+                    .await
+                    .wrap_err("failed to list external engines")?;
+                output::print(&engines, json);
                 Ok(())
             }
             ExternalEngineCommand::Get { id } => {
                 let request = external_engine::id::GetRequest::new(&id);
-                let engine = lichess.get_external_engine(request).await?;
-                println!("{:#?}", engine);
+                let engine = lichess
+                    .get_external_engine(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to fetch external engine '{id}'"))?;
+                output::print(&engine, json);
                 Ok(())
             }
             ExternalEngineCommand::Create(args) => {
@@ -136,8 +145,11 @@ impl ExternalEngineCommand {
                     provider_secret: provider_secret.clone(),
                 };
                 let request = create::PostRequest::new(engine);
-                let engine = lichess.create_external_engine(request).await?;
-                println!("{:#?}", engine);
+                let engine = lichess
+                    .create_external_engine(request)
+                    .await
+                    .wrap_err("failed to create external engine")?;
+                output::print(&engine, json);
                 println!("provider_secret: {}", provider_secret);
                 Ok(())
             }
@@ -153,14 +165,20 @@ impl ExternalEngineCommand {
                     provider_secret: provider_secret.clone(),
                 };
                 let request = update::PutRequest::new(&args.id, engine);
-                let engine = lichess.update_external_engine(request).await?;
-                println!("{:#?}", engine);
+                let engine = lichess
+                    .update_external_engine(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to update external engine '{}'", args.id))?;
+                output::print(&engine, json);
                 println!("provider_secret: {}", provider_secret);
                 Ok(())
             }
             ExternalEngineCommand::Delete { id } => {
                 let request = delete::DeleteRequest::new(&id);
-                let ok = lichess.delete_external_engine(request).await?;
+                let ok = lichess
+                    .delete_external_engine(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to delete external engine '{id}'"))?;
                 println!("Deleted engine {}. {}", id, ok);
                 Ok(())
             }
@@ -180,10 +198,15 @@ impl ExternalEngineCommand {
                 };
                 let request = analyse::PostRequest::new(&args.id, analysis_request);
                 tracing::debug!("{:#?}", request);
-                let mut stream = lichess.analyse_with_external_engine(request).await?;
+                let mut stream = lichess
+                    .analyse_with_external_engine(request)
+                    .await
+                    .wrap_err_with(|| {
+                        format!("failed to analyse with external engine '{}'", args.id)
+                    })?;
                 while let Some(analysis) = stream.next().await {
-                    let analysis = analysis?;
-                    println!("{:#?}", analysis);
+                    let analysis = analysis.wrap_err("failed to read analysis event")?;
+                    output::print(&analysis, json);
                 }
                 Ok(())
             }
@@ -193,12 +216,18 @@ impl ExternalEngineCommand {
             } => {
                 let acquire_analysis = acquire_analysis::AcquireAnalysis { provider_secret };
                 let request = acquire_analysis::PostRequest::new(acquire_analysis);
-                let mut analysis = lichess.acquire_analysis_request(request.clone()).await?;
+                let mut analysis = lichess
+                    .acquire_analysis_request(request.clone())
+                    .await
+                    .wrap_err("failed to acquire analysis request")?;
                 while wait && analysis.is_none() {
                     tracing::debug!("No analysis request available");
-                    analysis = lichess.acquire_analysis_request(request.clone()).await?;
+                    analysis = lichess
+                        .acquire_analysis_request(request.clone())
+                        .await
+                        .wrap_err("failed to acquire analysis request")?;
                 }
-                println!("{:#?}", analysis);
+                output::print(&analysis, json);
                 Ok(())
             }
         }
@@ -208,10 +237,9 @@ impl ExternalEngineCommand {
 /// Generate a random provider secret for the engine
 /// This is used to authenticate the engine with the lichess server
 fn generate_provider_secret() -> String {
-    let provider_secret = rand::rng()
+    rand::rng()
         .sample_iter(&rand::distr::Alphanumeric)
         .take(16)
         .map(char::from)
-        .collect::<String>();
-    provider_secret
+        .collect::<String>()
 }

@@ -1,11 +1,43 @@
-use clap::Subcommand;
+use clap::{Subcommand, ValueEnum};
 use color_eyre::Result;
+use color_eyre::eyre::WrapErr;
 use lichess_api::client::LichessApi;
 use lichess_api::model::VariantKey;
 use lichess_api::model::challenges::*;
 use reqwest;
 
+use crate::output;
+
 type Lichess = LichessApi<reqwest::Client>;
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum Variant {
+    Standard,
+    Chess960,
+    Crazyhouse,
+    Antichess,
+    Atomic,
+    Horde,
+    KingOfTheHill,
+    RacingKings,
+    ThreeCheck,
+}
+
+impl From<Variant> for VariantKey {
+    fn from(variant: Variant) -> Self {
+        match variant {
+            Variant::Standard => VariantKey::Standard,
+            Variant::Chess960 => VariantKey::Chess960,
+            Variant::Crazyhouse => VariantKey::Crazyhouse,
+            Variant::Antichess => VariantKey::Antichess,
+            Variant::Atomic => VariantKey::Atomic,
+            Variant::Horde => VariantKey::Horde,
+            Variant::KingOfTheHill => VariantKey::KingOfTheHill,
+            Variant::RacingKings => VariantKey::RacingKings,
+            Variant::ThreeCheck => VariantKey::ThreeCheck,
+        }
+    }
+}
 
 #[derive(Debug, Subcommand)]
 pub enum ChallengesCommand {
@@ -28,8 +60,8 @@ pub enum ChallengesCommand {
         #[arg(long)]
         days: Option<u32>,
         /// Chess variant
-        #[arg(long, default_value = "standard")]
-        variant: String,
+        #[arg(long, value_enum, default_value = "standard")]
+        variant: Variant,
         /// Custom starting position (FEN)
         #[arg(long)]
         fen: Option<String>,
@@ -94,18 +126,14 @@ impl From<DeclineReason> for decline::Reason {
 }
 
 impl ChallengesCommand {
-    pub async fn run(self, lichess: Lichess) -> Result<()> {
+    pub async fn run(self, lichess: Lichess, json: bool) -> Result<()> {
         match self {
             ChallengesCommand::List => {
-                let challenges = lichess.list_challenges().await?;
-                println!("Incoming challenges:");
-                for challenge in &challenges.r#in {
-                    println!("  {} - {}", challenge.base.id, challenge.base.url);
-                }
-                println!("Outgoing challenges:");
-                for challenge in &challenges.out {
-                    println!("  {} - {}", challenge.base.id, challenge.base.url);
-                }
+                let challenges = lichess
+                    .list_challenges()
+                    .await
+                    .wrap_err("failed to list challenges")?;
+                output::print(&challenges, json);
                 Ok(())
             }
             ChallengesCommand::Create {
@@ -118,45 +146,35 @@ impl ChallengesCommand {
                 fen,
                 message,
             } => {
-                let variant_key = match variant.as_str() {
-                    "standard" => VariantKey::Standard,
-                    "chess960" => VariantKey::Chess960,
-                    "crazyhouse" => VariantKey::Crazyhouse,
-                    "antichess" => VariantKey::Antichess,
-                    "atomic" => VariantKey::Atomic,
-                    "horde" => VariantKey::Horde,
-                    "kingOfTheHill" => VariantKey::KingOfTheHill,
-                    "racingKings" => VariantKey::RacingKings,
-                    "threeCheck" => VariantKey::ThreeCheck,
-                    _ => {
-                        println!("Invalid variant: {}", variant);
-                        return Ok(());
-                    }
-                };
-
                 let challenge = CreateChallenge {
                     base: ChallengeBase {
-                        clock_limit: clock_limit,
-                        clock_increment: clock_increment,
+                        clock_limit,
+                        clock_increment,
                         days: days.map(|d| d.into()),
-                        variant: variant_key,
-                        fen: fen,
+                        variant: variant.into(),
+                        fen,
                     },
-                    rated: rated,
+                    rated,
                     keep_alive_stream: false,
                     accept_by_token: None,
-                    message: message,
+                    message,
                     rules: String::new(),
                 };
 
                 let request = create::PostRequest::new(&username, challenge);
-                let result = lichess.create_challenge(request).await?;
-                println!("Challenge created: {:#?}", result);
+                let result = lichess
+                    .create_challenge(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to create challenge for '{username}'"))?;
+                output::print(&result, json);
                 Ok(())
             }
             ChallengesCommand::Accept { challenge_id } => {
                 let request = accept::PostRequest::new(&challenge_id);
-                let result = lichess.accept_challenge(request).await?;
+                let result = lichess
+                    .accept_challenge(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to accept challenge '{challenge_id}'"))?;
                 println!("Challenge accepted: {}", result);
                 Ok(())
             }
@@ -165,8 +183,12 @@ impl ChallengesCommand {
                 reason,
             } => {
                 let decline_reason = reason.unwrap_or(DeclineReason::Generic);
-                let request = decline::PostRequest::new(challenge_id, decline_reason.into());
-                let result = lichess.decline_challenge(request).await?;
+                let request =
+                    decline::PostRequest::new(challenge_id.clone(), decline_reason.into());
+                let result = lichess
+                    .decline_challenge(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to decline challenge '{challenge_id}'"))?;
                 println!("Challenge declined: {}", result);
                 Ok(())
             }
@@ -174,8 +196,11 @@ impl ChallengesCommand {
                 challenge_id,
                 opponent_token,
             } => {
-                let request = cancel::PostRequest::new(challenge_id, opponent_token);
-                let result = lichess.cancel_challenge(request).await?;
+                let request = cancel::PostRequest::new(challenge_id.clone(), opponent_token);
+                let result = lichess
+                    .cancel_challenge(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to cancel challenge '{challenge_id}'"))?;
                 println!("Challenge cancelled: {}", result);
                 Ok(())
             }

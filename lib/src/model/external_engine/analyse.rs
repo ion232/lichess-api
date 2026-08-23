@@ -39,7 +39,7 @@ pub struct ExternalEngineWork {
     pub moves: Vec<String>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AnalysisResponse {
     pub time: u64,
@@ -48,7 +48,7 @@ pub struct AnalysisResponse {
     pub pvs: Vec<PV>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PV {
     pub depth: u8,

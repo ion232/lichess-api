@@ -61,6 +61,21 @@ Most endpoints require a bearer token but some don't. E.g. the daily puzzle, etc
 |---------|:-------:|-------------|
 | `oauth` |   yes   | OAuth2 authorization code flow with PKCE, for acting on behalf of other users. |
 
+## CLI
+
+```sh
+cargo install --path cli
+lichess users get thibault
+lichess --api-token "$LICHESS_TOKEN" challenges create <username> --rated
+lichess --json puzzles daily
+```
+
+- `--api-token` / `-a`: for endpoints that require authentication.
+- `--json`: pretty-printed JSON instead of Rust debug format.
+- `--verbose` / `-v`: enable debug logging.
+
+Run `lichess --help` or `lichess <category> --help` for the full list of categories and commands.
+
 ## Contributing
 
 If you have any ideas, bug reports, feature requests, or fixes, please make an issue or submit a pull request.

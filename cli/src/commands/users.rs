@@ -1,10 +1,50 @@
-use clap::Subcommand;
+use clap::{Subcommand, ValueEnum};
 use color_eyre::Result;
+use color_eyre::eyre::WrapErr;
 use lichess_api::client::LichessApi;
 use lichess_api::model::{PerfType, users};
 use reqwest;
 
+use crate::output;
+
 type Lichess = LichessApi<reqwest::Client>;
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum Performance {
+    UltraBullet,
+    Bullet,
+    Blitz,
+    Rapid,
+    Classical,
+    Chess960,
+    Crazyhouse,
+    Antichess,
+    Atomic,
+    Horde,
+    KingOfTheHill,
+    RacingKings,
+    ThreeCheck,
+}
+
+impl From<Performance> for PerfType {
+    fn from(perf: Performance) -> Self {
+        match perf {
+            Performance::UltraBullet => PerfType::UltraBullet,
+            Performance::Bullet => PerfType::Bullet,
+            Performance::Blitz => PerfType::Blitz,
+            Performance::Rapid => PerfType::Rapid,
+            Performance::Classical => PerfType::Classical,
+            Performance::Chess960 => PerfType::Chess960,
+            Performance::Crazyhouse => PerfType::Crazyhouse,
+            Performance::Antichess => PerfType::Antichess,
+            Performance::Atomic => PerfType::Atomic,
+            Performance::Horde => PerfType::Horde,
+            Performance::KingOfTheHill => PerfType::KingOfTheHill,
+            Performance::RacingKings => PerfType::RacingKings,
+            Performance::ThreeCheck => PerfType::ThreeCheck,
+        }
+    }
+}
 
 #[derive(Debug, Subcommand)]
 pub enum UsersCommand {
@@ -33,8 +73,9 @@ pub enum UsersCommand {
     Performance {
         /// Username
         username: String,
-        /// Performance type (e.g., bullet, blitz, rapid, classical, etc.)
-        perf: String,
+        /// Performance type
+        #[arg(value_enum)]
+        perf: Performance,
     },
     /// Get users by their IDs
     ByIds {
@@ -56,6 +97,7 @@ pub enum UsersCommand {
     /// Autocomplete usernames
     Autocomplete {
         /// Search term (at least 3 characters)
+        #[arg(value_parser = parse_autocomplete_term)]
         term: String,
         /// Include friend names
         #[arg(long)]
@@ -65,8 +107,9 @@ pub enum UsersCommand {
     Top10,
     /// Get one leaderboard
     Leaderboard {
-        /// Variant (e.g., bullet, blitz, rapid, classical, etc.)
-        perf: String,
+        /// Performance type
+        #[arg(value_enum)]
+        perf: Performance,
         /// Number of users to fetch (1-200)
         #[arg(default_value = "10")]
         count: u8,
@@ -78,13 +121,24 @@ pub enum UsersCommand {
     },
 }
 
+fn parse_autocomplete_term(term: &str) -> std::result::Result<String, String> {
+    if term.len() < 3 {
+        Err("search term must be at least 3 characters".to_string())
+    } else {
+        Ok(term.to_string())
+    }
+}
+
 impl UsersCommand {
-    pub async fn run(self, lichess: Lichess) -> Result<()> {
+    pub async fn run(self, lichess: Lichess, json: bool) -> Result<()> {
         match self {
             UsersCommand::Get { username, trophies } => {
                 let request = users::public::GetRequest::new(&username, trophies);
-                let user = lichess.get_public_user_data(request).await?;
-                println!("{:#?}", user);
+                let user = lichess
+                    .get_public_user_data(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to fetch public data for '{username}'"))?;
+                output::print(&user, json);
                 Ok(())
             }
             UsersCommand::Status {
@@ -94,57 +148,49 @@ impl UsersCommand {
                 let user_ids: Vec<String> =
                     users.split(',').map(|s| s.trim().to_string()).collect();
                 let request = users::status::GetRequest::new(user_ids, with_game_ids);
-                let statuses = lichess.get_status_of_users(request).await?;
-                for status in statuses {
-                    println!("{:#?}", status);
-                }
+                let statuses = lichess
+                    .get_status_of_users(request)
+                    .await
+                    .wrap_err("failed to fetch user statuses")?;
+                output::print(&statuses, json);
                 Ok(())
             }
             UsersCommand::RatingHistory { username } => {
                 let request = users::rating_history::GetRequest::new(&username);
-                let history = lichess.get_rating_history(request).await?;
-                println!("{:#?}", history);
+                let history = lichess
+                    .get_rating_history(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to fetch rating history for '{username}'"))?;
+                output::print(&history, json);
                 Ok(())
             }
             UsersCommand::Performance { username, perf } => {
-                let perf_type = match perf.as_str() {
-                    "ultraBullet" => PerfType::UltraBullet,
-                    "bullet" => PerfType::Bullet,
-                    "blitz" => PerfType::Blitz,
-                    "rapid" => PerfType::Rapid,
-                    "classical" => PerfType::Classical,
-                    "chess960" => PerfType::Chess960,
-                    "crazyhouse" => PerfType::Crazyhouse,
-                    "antichess" => PerfType::Antichess,
-                    "atomic" => PerfType::Atomic,
-                    "horde" => PerfType::Horde,
-                    "kingOfTheHill" => PerfType::KingOfTheHill,
-                    "racingKings" => PerfType::RacingKings,
-                    "threeCheck" => PerfType::ThreeCheck,
-                    _ => {
-                        println!("Invalid performance type: {}", perf);
-                        return Ok(());
-                    }
-                };
-                let request = users::performance::GetRequest::new(&username, perf_type);
-                let perf_stat = lichess.get_user_performance_statistics(request).await?;
-                println!("{:#?}", perf_stat);
+                let request = users::performance::GetRequest::new(&username, perf.into());
+                let perf_stat = lichess
+                    .get_user_performance_statistics(request)
+                    .await
+                    .wrap_err_with(|| {
+                        format!("failed to fetch performance statistics for '{username}'")
+                    })?;
+                output::print(&perf_stat, json);
                 Ok(())
             }
             UsersCommand::ByIds { ids } => {
                 let user_ids: Vec<String> = ids.split(',').map(|s| s.trim().to_string()).collect();
                 let request = users::by_id::PostRequest::new(user_ids);
-                let users = lichess.get_users_by_id(request).await?;
-                for user in users {
-                    println!("{:#?}", user);
-                }
+                let users = lichess
+                    .get_users_by_id(request)
+                    .await
+                    .wrap_err("failed to fetch users by id")?;
+                output::print(&users, json);
                 Ok(())
             }
             UsersCommand::LiveStreamers => {
-                let streamers = lichess.get_live_streamers().await?;
-                for streamer in streamers {
-                    println!("{:#?}", streamer);
-                }
+                let streamers = lichess
+                    .get_live_streamers()
+                    .await
+                    .wrap_err("failed to fetch live streamers")?;
+                output::print(&streamers, json);
                 Ok(())
             }
             UsersCommand::Crosstable {
@@ -153,58 +199,45 @@ impl UsersCommand {
                 matchup,
             } => {
                 let request = users::crosstable::GetRequest::new(&user1, &user2, Some(matchup));
-                let crosstable = lichess.get_crosstable(request).await?;
-                println!("{:#?}", crosstable);
+                let crosstable = lichess.get_crosstable(request).await.wrap_err_with(|| {
+                    format!("failed to fetch crosstable for '{user1}' vs '{user2}'")
+                })?;
+                output::print(&crosstable, json);
                 Ok(())
             }
             UsersCommand::Autocomplete { term, friend } => {
-                if term.len() < 3 {
-                    println!("Search term must be at least 3 characters");
-                    return Ok(());
-                }
                 let request = users::autocomplete::GetRequest::new(&term, Some(friend));
-                let suggestions = lichess.autocomplete_users(request).await?;
-                for user in suggestions.result {
-                    println!("{} ({})", user.name, user.id);
-                }
+                let suggestions = lichess
+                    .autocomplete_users(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to autocomplete users for '{term}'"))?;
+                output::print(&suggestions.result, json);
                 Ok(())
             }
             UsersCommand::Top10 => {
-                let leaderboards = lichess.get_all_top_10().await?;
-                println!("{:#?}", leaderboards);
+                let leaderboards = lichess
+                    .get_all_top_10()
+                    .await
+                    .wrap_err("failed to fetch top 10 leaderboards")?;
+                output::print(&leaderboards, json);
                 Ok(())
             }
             UsersCommand::Leaderboard { count, perf } => {
-                let perf_type = match perf.as_str() {
-                    "ultraBullet" => PerfType::UltraBullet,
-                    "bullet" => PerfType::Bullet,
-                    "blitz" => PerfType::Blitz,
-                    "rapid" => PerfType::Rapid,
-                    "classical" => PerfType::Classical,
-                    "chess960" => PerfType::Chess960,
-                    "crazyhouse" => PerfType::Crazyhouse,
-                    "antichess" => PerfType::Antichess,
-                    "atomic" => PerfType::Atomic,
-                    "horde" => PerfType::Horde,
-                    "kingOfTheHill" => PerfType::KingOfTheHill,
-                    "racingKings" => PerfType::RacingKings,
-                    "threeCheck" => PerfType::ThreeCheck,
-                    _ => {
-                        println!("Invalid performance type: {}", perf);
-                        return Ok(());
-                    }
-                };
-                let request = users::leaderboard::GetRequest::new(count, perf_type);
-                let leaderboard = lichess.get_one_leaderboard(request).await?;
-                println!("{:#?}", leaderboard);
+                let request = users::leaderboard::GetRequest::new(count, perf.into());
+                let leaderboard = lichess
+                    .get_one_leaderboard(request)
+                    .await
+                    .wrap_err("failed to fetch leaderboard")?;
+                output::print(&leaderboard, json);
                 Ok(())
             }
             UsersCommand::Activity { username } => {
                 let request = users::activity::GetRequest::new(&username);
-                let activities = lichess.get_user_activity(request).await?;
-                for activity in activities {
-                    println!("{:#?}", activity);
-                }
+                let activities = lichess
+                    .get_user_activity(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to fetch activity for '{username}'"))?;
+                output::print(&activities, json);
                 Ok(())
             }
         }

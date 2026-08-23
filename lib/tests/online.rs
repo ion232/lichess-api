@@ -1,6 +1,4 @@
 use lichess_api::client::*;
-use reqwest;
-use tokio;
 
 #[tokio::test(flavor = "current_thread")]
 pub async fn daily_puzzle() {
@@ -30,7 +28,7 @@ pub async fn fide_player() {
 pub async fn fide_search() {
     let api = make_api();
     let response = api.search_fide_player("Magnus Carlsen").await.unwrap();
-    assert!(response.len() > 0);
+    assert!(!response.is_empty());
     for player in response {
         println!("{:?}", player);
     }

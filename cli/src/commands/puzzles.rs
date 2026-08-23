@@ -1,9 +1,12 @@
 use clap::{Subcommand, ValueEnum};
 use color_eyre::Result;
+use color_eyre::eyre::WrapErr;
 use futures::StreamExt;
 use lichess_api::client::LichessApi;
 use lichess_api::model::puzzles::{self, *};
 use reqwest;
+
+use crate::output;
 
 type Lichess = LichessApi<reqwest::Client>;
 
@@ -59,50 +62,75 @@ pub enum PuzzlesCommand {
 }
 
 impl PuzzlesCommand {
-    pub async fn run(self, lichess: Lichess) -> Result<()> {
+    pub async fn run(self, lichess: Lichess, json: bool) -> Result<()> {
         match self {
             PuzzlesCommand::Daily => {
-                let puzzle = lichess.get_daily_puzzle().await?;
-                println!("{puzzle:#?}");
+                let puzzle = lichess
+                    .get_daily_puzzle()
+                    .await
+                    .wrap_err("failed to fetch daily puzzle")?;
+                output::print(&puzzle, json);
                 Ok(())
             }
             PuzzlesCommand::Get { id } => {
                 let request = puzzles::id::GetRequest::new(&id);
-                let puzzle = lichess.get_puzzle(request).await?;
-                println!("{puzzle:#?}");
+                let puzzle = lichess
+                    .get_puzzle(request)
+                    .await
+                    .wrap_err_with(|| format!("failed to fetch puzzle '{id}'"))?;
+                output::print(&puzzle, json);
                 Ok(())
             }
             PuzzlesCommand::Activity { max_rounds } => {
                 let request = activity::GetRequest::new(max_rounds);
-                let mut stream = lichess.get_puzzle_activity(request).await?;
+                let mut stream = lichess
+                    .get_puzzle_activity(request)
+                    .await
+                    .wrap_err("failed to fetch puzzle activity")?;
                 while let Some(round) = stream.next().await {
-                    let round = round?;
-                    println!("Round: {round:#?}");
+                    let round = round.wrap_err("failed to read puzzle activity round")?;
+                    output::print(&round, json);
                 }
                 Ok(())
             }
             PuzzlesCommand::Dashboard { days } => {
                 let request = dashboard::GetRequest::new(days.unwrap_or(30));
-                let dashboard = lichess.get_puzzle_dashboard(request).await?;
-                println!("{dashboard:#?}");
+                let dashboard = lichess
+                    .get_puzzle_dashboard(request)
+                    .await
+                    .wrap_err("failed to fetch puzzle dashboard")?;
+                output::print(&dashboard, json);
                 Ok(())
             }
             PuzzlesCommand::Storm { username, days } => {
                 let request = storm_dashboard::GetRequest::new(&username, days);
-                let dashboard = lichess.get_puzzle_storm_dashboard(request).await?;
-                println!("{dashboard:#?}");
+                let dashboard = lichess
+                    .get_puzzle_storm_dashboard(request)
+                    .await
+                    .wrap_err_with(|| {
+                        format!("failed to fetch storm dashboard for '{username}'")
+                    })?;
+                output::print(&dashboard, json);
                 Ok(())
             }
             PuzzlesCommand::Next { angle, difficulty } => {
                 let request = next::GetRequest::new(angle, difficulty.map(|d| d.into()));
-                let puzzle = lichess.get_new_puzzle(request).await?;
-                println!("{puzzle:#?}");
+                let puzzle = lichess
+                    .get_new_puzzle(request)
+                    .await
+                    .wrap_err("failed to fetch new puzzle")?;
+                output::print(&puzzle, json);
                 Ok(())
             }
             PuzzlesCommand::Replay { days, theme } => {
                 let request = replay::GetRequest::new(days, &theme);
-                let replay = lichess.get_puzzles_to_replay(request).await?;
-                println!("{replay:#?}");
+                let replay = lichess
+                    .get_puzzles_to_replay(request)
+                    .await
+                    .wrap_err_with(|| {
+                        format!("failed to fetch puzzles to replay for theme '{theme}'")
+                    })?;
+                output::print(&replay, json);
                 Ok(())
             }
         }

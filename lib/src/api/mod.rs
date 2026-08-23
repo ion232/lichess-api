@@ -38,7 +38,7 @@ impl LichessApi<reqwest::Client> {
         let result = self
             .get_single_model::<Q, B, crate::model::Ok>(request)
             .await;
-        return Ok(result?.ok);
+        Ok(result?.ok)
     }
 
     pub async fn get_pgn<Q, B>(
@@ -49,7 +49,7 @@ impl LichessApi<reqwest::Client> {
         Q: QueryBounds,
         B: BodyBounds,
     {
-        let request = request.as_http_request("application/x-chess-pgn")?;
+        let request = request.into_http_request("application/x-chess-pgn")?;
         let stream = self.make_request_as_raw_lines(request).await?;
         Ok(stream)
     }
@@ -59,7 +59,7 @@ impl LichessApi<reqwest::Client> {
         Q: QueryBounds,
         B: BodyBounds,
     {
-        let request = request.as_http_request("text/plain")?;
+        let request = request.into_http_request("text/plain")?;
         let mut stream = self.make_request_as_raw_lines(request).await?;
         let mut lines = Vec::new();
         while let Some(line) = stream.next().await {
@@ -73,7 +73,7 @@ impl LichessApi<reqwest::Client> {
         Q: QueryBounds,
         B: BodyBounds,
     {
-        let request = request.as_http_request("application/json")?;
+        let request = request.into_http_request("application/json")?;
         let mut stream = self.make_request(request).await?;
         self.expect_empty(&mut stream).await?;
         Ok(())
@@ -85,7 +85,7 @@ impl LichessApi<reqwest::Client> {
         B: BodyBounds,
         M: ModelBounds,
     {
-        let request = request.as_http_request("application/json")?;
+        let request = request.into_http_request("application/json")?;
         let mut stream = self.make_request(request).await?;
         let res: Response<M> = self.expect_one_model(&mut stream).await?;
         match res {
@@ -103,7 +103,7 @@ impl LichessApi<reqwest::Client> {
         B: BodyBounds,
         M: ModelBounds,
     {
-        let request = request.as_http_request("application/x-ndjson")?;
+        let request = request.into_http_request("application/x-ndjson")?;
         self.make_request(request).await
     }
 }
