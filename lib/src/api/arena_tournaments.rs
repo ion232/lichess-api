@@ -1,3 +1,19 @@
+//! Arena tournaments: Lichess's continuous-pairing tournament format, where
+//! players score points per game and climb a live leaderboard for the
+//! duration of the event.
+//!
+//! Covers listing current tournaments, creating and updating them, joining,
+//! withdrawing/pausing, terminating, managing team battles, and reading back
+//! standings, results, team standings, and games. Creating or modifying a
+//! tournament ([`create_arena_tournament`](LichessApi::create_arena_tournament),
+//! [`update_arena_tournament`](LichessApi::update_arena_tournament),
+//! [`join_arena_tournament`](LichessApi::join_arena_tournament),
+//! [`withdraw_from_arena_tournament`](LichessApi::withdraw_from_arena_tournament),
+//! [`terminate_arena_tournament`](LichessApi::terminate_arena_tournament), and
+//! [`update_arena_team_battle`](LichessApi::update_arena_team_battle)) requires
+//! a bearer token with the `tournament:write` scope; reading tournament info,
+//! results, team standings, and games is public and needs no token.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

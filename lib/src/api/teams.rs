@@ -1,3 +1,13 @@
+//! Team info, membership, and team-only tournament listings.
+//!
+//! Lookups such as [`LichessApi::get_team`], [`LichessApi::search_teams`],
+//! [`LichessApi::get_team_members`], and the team's arena/swiss tournament
+//! listings are public. Joining and quitting a team need a token with
+//! `team:write`; reading your team updates needs `team:read`. Everything
+//! else here — viewing join requests, accepting or declining them, kicking a
+//! member, and sending a team update — acts on a team you lead and needs a
+//! token with `team:lead`.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

@@ -1,3 +1,15 @@
+//! Lichess TV: the best ongoing games, overall and per channel (speed
+//! variants like bullet or blitz, plus computer and bot games).
+//!
+//! [`LichessApi::tv_channels`] gives current champions for every channel in
+//! one call, and [`LichessApi::tv_channel_games`] lists ongoing games for a
+//! single channel. [`LichessApi::tv_stream_current`] and
+//! [`LichessApi::tv_stream_channel_current`] instead follow the featured game
+//! (overall, or for one channel) as it changes, streaming positions and moves
+//! rather than returning a single value.
+//!
+//! All of these endpoints are public and need no bearer token.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

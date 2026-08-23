@@ -1,3 +1,15 @@
+//! Bulk pairings let a broadcaster or tournament organizer schedule many
+//! games between paired players at once, up to a week in advance, rather than
+//! creating challenges one by one.
+//!
+//! Creating a pairing ([`LichessApi::create_bulk_pairing`]) requires an OAuth
+//! token with the `challenge:bulk` scope for the caller, plus a
+//! `challenge:write` token for each player being paired. Once created, a
+//! pairing can be looked up, canceled before it fires, or have its clocks
+//! started immediately instead of waiting for the scheduled time.
+//!
+//! [`LichessApi::create_bulk_pairing`]: crate::client::LichessApi::create_bulk_pairing
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

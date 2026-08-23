@@ -1,3 +1,19 @@
+//! Public user profiles, ratings, and activity.
+//!
+//! Covers looking up one or many users ([`LichessApi::get_public_user_data`],
+//! [`LichessApi::get_users_by_id`], [`LichessApi::autocomplete_users`]),
+//! ratings and leaderboards ([`LichessApi::get_one_leaderboard`],
+//! [`LichessApi::get_all_top_10`], [`LichessApi::get_rating_history`],
+//! [`LichessApi::get_user_performance_statistics`],
+//! [`LichessApi::get_crosstable`]), online/playing/streaming status
+//! ([`LichessApi::get_status_of_users`], [`LichessApi::get_live_streamers`]),
+//! and a user's activity feed ([`LichessApi::get_user_activity`]).
+//!
+//! Most of these endpoints are public and work without a token. The private
+//! note endpoints ([`LichessApi::add_note_to_user`],
+//! [`LichessApi::get_user_notes`]) are the exception — they read and write
+//! notes that only your own account can see, so they require a token.
+
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::users::*;

@@ -1,3 +1,17 @@
+//! Fetching puzzles, tracking puzzle progress, and puzzle racing.
+//!
+//! Covers the daily puzzle, fetching a puzzle by ID or a random next puzzle,
+//! batches of puzzles for offline play, puzzle activity and the puzzle
+//! dashboard, puzzles to replay for a theme, and the Puzzle Storm dashboard.
+//! Also covers creating and joining a puzzle race and fetching its results.
+//!
+//! The daily puzzle, puzzle-by-ID, and Storm dashboard lookups are public.
+//! Everything else needs a bearer token: reading activity, the dashboard,
+//! replays, and fetching puzzles requires a `puzzle:read` scope, solving a
+//! batch requires `puzzle:write`, and creating a race requires `racer:write`.
+//!
+//! Request/response types live in [`crate::model::puzzles`].
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

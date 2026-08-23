@@ -1,3 +1,11 @@
+//! Look up FIDE-rated players and their rating history.
+//!
+//! Search by name with [`LichessApi::search_fide_player`], fetch a single
+//! [`Player`] by FIDE ID with [`LichessApi::get_fide_player`], and get their
+//! historical standard, rapid, and blitz ratings with
+//! [`LichessApi::get_fide_player_ratings`]. This data is public and does not
+//! require a token.
+
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::fide::*;

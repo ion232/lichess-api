@@ -1,3 +1,19 @@
+//! Create, import into, and export [studies](https://lichess.org/study) and
+//! their chapters.
+//!
+//! Studies can be exported as PGN, either a single chapter, a whole study, or
+//! every study belonging to a user; [`update_study_chapter_moves`] and
+//! [`update_study_chapter_tags`] edit an existing chapter's move tree and PGN
+//! tags in place. See [`model::studies`] for the request/response types.
+//!
+//! Reading a study you don't own only returns it if it's public. Pass a
+//! bearer token to also see your own private and unlisted studies; writes
+//! (creating, importing, deleting, or editing a chapter) always require one.
+//!
+//! [`update_study_chapter_moves`]: LichessApi::update_study_chapter_moves
+//! [`update_study_chapter_tags`]: LichessApi::update_study_chapter_tags
+//! [`model::studies`]: crate::model::studies
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

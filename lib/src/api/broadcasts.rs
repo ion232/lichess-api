@@ -1,3 +1,23 @@
+//! Broadcasts: Lichess's live relays of over-the-board tournaments, made up
+//! of one tournament containing one or more rounds, each fed by an external
+//! PGN source.
+//!
+//! Reading broadcasts (getting a tournament, round, player, team standings,
+//! listing/searching/browsing top and official broadcasts, and exporting PGN)
+//! is public and needs no token. Creating or managing your own broadcasts —
+//! [`create_broadcast_tournament`](LichessApi::create_broadcast_tournament),
+//! [`update_broadcast_tournament`](LichessApi::update_broadcast_tournament),
+//! [`create_broadcast_round`](LichessApi::create_broadcast_round),
+//! [`update_broadcast_round`](LichessApi::update_broadcast_round),
+//! [`push_broadcast_round_pgn`](LichessApi::push_broadcast_round_pgn), and
+//! [`reset_broadcast_round`](LichessApi::reset_broadcast_round) — requires a
+//! bearer token with the `study:write` scope.
+//!
+//! The `stream_*_pgn` methods keep the connection open and yield PGN as
+//! games progress, so they return a `Stream` rather than a single value;
+//! `export_*_pgn` methods stream the same way but close once the current
+//! games have been sent.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

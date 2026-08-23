@@ -1,3 +1,17 @@
+//! Play games as a Lichess [Bot account](https://lichess.org/api#tag/Bot).
+//!
+//! A regular player account must first be upgraded to a Bot account with
+//! [`bot_upgrade_account`](crate::client::LichessApi::bot_upgrade_account) —
+//! irreversible, and only possible before the account has played any game.
+//! Once upgraded, a bot streams incoming challenges and game state and reacts
+//! to them (moves, resignations, draw/takeback offers, chat) rather than
+//! using the normal web UI; see the [board](crate::api::board) module for the
+//! equivalent flow for human-driven clients.
+//!
+//! All methods here require a bearer token with the `bot:play` scope, except
+//! [`bot_get_online`](crate::client::LichessApi::bot_get_online), which is
+//! public.
+
 use futures::stream::StreamExt;
 
 use crate::client::LichessApi;

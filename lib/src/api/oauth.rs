@@ -1,3 +1,12 @@
+//! Inspect and revoke OAuth2 tokens, and exchange an authorization code for
+//! an access token.
+//!
+//! This module covers the token-facing half of the OAuth2 PKCE flow. For
+//! generating the authorization URL and completing the flow end to end, see
+//! [`crate::model::oauth::authorize::AuthorizationUrl`] and
+//! [`crate::model::oauth::PendingAuthorization`], which both carry a full
+//! walkthrough.
+
 use crate::client::LichessApi;
 use crate::error::Result;
 use crate::model::oauth::*;
