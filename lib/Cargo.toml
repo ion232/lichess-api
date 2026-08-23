@@ -18,7 +18,7 @@ oauth = ["dep:base64", "dep:rand", "dep:sha2", "dep:getrandom"]
 
 [dependencies]
 # Library dependencies.
-base64 = { version = "0.22.1", optional = true }
+base64 = { version = "0.23.1", optional = true }
 bytes = "1.12.1"
 futures = "0.3.34"
 futures-core = "0.3.34"
